@@ -9,13 +9,17 @@
     "install": "cd server && npm i && cd ../client && npm i",
     "seed": "cd server && npm run seed",
     "build": "cd client && npm run build",
-    "prepare": "husky install"
+    "precommit": "pretty-quick --staged",
+    "prepare": "husky install .husky",
+    "pretty-quick": "pretty-quick"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^5.1.0",
-    "husky": "^8.0.0"
+    "husky": "^8.0.0",
+    "prettier": "^2.8.8",
+    "pretty-quick": "^3.1.3"
   }
 }
