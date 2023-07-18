@@ -1,9 +1,29 @@
 .websiteTitle {
+  margin-right: 2rem;
   padding: 1rem 0 0 1rem;
   font-family: 'Timmana', sans-serif;
   font-weight: 300;
   font-size: 36px;
   color: #fff;
+}
+
+.titleLinks {
+  display: flex;
+  align-items: center;
+}
+
+.linkText {
+  font-family: 'Segoe UI', Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: #6c6767;
+  text-transform: none;
+  text-decoration: none !important;
+}
+
+.linkText:hover {
+  transition: all 0.2s ease-in-out;
+  color: #549cf1;
 }
 
 .loginButton {
@@ -18,7 +38,6 @@
 }
 
 .loginButton:hover {
-  width: 6rem;
   border: 1px solid #549cf1 !important;
   color: #549cf1 !important;
 }
@@ -43,4 +62,8 @@
   font-weight: bold !important;
   color: #ffffff !important;
   text-transform: none;
+}
+
+.flex-row {
+  justify-content: space-between;
 }

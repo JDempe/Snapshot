@@ -22,7 +22,7 @@ function Nav() {
       );
     } else {
       return (
-        <ul className="flex-row">
+        <ul className="flex-row alignRight">
           <li className="mx-1">
             <Link to="/login">
               <Button variant="outlined" className="loginButton">
@@ -42,7 +42,12 @@ function Nav() {
 
   return (
     <header className="flex-row px-1">
-      <h1 className="websiteTitle">websiteTitle</h1>
+      <div className="titleLinks">
+        <h1 className="websiteTitle">websiteTitle</h1>
+        <Link to="/discover" style={{ textDecoration: 'none' }}>
+          <div className="linkText">Discover</div>
+        </Link>
+      </div>
       <nav>{showNavigation()}</nav>
     </header>
   );
