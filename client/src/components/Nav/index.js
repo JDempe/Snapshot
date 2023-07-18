@@ -41,14 +41,43 @@ function Nav() {
   }
 
   return (
-    <header className="flex-row px-1">
+    <header className="flex-row">
       <div className="titleLinks">
         <h1 className="websiteTitle">websiteTitle</h1>
-        <Link to="/discover" style={{ textDecoration: 'none' }}>
+        <div className="verticalDivider"></div>
+        <Link to="/discover">
           <div className="linkText">Discover</div>
+        </Link>
+        <Link to="/upload">
+          <div className="linkText">Upload</div>
+        </Link>
+        <Link to="/personal">
+          <div className="linkText">Personal</div>
         </Link>
       </div>
       <nav>{showNavigation()}</nav>
+      <div className="rainbowContainer">
+        <div
+          className="rainbowDiv"
+          style={{ backgroundColor: '#FF5858', width: '100%' }}
+        />
+        <div
+          className="rainbowDiv"
+          style={{ backgroundColor: '#FCA43C', width: '75%' }}
+        />
+        <div
+          className="rainbowDiv"
+          style={{ backgroundColor: '#FBCD29', width: '60%' }}
+        />
+        <div
+          className="rainbowDiv"
+          style={{ backgroundColor: '#82CD54', width: '50%' }}
+        />
+        <div
+          className="rainbowDiv"
+          style={{ backgroundColor: '#549CF1', width: '25%' }}
+        />
+      </div>
     </header>
   );
 }
