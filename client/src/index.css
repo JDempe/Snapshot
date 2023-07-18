@@ -79,9 +79,13 @@ a:hover {
   text-decoration: none;
 }
 
-header {
-  background: var(--primary);
+ul {
+  list-style-type: none;
 }
+
+/* header {
+  background: var(--primary);
+} */
 
 header a {
   color: var(--light);
