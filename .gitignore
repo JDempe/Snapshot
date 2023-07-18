@@ -51,6 +51,7 @@ $RECYCLE.BIN/
 # NODE
 node_modules/
 package-lock.json
+build/
 
 # Environments
 .env
