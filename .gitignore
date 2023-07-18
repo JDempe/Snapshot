@@ -64,3 +64,6 @@ venv.bak/
 
 # Mac/OSX
 .DS_Store
+
+# Build Files
+client/build/
