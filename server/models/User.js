@@ -1,10 +1,7 @@
 const mongoose = require('mongoose');
-
 const { Schema } = mongoose;
 const bcrypt = require('bcrypt');
-const order = require('./Order');
-const photo = require('./Photo');
-const comment = require('./Comment');
+
 
 const userSchema = new Schema({
   firstName: {
@@ -27,9 +24,13 @@ const userSchema = new Schema({
     required: true,
     minlength: 5
   },
-  orders: [Order.schema],
-  photo: [Photo.schema],
-  comment:[Comment.schema]
+  profilePicture: {
+    type: String,
+    default: ''
+  },
+  orders: [{ type: Schema.Types.ObjectId, ref: 'Order' }],
+  savedPhotos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
+  ownComments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }]
 });
 
 // set up pre-save middleware to create password
@@ -44,7 +45,7 @@ userSchema.pre('save', async function(next) {
 
 // compare the incoming password with the hashed password
 userSchema.methods.isCorrectPassword = async function(password) {
-  return await bcrypt.compare(password, this.password);
+  return bcrypt.compare(password, this.password);
 };
 
 const User = mongoose.model('User', userSchema);

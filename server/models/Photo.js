@@ -1,20 +1,28 @@
 const mongoose = require('mongoose');
-
 const { Schema } = mongoose;
 
-const orderSchema = new Schema({
-  purchaseDate: {
-    type: Date,
-    default: Date.now
+const photoSchema = new Schema({
+  url: {
+    type: String,
+    required: true
   },
-  products: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: 'Product'
-    }
-  ]
+  title: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+  },
+  size: {
+    type: String,
+    required: true
+  },
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  }
 });
 
-const Order = mongoose.model('Order', orderSchema);
-
-module.exports = Order;
+const Photo = mongoose.model('Photo', photoSchema);
+module.exports = Photo;

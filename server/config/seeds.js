@@ -59,14 +59,14 @@ db.once('open', async () => {
   // Photos creation
   const photos = await Photo.create([
     {
-      url: '',
+      url: 'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d',
       title: 'Mountains Under Starry Sky',
       description: 'Beautiful mountain range under a starry sky.',
       size: 'Large',
       createdBy: users[0]._id
     },
     {
-      url: '',
+      url: 'https://images.unsplash.com/photo-1444080748397-f442aa95c3e5',
       title: 'City in Night',
       description: 'Night view of a bustling city from the top.',
       size: 'Medium',
