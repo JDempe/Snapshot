@@ -51,6 +51,7 @@ $RECYCLE.BIN/
 # NODE
 node_modules/
 package-lock.json
+build/
 
 # Environments
 .env
@@ -63,3 +64,6 @@ venv.bak/
 
 # Mac/OSX
 .DS_Store
+
+# Build Files
+client/build/
