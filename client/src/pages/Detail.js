@@ -96,9 +96,13 @@ function Detail() {
             </div>
           </div>
           <div className="container my-1 imageInfo">
+            <img
+              src="https://www.seekpng.com/png/full/110-1100707_person-avatar-placeholder.png"
+              className="avatar"
+            />
             <div className="imageTitleWrap">
               <h2 className="imageName">{currentProduct.name}</h2>
-              <p style={{ paddingTop: '1.5rem', fontSize: '0.9rem' }}>
+              <p style={{ paddingTop: '0.6rem', fontSize: '0.9rem' }}>
                 Uploaded: DATE
               </p>
             </div>
