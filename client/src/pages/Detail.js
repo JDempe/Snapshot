@@ -95,8 +95,8 @@ function Detail() {
               />
             </div>
           </div>
-          <div className="container" style={{ maxWidth: '55vw' }}>
-            <div className="container my-1 imageInfo">
+          <div className="contentContainer">
+            <div className=" my-1 imageInfo">
               <img
                 src="https://www.seekpng.com/png/full/110-1100707_person-avatar-placeholder.png"
                 className="avatar"
@@ -116,29 +116,35 @@ function Detail() {
               <div className="imageDescription">
                 <p>{currentProduct.description}</p>
               </div>
+              <div className=" my-1 purchaseContainer">
+                <strong>Price:</strong>${currentProduct.price}{' '}
+                <button onClick={addToCart}>Add to Cart</button>
+                <button
+                  disabled={!cart.find((p) => p._id === currentProduct._id)}
+                  onClick={removeFromCart}>
+                  Remove from Cart
+                </button>
+              </div>
             </div>
-            <div className="container my-1 purchaseContainer">
-              <strong>Price:</strong>${currentProduct.price}{' '}
-              <button onClick={addToCart}>Add to Cart</button>
-              <button
-                disabled={!cart.find((p) => p._id === currentProduct._id)}
-                onClick={removeFromCart}>
-                Remove from Cart
-              </button>
-            </div>
-            <div className="container my-1 imageInfo">
-              <img
-                src="https://www.seekpng.com/png/full/110-1100707_person-avatar-placeholder.png"
-                className="avatarCommentor"
-              />
-              <div className="imageTitleWrap"></div>
-              <p className="imageAuthor">
-                <Link style={{ color: '#2e3547', fontWeight: 'bold' }}>
-                  Commentor
-                </Link>
-              </p>
-              <div className="imageDescription">
-                <p>{currentProduct.description}</p>
+            <div className="commentSection">
+              <div className="comment">
+                <div className="commentOrientation">
+                  <img
+                    src="https://www.seekpng.com/png/full/110-1100707_person-avatar-placeholder.png"
+                    className="avatarCommentor"
+                  />
+                  <div>
+                    <div className="imageTitleWrap"></div>
+                    <p className="imageAuthor">
+                      <Link style={{ color: '#2e3547', fontWeight: 'bold' }}>
+                        Commentor
+                      </Link>
+                    </p>
+                    <div className="imageDescription">
+                      <p>Insert the comment</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
