@@ -1,0 +1,27 @@
+body {
+  padding-top: 4rem;
+}
+
+.backdrop {
+  background-color: #2e3547;
+  width: 100vw;
+  padding: 20px 0 45px 0;
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.imageInfo {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.imageName {
+  font-family: 'Timmana', sans-serif;
+  font-weight: 300;
+  font-size: 36px;
+  color: #3355ce;
+}
