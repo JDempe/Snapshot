@@ -1,0 +1,114 @@
+.flex-row {
+  justify-content: space-between;
+}
+
+.websiteTitle {
+  margin-right: 0.5rem;
+  padding: 1rem 0 0 1rem;
+  font-family: 'Timmana', sans-serif;
+  font-weight: 300;
+  font-size: 36px;
+  color: #3355ce;
+}
+
+.rainbowContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.rainbowDiv {
+  width: 100%;
+  height: 4.5px;
+}
+
+.verticalDivider {
+  width: 1px;
+  height: 28px;
+  background-color: #6c676741;
+  margin: 0 10px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.titleLinks {
+  display: flex;
+  align-items: center;
+}
+
+.linkText {
+  margin: 0 0.8rem 0 0.5rem;
+  font-family: 'Segoe UI', Helvetica, sans-serif;
+  font-weight: 400;
+  font-size: 1.1rem;
+  color: #6c6767;
+  text-transform: none;
+  text-decoration: none !important;
+}
+
+.linkText:hover {
+  transition: all 0.2s ease-in-out;
+  color: #549cf1;
+}
+
+.loginButton {
+  width: 6rem;
+  border: 1px solid #000000 !important;
+  border-radius: 20px !important;
+  font-size: 1rem;
+  font-family: 'Arial', Helvetica, sans-serif;
+  font-weight: bold !important;
+  color: #000000 !important;
+  text-transform: none;
+}
+
+.loginButton:hover {
+  border: 1px solid #549cf1 !important;
+  color: #549cf1 !important;
+}
+
+.signupButton {
+  width: 6rem;
+  border: 1px solid #549cf1 !important;
+  background-color: #549cf1 !important;
+  border-radius: 20px !important;
+  font-size: 1rem;
+  font-family: 'Arial', Helvetica, sans-serif;
+  font-weight: bold !important;
+  color: #ffffff !important;
+  text-transform: none;
+}
+
+.orderButton {
+  width: 10rem;
+  border: 1px solid #000000 !important;
+  border-radius: 20px !important;
+  font-size: 1rem;
+  font-family: 'Arial', Helvetica, sans-serif;
+  font-weight: bold !important;
+  color: #000000 !important;
+  text-transform: none;
+}
+
+.orderButton:hover {
+  border: 1px solid #549cf1 !important;
+  background-color: #549cf1 !important;
+  color: #ffffff !important;
+}
+
+.logoutButton {
+  width: 6.5rem;
+  border: 1px solid #00000000 !important;
+  border-radius: 20px !important;
+  font-size: 1rem;
+  font-family: 'Arial', Helvetica, sans-serif;
+  font-weight: bold !important;
+  color: #000000 !important;
+  text-transform: none;
+}
+
+.logoutButton:hover {
+  border: 1px solid #fca43c !important;
+  background-color: #fca43c !important;
+  color: #ffffff !important;
+}
