@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { LOGIN } from '../utils/mutations';
 import Auth from '../utils/auth';
 import {
@@ -91,7 +91,7 @@ function Login(props) {
       '&:after': {
         content: '"Signup"',
         color: theme.palette.getContrastText(theme.palette.primary.main), // content(signup/login) color
-        right: 27,
+        right: 29,
       },
     },
     '& .MuiSwitch-thumb': {
@@ -121,13 +121,15 @@ function Login(props) {
             control={
               <>
                 <Typography variant="body2"></Typography>
-                <AntSwitch
-                  defaultChecked
-                  checked={mode === 'signup'}
-                  onChange={handleModeChange}
-                  color="primary"
-                  inputProps={{ 'aria-label': 'auth toggle' }}
-                />
+                <Link to="/signup">
+                  <AntSwitch
+                    defaultChecked
+                    checked={mode === 'signup'}
+                    onChange={handleModeChange}
+                    color="primary"
+                    inputProps={{ 'aria-label': 'auth toggle' }}
+                  />
+                </Link>
                 <Typography variant="body2"></Typography>
               </>
             }
