@@ -10,48 +10,44 @@ db.once('open', async () => {
   // Users creation
   const users = await User.create([
     {
+      username: 'JacobWilliams',
       firstName: 'Jacob',
       lastName: 'Williams',
       email: 'jacob.williams@test.com',
       password: 'securePassword1'
     },
     {
-      firstName: 'Olivia',
-      lastName: 'Johnson',
-      email: 'olivia.johnson@test.com',
+
+      username: 'SaraSmith',
+      firstName: 'Sara',
+      lastName: 'Smith',
+      email: 'sara.smith@test.com',
       password: 'securePassword2'
+
     },
     {
-      firstName: 'Gree',
-      lastName: 'Rach',
-      email: 'rachjohnson@test.com',
+      username: 'JohnDoe',
+      firstName: 'John',
+      lastName: 'Doe',
+      email: 'john.doe@test.com',
       password: 'securePassword3'
     },
-    
     {
-      firstName: 'Emma',
-      lastName: 'Smith',
-      email: 'emma.smith@example.com',
+      username: 'JaneDoe',
+      firstName: 'Jane',
+      lastName: 'Doe',
+      email: 'jadoe@test.com',
       password: 'securePassword4'
+
     },
     {
-      firstName: 'Noah',
-      lastName: 'Brown',
-      email: 'noah.brown@example.com',
+      username: 'BobSmith',
+      firstName: 'Bob',
+      lastName: 'Smith',
+      email: 'bobby@test.com',
       password: 'securePassword5'
-    },
-    {
-      firstName: 'Ava',
-      lastName: 'Jones',
-      email: 'ava.jones@example.com',
-      password: 'securePassword6'
-    },
-    {
-      firstName: 'Sophia',
-      lastName: 'Davis',
-      email: 'sophia.davis@example.com',
-      password: 'securePassword7'
-    },
+    }
+
   ]);
 
   console.log('Users seeded');
@@ -62,16 +58,32 @@ db.once('open', async () => {
       url: 'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d',
       title: 'Mountains Under Starry Sky',
       description: 'Beautiful mountain range under a starry sky.',
-      size: 'Large',
-      createdBy: users[0]._id
+      createdBy: users[0]._id,
+      sizes: [
+        {
+          name: '5x7',
+          price: 20
+        },
+        {
+          name: '4x6',
+          price: 35
+        },
+        {
+          name: '16x20',
+          price: 60
+        },
+        {
+          name: '6x9',
+          price: 40
+        },
+        {
+          name: '9x12',
+          price: 50
+        }
+      ],
+      likes: 0
     },
-    {
-      url: 'https://images.unsplash.com/photo-1444080748397-f442aa95c3e5',
-      title: 'City in Night',
-      description: 'Night view of a bustling city from the top.',
-      size: 'Medium',
-      createdBy: users[1]._id
-    },
+    
   ]);
 
   console.log('Photos seeded');
@@ -83,10 +95,12 @@ db.once('open', async () => {
       products: [
         {
           photo: photos[0]._id,
+          size: '5x7',
           quantity: 1,
         },
         {
           photo: photos[1]._id,
+          size: '4x6',
           quantity: 3,
         },
       ],
@@ -105,11 +119,19 @@ db.once('open', async () => {
       photo: photos[0]._id,
     },
     {
-      text: 'The city lights in this photo are incredible!',
+      text: 'The mountains in this photo look so majestic.',
       createdAt: new Date(),
       createdBy: users[1]._id,
       photo: photos[1]._id,
     },
+    {
+      text: 'Nice click!',
+      createdAt: new Date(),
+      createdBy: users[2]._id,
+      photo: photos[1]._id,
+    },
+
+
   ]);
 
   console.log('Comments seeded');

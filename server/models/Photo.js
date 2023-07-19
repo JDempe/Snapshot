@@ -36,6 +36,10 @@ const photoSchema = new Schema({
     type: [sizeSchema],
     required: true
   },
+  likes: {
+    type: Number,
+    default: 0
+  }
 });
 
 const Photo = mongoose.model('Photo', photoSchema);

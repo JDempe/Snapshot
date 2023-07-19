@@ -4,6 +4,11 @@ const bcrypt = require('bcrypt');
 
 
 const userSchema = new Schema({
+  username: {
+    type: String,
+    required: true,
+    unique: true
+  },
   firstName: {
     type: String,
     required: true,
@@ -28,9 +33,16 @@ const userSchema = new Schema({
     type: String,
     default: ''
   },
+  likedPhotos: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Photo'
+    }
+  ],
   orders: [{ type: Schema.Types.ObjectId, ref: 'Order' }],
   savedPhotos: [{ type: Schema.Types.ObjectId, ref: 'Photo' }],
   ownComments: [{ type: Schema.Types.ObjectId, ref: 'Comment' }]
+
 });
 
 // set up pre-save middleware to create password
