@@ -53,6 +53,7 @@ db.once('open', async () => {
   console.log('Users seeded');
 
   // Photos creation
+  // Photos creation
   const photos = await Photo.create([
     {
       url: 'https://images.unsplash.com/photo-1503023345310-bd7c1de61c7d',
@@ -83,7 +84,35 @@ db.once('open', async () => {
       ],
       likes: 0
     },
-    
+    {
+      url: 'https://images.unsplash.com/photo-1444080748397-f442aa95c3e5',
+      title: 'City in Night',
+      description: 'Night view of a bustling city from the top.',
+      createdBy: users[1]._id,
+      sizes: [
+        {
+          name: '5x7',
+          price: 25
+        },
+        {
+          name: '4x6',
+          price: 30
+        },
+        {
+          name: '16x20',
+          price: 75
+        },
+        {
+          name: '6x9',
+          price: 45
+        },
+        {
+          name: '9x12',
+          price: 55
+        }
+      ],
+      likes: 0
+    },
   ]);
 
   console.log('Photos seeded');
