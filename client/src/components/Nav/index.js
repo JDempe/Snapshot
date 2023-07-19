@@ -24,6 +24,9 @@ function Nav() {
               </Button>
             </a>
           </li>
+          <li className="mx-1">
+            <Link to="/upload">Upload</Link>
+          </li>
         </ul>
       );
     } else {

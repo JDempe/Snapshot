@@ -14,6 +14,7 @@ import NoMatch from './pages/NoMatch';
 import ContactUs from './components/ContactUs';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+import Upload from './pages/Upload';
 import Nav from './components/Nav';
 import Footer from './components/Footer';
 import { StoreProvider } from './utils/GlobalState';
@@ -57,6 +58,7 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/success" element={<Success />} />
               <Route path="/orderHistory" element={<OrderHistory />} />
+              <Route path="/Upload" element={<Upload />} />
               <Route path="/products/:id" element={<Detail />} />
               <Route path="/ContactUs" element={<ContactUs />} />
               <Route path="*" element={<NoMatch />} />
