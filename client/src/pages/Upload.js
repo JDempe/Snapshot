@@ -1,18 +1,28 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { UPLOAD_PHOTO } from '../utils/mutations';
+import { Alert, Collapse, IconButton } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
+import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 
 function Upload(props) {
-  const [formState, setFormState] = useState({ email: '', password: '' });
+  const [formState, setFormState] = useState({
+    photoName: '',
+    description: '',
+  });
   const [photoImage, setPhotoImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null); // this is the image preview that will be displayed on the page [1
+  const [imagePreview, setImagePreview] = useState(null); // this is the image preview that will be displayed on the page
   const [isLoading, setIsLoading] = useState(null);
+  const [isReady, setIsReady] = useState(false); // this is if the image is ready to be uploaded
+  const [success, setSuccess] = useState(false); // this is the success message that will be displayed on the page
+  const [failed, setFailed] = useState(false); // this is the error message that will be displayed on the page
 
   const [uploadPhoto, { error }] = useMutation(UPLOAD_PHOTO);
 
   const handleFileUpload = (event) => {
     setPhotoImage(event.target.files[0]);
     setImagePreview(URL.createObjectURL(event.target.files[0]));
+    setIsReady(true);
   };
 
   const handleFormSubmit = async (event) => {
@@ -34,8 +44,13 @@ function Upload(props) {
 
       const file = await res.json();
       console.log(file);
+
+      setIsLoading(false);
+      setSuccess(true);
     } catch (e) {
       console.log(e);
+      setIsLoading(false);
+      setFailed(true);
     }
   };
 
@@ -50,7 +65,7 @@ function Upload(props) {
   return (
     <div className="container my-1">
       <h2>Upload</h2>
-      <form onSubmit={handleFormSubmit}>
+      <ValidatorForm onSubmit={handleFormSubmit}>
         {/* Upload photo Button */}
         <div>
           <label htmlFor="upload">Upload Photo:</label>
@@ -62,29 +77,38 @@ function Upload(props) {
             onChange={handleFileUpload}
           />
         </div>
-        {imagePreview && (
-          <img src={imagePreview} alt="Uploaded Image" height="300" />
-        )}
+        <div height="300" width="300">
+          {imagePreview && <img src={imagePreview} alt="Uploaded Image" />}
+        </div>
 
         {/* Photo Name Box */}
         <div className="flex-row space-between my-2">
           <label htmlFor="photoname">Photo Name:</label>
-          <input
-            placeholder="Photo Name"
-            name="photoName"
+          <TextValidator
+            label="Title"
             type="text"
-            id="photoname"
+            name="photoName"
+            id="photoName"
+            value={formState.photoName}
+            validators={['required', 'minStringLength:5']}
+            errorMessages={['this field is required', 'minimum 5 characters']}
             onChange={handleChange}
           />
         </div>
         {/* Photo description Textbox */}
         <div className="flex-row space-between my-2">
-          <label htmlFor="pwd">Description:</label>
-          <textarea
+          <label htmlFor="description">Description:</label>
+          <TextValidator
             placeholder="Describe the photo..."
+            label="Description"
             name="description"
-            type="text"
+            type="textarea"
+            multiline
+            rows={4}
             id="description"
+            value={formState.description}
+            validators={['required', 'minStringLength:5']}
+            errorMessages={['this field is required', 'minimum 5 characters']}
             onChange={handleChange}
           />
         </div>
@@ -94,9 +118,52 @@ function Upload(props) {
           </div>
         ) : null}
         <div className="flex-row flex-end">
-          <button type="submit">Submit</button>
+          {/* submit button that is disabled if isLoading is true */}
+          <button
+            className="btn btn-block btn-primary"
+            disabled={isLoading || !isReady}
+            type="submit">
+            {isLoading ? 'Loading...' : 'Submit'}
+          </button>
+
+          <Collapse in={success}>
+            <Alert
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setSuccess(false);
+                  }}>
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}>
+              Successfully uploaded!
+            </Alert>
+          </Collapse>
+
+          <Collapse in={failed}>
+            <Alert
+              severity="error"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setFailed(false);
+                  }}>
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}>
+              Something went wrong! Please try again.
+            </Alert>
+          </Collapse>
         </div>
-      </form>
+      </ValidatorForm>
     </div>
   );
 }
