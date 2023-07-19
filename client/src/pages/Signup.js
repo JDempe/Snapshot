@@ -60,7 +60,7 @@ function Signup(props) {
   const AntSwitch = styled(Switch)(({ theme }) => ({
     padding: 8,
     fontSize: '80%',
-    width: '100%',
+    width: '100px',
     height: 25, // height of the whole toggle container
     padding: 0,
     display: 'flex',
