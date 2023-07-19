@@ -58,48 +58,56 @@ function Signup(props) {
   };
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
-    width: 28,
-    height: 16,
+    padding: 8,
+    fontSize: '80%',
+    width: '100px',
+    height: 25, // height of the whole toggle container
     padding: 0,
     display: 'flex',
     '&:active': {
-      '& .MuiSwitch-thumb': {
-        width: 15,
-      },
       '& .MuiSwitch-switchBase.Mui-checked': {
-        transform: 'translateX(9px)',
+        transform: 'translateX(0px)', //switch thumb starting pt
       },
     },
     '& .MuiSwitch-switchBase': {
-      padding: 2,
+      padding: 0,
       '&.Mui-checked': {
-        transform: 'translateX(12px)',
-        color: '#fff', // toggle knob
+        transform: 'translateX(45px)', //switch thumb ending pt
+        color: '#fff',
         '& + .MuiSwitch-track': {
-          opacity: 1,
-          // theme color, need to be sync with the login.js
-          backgroundColor:
-            theme.palette.mode === 'dark' ? '#DC1E17' : '#1890ff',
+          backgroundColor: '#DC1E17', /////////////
         },
       },
     },
-    '& .MuiSwitch-thumb': {
-      boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
-      width: 12,
-      height: 12,
-      borderRadius: 6,
-      transition: theme.transitions.create(['width'], {
-        duration: 200,
-      }),
-    },
     '& .MuiSwitch-track': {
-      borderRadius: 16 / 2,
-      opacity: 1,
-      backgroundColor:
-        theme.palette.mode === 'dark'
-          ? 'rgba(255,255,255,.35)'
-          : 'rgba(255, 99, 71, 0.8)', // bgc for the toggle
-      boxSizing: 'border-box',
+      borderRadius: 25 / 2,
+      backgroundColor: '#177ddc', ////////////
+      '&:before, &:after': {
+        content: '""',
+        position: 'absolute',
+        top: '50%',
+        transform: 'translateY(-65%)',
+        width: 16,
+        height: 16,
+      },
+
+      '&:before': {
+        content: '"Login"', // Replace "-" with "Login"
+        color: theme.palette.getContrastText(theme.palette.primary.main),
+        left: 10,
+      },
+      '&:after': {
+        content: '"Signup"', // Replace "-" with "Login"
+        color: theme.palette.getContrastText(theme.palette.primary.main),
+        right: 27,
+      },
+    },
+    '& .MuiSwitch-thumb': {
+      boxShadow: 'none',
+      borderRadius: 21 / 2,
+      width: 51,
+      height: 21,
+      margin: 2,
     },
   }));
 
@@ -116,11 +124,11 @@ function Signup(props) {
         }}>
         {/* <Link to="/login">← Go to Login</Link> */}
 
-        <FormGroup aria-label="auth toggle" style={{ width: '30vw' }}>
+        <FormGroup aria-label="auth toggle" style={{ width: '11vw' }}>
           <FormControlLabel
             control={
               <>
-                <Typography variant="body2">Log In</Typography>
+                <Typography variant="body2"></Typography>
                 <AntSwitch
                   defaultChecked
                   checked={mode === 'login'}
@@ -128,12 +136,16 @@ function Signup(props) {
                   color="primary"
                   inputProps={{ 'aria-label': 'auth toggle' }}
                 />
-                <Typography variant="body2">Sign Up</Typography>
+                <Typography variant="body2"></Typography>
               </>
             }
             label=""
             labelPlacement="start"
-            style={{ width: '100%', justifyContent: 'space-between' }}
+            style={{
+              width: '100%',
+              justifyContent: 'space-between',
+              marginLeft: '0',
+            }}
           />
         </FormGroup>
 

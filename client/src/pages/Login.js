@@ -50,47 +50,56 @@ function Login(props) {
   };
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
-    width: 28,
-    height: 16,
+    padding: 8,
+    fontSize: '80%',
+    width: '100px',
+    height: 25, // height of the whole toggle container
     padding: 0,
     display: 'flex',
     '&:active': {
-      '& .MuiSwitch-thumb': {
-        width: 15,
-      },
       '& .MuiSwitch-switchBase.Mui-checked': {
-        transform: 'translateX(9px)',
+        transform: 'translateX(0px)', // switch thumb starting pt
       },
     },
     '& .MuiSwitch-switchBase': {
-      padding: 2,
+      padding: 0,
       '&.Mui-checked': {
-        transform: 'translateX(12px)',
-        color: '#fff',
+        transform: 'translateX(45px)', // switch thumb ending pt
+        color: '#fff', // switch thumb color
         '& + .MuiSwitch-track': {
-          opacity: 1,
-          backgroundColor:
-            theme.palette.mode === 'dark' ? '#177ddc' : '#1890ff',
+          backgroundColor: '#DC1E17', /////////////
         },
       },
     },
-    '& .MuiSwitch-thumb': {
-      boxShadow: '0 2px 4px 0 rgb(0 35 11 / 20%)',
-      width: 12,
-      height: 12,
-      borderRadius: 6,
-      transition: theme.transitions.create(['width'], {
-        duration: 200,
-      }),
-    },
     '& .MuiSwitch-track': {
-      borderRadius: 16 / 2,
-      opacity: 1,
-      backgroundColor:
-        theme.palette.mode === 'dark'
-          ? 'rgba(255,255,255,.35)'
-          : 'rgba(0,0,0,.25)',
-      boxSizing: 'border-box',
+      borderRadius: 25 / 2,
+      backgroundColor: '#177ddc', ////////////
+      '&:before, &:after': {
+        content: '""',
+        position: 'absolute',
+        top: '50%',
+        transform: 'translateY(-65%)',
+        width: 16,
+        height: 16,
+      },
+
+      '&:before': {
+        content: '"Login"',
+        color: theme.palette.getContrastText(theme.palette.primary.main), // content(signup/login) color
+        left: 10,
+      },
+      '&:after': {
+        content: '"Signup"',
+        color: theme.palette.getContrastText(theme.palette.primary.main), // content(signup/login) color
+        right: 27,
+      },
+    },
+    '& .MuiSwitch-thumb': {
+      boxShadow: 'none',
+      borderRadius: 21 / 2,
+      width: 51,
+      height: 21,
+      margin: 2,
     },
   }));
 
@@ -107,11 +116,11 @@ function Login(props) {
         }}>
         {/* <Link to="/signup">← Go to Signup</Link> */}
 
-        <FormGroup aria-label="auth toggle" style={{ width: '30vw' }}>
+        <FormGroup aria-label="auth toggle" style={{ width: '11vw' }}>
           <FormControlLabel
             control={
               <>
-                <Typography variant="body2">Log In</Typography>
+                <Typography variant="body2"></Typography>
                 <AntSwitch
                   defaultChecked
                   checked={mode === 'signup'}
@@ -119,12 +128,16 @@ function Login(props) {
                   color="primary"
                   inputProps={{ 'aria-label': 'auth toggle' }}
                 />
-                <Typography variant="body2">Sign Up</Typography>
+                <Typography variant="body2"></Typography>
               </>
             }
             label=""
             labelPlacement="start"
-            style={{ width: '100%', justifyContent: 'space-between' }}
+            style={{
+              width: '100%',
+              justifyContent: 'space-between',
+              marginLeft: '0',
+            }}
           />
         </FormGroup>
 
