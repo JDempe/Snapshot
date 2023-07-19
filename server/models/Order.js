@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
@@ -14,6 +13,10 @@ const orderSchema = new Schema({
           ref: 'Photo',
           required: true
         },
+        size: {
+          type: String,
+          required: true
+        },
         quantity: {
           type: Number,
           required: true,
@@ -27,6 +30,5 @@ const orderSchema = new Schema({
     }
   });
 
-
-  const Order = mongoose.model('Order', orderSchema);
-  module.exports = Order;
+const Order = mongoose.model('Order', orderSchema);
+module.exports = Order;
