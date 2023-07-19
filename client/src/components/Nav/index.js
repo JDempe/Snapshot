@@ -60,6 +60,9 @@ function Nav() {
         <Link to="/personal">
           <div className="linkText">Personal</div>
         </Link>
+        <Link to="/ContactUs">
+          <div className="linkText">ContactUs</div>
+        </Link>
       </div>
       <nav>{showNavigation()}</nav>
       <div className="rainbowContainer">
