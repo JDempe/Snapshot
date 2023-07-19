@@ -13,6 +13,8 @@ import {
 import { QUERY_PRODUCTS } from '../utils/queries';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
+import Rating from '@mui/material/Rating';
+
 import './Detail.scss';
 
 function Detail() {
@@ -133,13 +135,15 @@ function Detail() {
                     src="https://www.seekpng.com/png/full/110-1100707_person-avatar-placeholder.png"
                     className="avatarCommentor"
                   />
-                  <div>
-                    <div className="imageTitleWrap"></div>
-                    <p className="imageAuthor">
-                      <Link style={{ color: '#2e3547', fontWeight: 'bold' }}>
-                        Commentor
-                      </Link>
-                    </p>
+                  <div className="commentContent">
+                    <div className="nameRating">
+                      <p className="imageAuthor">
+                        <Link style={{ color: '#2e3547', fontWeight: 'bold' }}>
+                          Commentor
+                        </Link>
+                      </p>
+                      <Rating name="read-only" value={0} readOnly />
+                    </div>
                     <div className="imageDescription">
                       <p>Insert the comment</p>
                     </div>

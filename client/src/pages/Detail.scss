@@ -55,7 +55,7 @@ body {
   font-family: 'Arial', sans-serif;
   font-weight: 400;
   font-size: 1rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.1rem;
 }
 
 .imageDescription {
@@ -74,6 +74,16 @@ body {
 }
 
 .comment {
+}
+
+.commentContent {
+  width: 100%;
+}
+
+.nameRating {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .commentOrientation {
