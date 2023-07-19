@@ -69,15 +69,25 @@ body {
 }
 
 .commentSection {
-  overflow: auto;
+  //   overflow: auto;
   width: 45vw;
 }
 
-.comment {
+.commentText {
+  width: 40vw;
+  font-family: Calibri, sans-serif;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  padding-left: 3.5rem;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  white-space: normal;
 }
 
 .commentContent {
   width: 100%;
+  flex: 1;
 }
 
 .nameRating {
@@ -98,5 +108,19 @@ body {
   height: 2.5rem;
   border-radius: 50%;
   margin-right: 1rem;
-  margin-bottom: 1rem;
+}
+
+.commentAuthor {
+  font-family: 'Arial', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  margin-bottom: 0.1rem;
+}
+
+.commentDate {
+  font-family: Arial, sans-serif;
+  font-size: 0.7rem;
+  padding-left: 3.5rem;
+  font-weight: bold;
+  color: #5c6271;
 }

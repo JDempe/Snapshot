@@ -129,26 +129,30 @@ function Detail() {
               </div>
             </div>
             <div className="commentSection">
-              <div className="comment">
-                <div className="commentOrientation">
-                  <img
-                    src="https://www.seekpng.com/png/full/110-1100707_person-avatar-placeholder.png"
-                    className="avatarCommentor"
-                  />
-                  <div className="commentContent">
-                    <div className="nameRating">
-                      <p className="imageAuthor">
-                        <Link style={{ color: '#2e3547', fontWeight: 'bold' }}>
-                          Commentor
-                        </Link>
-                      </p>
-                      <Rating name="read-only" value={0} readOnly />
-                    </div>
-                    <div className="imageDescription">
-                      <p>Insert the comment</p>
-                    </div>
+              <div className="commentOrientation">
+                <img
+                  src="https://www.seekpng.com/png/full/110-1100707_person-avatar-placeholder.png"
+                  className="avatarCommentor"
+                />
+                <div className="commentContent">
+                  <div className="nameRating">
+                    <p className="commentAuthor">
+                      <Link style={{ color: '#2e3547', fontWeight: 'bold' }}>
+                        Commentor
+                      </Link>
+                    </p>
+                    <Rating name="read-only" value={0} readOnly />
                   </div>
+                  {/* <div className="imageDescription">
+                      <p>Insert the comment</p>
+                    </div> */}
                 </div>
+              </div>
+              <div className="commentText">
+                <p style={{ marginBottom: '0.3rem' }}>Insert the comment</p>
+              </div>
+              <div className="commentDate">
+                <p>Posted: </p>
               </div>
             </div>
           </div>
