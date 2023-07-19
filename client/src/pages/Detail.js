@@ -116,7 +116,7 @@ function Detail() {
               <p>{currentProduct.description}</p>
             </div>
           </div>
-          <p>
+          <div className="container my-1 purchaseContainer">
             <strong>Price:</strong>${currentProduct.price}{' '}
             <button onClick={addToCart}>Add to Cart</button>
             <button
@@ -124,7 +124,7 @@ function Detail() {
               onClick={removeFromCart}>
               Remove from Cart
             </button>
-          </p>
+          </div>
         </div>
       ) : null}
       {loading ? <img src={spinner} alt="loading" /> : null}
