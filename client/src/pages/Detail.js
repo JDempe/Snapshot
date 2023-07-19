@@ -96,9 +96,18 @@ function Detail() {
             </div>
           </div>
           <div className="container my-1 imageInfo">
-            <div className="imageName">
-              <h2>{currentProduct.name}</h2>
+            <div className="imageTitleWrap">
+              <h2 className="imageName">{currentProduct.name}</h2>
+              <p style={{ paddingTop: '1.5rem', fontSize: '0.9rem' }}>
+                Uploaded: DATE
+              </p>
             </div>
+            <p className="imageAuthor">
+              by{' '}
+              <Link style={{ color: '#549cf1', fontWeight: 'bold' }}>
+                Image Author
+              </Link>
+            </p>
             <div className="imageDescription">
               <p>{currentProduct.description}</p>
             </div>

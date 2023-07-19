@@ -14,14 +14,34 @@ body {
 }
 
 .imageInfo {
-  width: 50%;
+  width: 45%;
+  padding-top: 2rem;
   display: flex;
   flex-direction: column;
+}
+
+.imageTitleWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .imageName {
   font-family: 'Fira Sans', sans-serif;
   font-weight: 600;
-  font-size: 36px;
-  color: #3355ce;
+  color: #2e3547;
+  margin-bottom: 0;
+}
+
+.imageAuthor {
+  font-family: 'Arial', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.imageDescription {
+  font-family: Calibri, sans-serif;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
 }
