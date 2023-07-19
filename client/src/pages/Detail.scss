@@ -14,7 +14,6 @@ body {
 }
 
 .imageInfo {
-  width: 45%;
   padding-top: 1rem;
   display: flex;
   flex-direction: column;
@@ -61,4 +60,15 @@ body {
 .purchaseContainer {
   text-align: center;
   float: right;
+}
+
+.avatarCommentor {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+  position: absolute;
+  top: 20px;
+  left: -50px;
+  z-index: 1;
 }

@@ -95,35 +95,52 @@ function Detail() {
               />
             </div>
           </div>
-          <div className="container my-1 imageInfo">
-            <img
-              src="https://www.seekpng.com/png/full/110-1100707_person-avatar-placeholder.png"
-              className="avatar"
-            />
-            <div className="imageTitleWrap">
-              <h2 className="imageName">{currentProduct.name}</h2>
-              <p style={{ paddingTop: '0.6rem', fontSize: '0.9rem' }}>
-                Uploaded: DATE
+          <div className="container" style={{ maxWidth: '55vw' }}>
+            <div className="container my-1 imageInfo">
+              <img
+                src="https://www.seekpng.com/png/full/110-1100707_person-avatar-placeholder.png"
+                className="avatar"
+              />
+              <div className="imageTitleWrap">
+                <h2 className="imageName">{currentProduct.name}</h2>
+                <p style={{ paddingTop: '0.6rem', fontSize: '0.9rem' }}>
+                  Uploaded: DATE
+                </p>
+              </div>
+              <p className="imageAuthor">
+                by{' '}
+                <Link style={{ color: '#549cf1', fontWeight: 'bold' }}>
+                  Image Author
+                </Link>
               </p>
+              <div className="imageDescription">
+                <p>{currentProduct.description}</p>
+              </div>
             </div>
-            <p className="imageAuthor">
-              by{' '}
-              <Link style={{ color: '#549cf1', fontWeight: 'bold' }}>
-                Image Author
-              </Link>
-            </p>
-            <div className="imageDescription">
-              <p>{currentProduct.description}</p>
+            <div className="container my-1 purchaseContainer">
+              <strong>Price:</strong>${currentProduct.price}{' '}
+              <button onClick={addToCart}>Add to Cart</button>
+              <button
+                disabled={!cart.find((p) => p._id === currentProduct._id)}
+                onClick={removeFromCart}>
+                Remove from Cart
+              </button>
             </div>
-          </div>
-          <div className="container my-1 purchaseContainer">
-            <strong>Price:</strong>${currentProduct.price}{' '}
-            <button onClick={addToCart}>Add to Cart</button>
-            <button
-              disabled={!cart.find((p) => p._id === currentProduct._id)}
-              onClick={removeFromCart}>
-              Remove from Cart
-            </button>
+            <div className="container my-1 imageInfo">
+              <img
+                src="https://www.seekpng.com/png/full/110-1100707_person-avatar-placeholder.png"
+                className="avatarCommentor"
+              />
+              <div className="imageTitleWrap"></div>
+              <p className="imageAuthor">
+                <Link style={{ color: '#2e3547', fontWeight: 'bold' }}>
+                  Commentor
+                </Link>
+              </p>
+              <div className="imageDescription">
+                <p>{currentProduct.description}</p>
+              </div>
+            </div>
           </div>
         </div>
       ) : null}
