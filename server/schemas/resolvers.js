@@ -146,7 +146,7 @@ const resolvers = {
 
       return { token, user };
     },
-    uploadPhoto: async (_, { photo }) => {
+    uploadPhoto: async (_, { uploadURL, description, photoName }) => {
       //initialize cloudinary
       cloudinary.config({
         cloud_name: process.env.CLOUDINARY_NAME,
@@ -157,23 +157,17 @@ const resolvers = {
       try-catch block for handling actual image upload
       */
       try {
-        const result = await cloudinary.v2.uploader.upload(photo, {
-          //here i chose to allow only jpg and png upload
-          allowed_formats: ['jpg', 'png'],
-          //generates a new id for each uploaded image
-          public_id: '',
-          /*creates a folder called "your_folder_name" where images will be stored.
-           */
-          folder: 'your_folder_name',
+        // do a fetch POST to the cloudinary upload URL
+        const response = await fetch(uploadURL, {
+          method: 'POST',
+          body: data,
         });
+
+        return `Successful-Photo URL: ${response.url}`;
       } catch (e) {
         //returns an error message on image upload failure.
         return `Image could not be uploaded:${e.message}`;
       }
-      /*returns uploaded photo url if successful `result.url`.
-      if we were going to store image name in database,this
-      */
-      return `Successful-Photo URL: ${result.url}`;
     },
   },
 };
