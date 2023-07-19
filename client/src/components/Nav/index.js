@@ -24,6 +24,9 @@ function Nav() {
               </Button>
             </a>
           </li>
+          <li className="mx-1">
+            <Link to="/upload">Upload</Link>
+          </li>
         </ul>
       );
     } else {
@@ -59,6 +62,9 @@ function Nav() {
         </Link>
         <Link to="/personal">
           <div className="linkText">Personal</div>
+        </Link>
+        <Link to="/ContactUs">
+          <div className="linkText">ContactUs</div>
         </Link>
       </div>
       <nav>{showNavigation()}</nav>
