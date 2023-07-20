@@ -55,19 +55,20 @@ const typeDefs = gql`
     token: ID
     user: User
   }
-  input ProductInput {
-  _id: ID!
-  quantity: Int!
-}
 
-type Session {
-  id: ID!
-}
+  input ProductInput {
+    _id: ID!
+    quantity: Int!
+  }
+
+  type Session {
+    id: ID!
+  }
 
   type Query {
     checkout(products: [ProductInput]!): Session
     users: [User]
-    user(_id: ID!): User
+    user(username: String!): User
     photos: [Photo]
     photo(_id: ID!): Photo
     orders: [Order]
@@ -75,28 +76,22 @@ type Session {
     comments: [Comment]
     comment(_id: ID!): Comment
   }
+
   type Mutation {
-  addUser(username: String!, email: String!, password: String!, firstName: String!, lastName: String!): Auth
-  login(email: String!, password: String!): Auth
-  addOrder(products: [ProductInput]!): Order
-  updateUser(username: String, email: String, password: String): User
-  uploadPhoto(
-      uploadURL: String!
-      description: String
-      photoName: String
-    ): String
-  # addPhoto(url: String!, title: String!, description: String!): Photo
-  addComment(photoId: ID!, content: String!): Comment
-  addLike(photoId: ID!): Photo
-  removeLike(photoId: ID!): Photo
-  removePhoto(photoId: ID!): Photo
-  removeComment(commentId: ID!): Comment
-  updatePhoto(photoId: ID!, title: String, description: String): Photo
-  updateComment(commentId: ID!, content: String!): Comment
-  deletePhoto(photoId: ID!): Photo
+    addUser(username: String!, email: String!, password: String!, firstName: String!, lastName: String!): Auth
+    login(email: String!, password: String!): Auth
+    addPhoto(url: String!, title: String!, description: String!): Photo
 
+    addOrder(products: [ProductInput]!): Order
+    updateUser(username: String, email: String, password: String, firstName: String, lastName: String): User
+    uploadPhoto(uploadURL: String!, description: String, photoName: String): Photo
+    addComment(photoId: ID!, content: String!): Comment
+    addLike(photoId: ID!): Photo
+    removeLike(photoId: ID!): Photo
+    deletePhoto(photoId: ID!): Photo
+    updatePhoto(photoId: ID!, title: String, description: String): Photo
+    updateComment(commentId: ID!, content: String!): Comment
   }
-
 `;
 
 module.exports = typeDefs;
