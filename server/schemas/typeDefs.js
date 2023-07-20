@@ -1,33 +1,50 @@
 const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
-  type Category {
+  type User {
     _id: ID
-    name: String
+    username: String
+    firstName: String
+    lastName: String
+    email: String
+    orders: [Order]
   }
 
-  type Product {
-    _id: ID
+  type Size {
     name: String
-    description: String
-    image: String
-    quantity: Int
     price: Float
-    category: Category
+  }
+
+  type Photo {
+    _id: ID
+    url: String
+    title: String
+    description: String
+    createdBy: User
+    sizes: [Size]
+    likes: Int
+    comments: [Comment]
   }
 
   type Order {
     _id: ID
     purchaseDate: String
-    products: [Product]
+    products: [OrderProduct]
+    total: Float
   }
 
-  type User {
+  type OrderProduct {
+    photo: Photo
+    size: String
+    quantity: Int
+  }
+
+  type Comment {
     _id: ID
-    firstName: String
-    lastName: String
-    email: String
-    orders: [Order]
+    text: String
+    createdAt: String
+    createdBy: User
+    photo: Photo
   }
 
   type Checkout {
@@ -39,37 +56,41 @@ const typeDefs = gql`
     user: User
   }
 
+  input ProductInput {
+    _id: ID!
+    quantity: Int!
+  }
+
+  type Session {
+    id: ID!
+  }
+
   type Query {
-    categories: [Category]
-    products(category: ID, name: String): [Product]
-    product(_id: ID!): Product
-    user: User
+    checkout(products: [ProductInput]!): Session
+    users: [User]
+    user(username: String!): User
+    photos: [Photo]
+    photo(_id: ID!): Photo
+    orders: [Order]
     order(_id: ID!): Order
-    checkout(products: [ID]!): Checkout
-    _: Boolean
+    comments: [Comment]
+    comment(_id: ID!): Comment
   }
 
   type Mutation {
-    addUser(
-      firstName: String!
-      lastName: String!
-      email: String!
-      password: String!
-    ): Auth
-    addOrder(products: [ID]!): Order
-    updateUser(
-      firstName: String
-      lastName: String
-      email: String
-      password: String
-    ): User
-    updateProduct(_id: ID!, quantity: Int!): Product
+    addUser(username: String!, email: String!, password: String!, firstName: String!, lastName: String!): Auth
     login(email: String!, password: String!): Auth
-    uploadPhoto(
-      uploadURL: String!
-      description: String
-      photoName: String
-    ): String
+    addPhoto(url: String!, title: String!, description: String!): Photo
+
+    addOrder(products: [ProductInput]!): Order
+    updateUser(username: String, email: String, password: String, firstName: String, lastName: String): User
+    uploadPhoto(uploadURL: String!, description: String, photoName: String): Photo
+    addComment(photoId: ID!, content: String!): Comment
+    addLike(photoId: ID!): Photo
+    removeLike(photoId: ID!): Photo
+    deletePhoto(photoId: ID!): Photo
+    updatePhoto(photoId: ID!, title: String, description: String): Photo
+    updateComment(commentId: ID!, content: String!): Comment
   }
 `;
 
