@@ -1,5 +1,10 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from 'react-router-dom';
 import {
   ApolloClient,
   InMemoryCache,
@@ -14,7 +19,7 @@ import NoMatch from './pages/NoMatch';
 import ContactUs from './components/ContactUs';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
-import Upload from './pages/Upload';
+import Upload from './components/Upload/Upload';
 import Nav from './components/Nav';
 import Footer from './components/Footer';
 import { StoreProvider } from './utils/GlobalState';
@@ -41,32 +46,37 @@ const client = new ApolloClient({
 });
 
 function App() {
+  const location = useLocation();
+  const previousLocation = location.state?.previousLocation;
+
   return (
     <ApolloProvider client={client}>
-      <Router>
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateRows: 'auto 1fr auto',
-            minHeight: '100vh',
-          }}>
-          <StoreProvider>
-            <Nav />
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateRows: 'auto 1fr auto',
+          minHeight: '100vh',
+        }}>
+        <StoreProvider>
+          <Nav />
+          <Routes location={previousLocation || location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/success" element={<Success />} />
+            <Route path="/orderHistory" element={<OrderHistory />} />
+            <Route path="/products/:id" element={<Detail />} />
+            <Route path="/ContactUs" element={<ContactUs />} />
+            <Route path="*" element={<NoMatch />} />
+          </Routes>
+          {previousLocation && (
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/success" element={<Success />} />
-              <Route path="/orderHistory" element={<OrderHistory />} />
-              <Route path="/Upload" element={<Upload />} />
-              <Route path="/products/:id" element={<Detail />} />
-              <Route path="/ContactUs" element={<ContactUs />} />
-              <Route path="*" element={<NoMatch />} />
+              <Route path="/upload" element={<Upload />} />
             </Routes>
-            <Footer />
-          </StoreProvider>
-        </div>
-      </Router>
+          )}
+          <Footer />
+        </StoreProvider>
+      </div>
     </ApolloProvider>
   );
 }

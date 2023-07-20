@@ -6,7 +6,7 @@ import { useQuery } from '@apollo/client';
 import { QUERY_PRODUCTS } from '../../utils/queries';
 import { idbPromise } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
-import { Box, Paper } from '@mui/material';
+import { Box } from '@mui/material';
 import { Masonry } from '@mui/lab';
 
 const heights = [
