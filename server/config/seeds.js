@@ -159,8 +159,6 @@ db.once('open', async () => {
       createdBy: users[2]._id,
       photo: photos[1]._id,
     },
-
-
   ]);
 
   console.log('Comments seeded');
