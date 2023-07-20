@@ -49,3 +49,17 @@ export const ADD_USER = gql`
     }
   }
 `;
+
+export const UPLOAD_PHOTO = gql`
+  mutation uploadPhoto(
+    $uploadURL: Blob!
+    $description: String!
+    $photoName: String!
+  ) {
+    uploadPhoto(
+      uploadURL: $uploadURL
+      description: $description
+      photoName: $photoName
+    )
+  }
+`;

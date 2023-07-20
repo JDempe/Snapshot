@@ -80,7 +80,12 @@ type Session {
   login(email: String!, password: String!): Auth
   addOrder(products: [ProductInput]!): Order
   updateUser(username: String, email: String, password: String): User
-  addPhoto(url: String!, title: String!, description: String!): Photo
+  uploadPhoto(
+      uploadURL: String!
+      description: String
+      photoName: String
+    ): String
+  # addPhoto(url: String!, title: String!, description: String!): Photo
   addComment(photoId: ID!, content: String!): Comment
   addLike(photoId: ID!): Photo
   removeLike(photoId: ID!): Photo
