@@ -8,7 +8,7 @@ import {
   ADD_TO_CART,
   UPDATE_PHOTOS,
 } from '../utils/actions';
-import { QUERY_PHOTOS } from '../utils/queries';
+import { QUERY_ALL_PHOTOS } from '../utils/queries';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 import Rating from '@mui/material/Rating';
@@ -26,7 +26,7 @@ function Detail() {
 
   const [currentPhoto, setCurrentPhoto] = useState({});
 
-  const { loading, data } = useQuery(QUERY_PHOTOS);
+  const { loading, data } = useQuery(QUERY_ALL_PHOTOS);
 
   const { photos, cart } = state;
 
@@ -149,7 +149,7 @@ function Detail() {
               <p className="imageAuthor">
                 by{' '}
                 <Link style={{ color: '#549cf1', fontWeight: 'bold' }}>
-                  Image Author
+                  {/* <p>{createdBy.username}</p> */}
                 </Link>
               </p>
               <div className="imageDescription">
