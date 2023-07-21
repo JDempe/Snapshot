@@ -124,7 +124,7 @@ function Detail() {
               </div>
               <div className="iconColumn">
                 <OpenInFullIcon
-                  fontSize="inherit"
+                  fontSize="1.9rem"
                   color="inherit"
                   className="arrowLink"
                 />

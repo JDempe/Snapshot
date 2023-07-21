@@ -11,6 +11,10 @@ body {
   cursor: pointer;
 }
 
+.arrowLink:hover {
+  color: #ffffff;
+}
+
 .iconColumn {
   display: flex;
   flex-direction: column;
