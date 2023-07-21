@@ -2,20 +2,34 @@ body {
   padding-top: 4rem;
 }
 
+.arrowLink {
+  color: #ffffffd0;
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.backdrop {
+  background-color: #2e3547;
+  width: 100%;
+  padding: 15px 0 35px 0;
+}
+
+.backdropContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 92vw;
+  margin: 0 auto;
+}
+
 .contentContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: 0 1rem;
   margin: 0 auto;
-}
-
-.backdrop {
-  background-color: #2e3547;
-  width: 100vw;
-  min-height: 420px;
-  max-height: 900px;
-  padding: 20px 0 45px 0;
 }
 
 .imageContainer {

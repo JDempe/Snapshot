@@ -12,6 +12,8 @@ import { QUERY_PHOTOS } from '../utils/queries';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 import Rating from '@mui/material/Rating';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import Auth from '../utils/auth';
 
 import './Detail.scss';
@@ -105,12 +107,20 @@ function Detail() {
         <div className="my-1">
           <div className="backdrop">
             <Link to="/">← Return</Link>
-            <div className="imageContainer">
-              <img src={`${currentPhoto.url}`} alt={currentPhoto.title} />
+            <div class="backdropContainer">
+              <div className="arrowLink">
+                <ArrowBackIosNewIcon fontSize="inherit" color="inherit" />
+              </div>
+              <div className="imageContainer">
+                <img src={`${currentPhoto.url}`} alt={currentPhoto.title} />
+              </div>
+              <div className="arrowLink">
+                <ArrowForwardIosIcon fontSize="inherit" color="inherit" />
+              </div>
             </div>
           </div>
           <div className="contentContainer">
-            <div className=" my-1 imageInfo">
+            <div className="imageInfo">
               <img
                 src="https://www.seekpng.com/png/full/110-1100707_person-avatar-placeholder.png"
                 className="avatar"
