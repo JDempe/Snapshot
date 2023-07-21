@@ -31,10 +31,9 @@ export const QUERY_ALL_PHOTOS = gql`
       url
       title
       description
-      # createdBy {
-      #   _id
-      #   username
-      # }
+      createdBy {
+        _id
+      }
       likes
       #   comments {
       #     _id
@@ -63,6 +62,7 @@ export const QUERY_USER = gql`
     user {
       firstName
       lastName
+      username
       orders {
         _id
         purchaseDate

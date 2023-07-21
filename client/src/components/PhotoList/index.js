@@ -3,7 +3,7 @@ import ProductItem from '../ProductItem';
 import { useStoreContext } from '../../utils/GlobalState';
 import { UPDATE_PHOTOS } from '../../utils/actions';
 import { useQuery } from '@apollo/client';
-import { QUERY_ALL_PHOTOS } from '../../utils/queries';
+import { QUERY_ALL_PHOTOS, QUERY_USER } from '../../utils/queries';
 import { idbPromise } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
 import { Box } from '@mui/material';
@@ -15,6 +15,8 @@ function PhotoList() {
   const { currentCategory } = state;
 
   const { loading, data } = useQuery(QUERY_ALL_PHOTOS);
+
+  const { username } = useQuery(QUERY_USER);
 
   console.log(data);
   console.log(state);
@@ -57,8 +59,10 @@ function PhotoList() {
             <ProductItem
               key={photo._id}
               _id={photo._id}
-              image={photo.url}
-              name={photo.name}
+              url={photo.url}
+              title={photo.title}
+              description={photo.description}
+              createdBy={username}
             />
           ))}
         </Masonry>
