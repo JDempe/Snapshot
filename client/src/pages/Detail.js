@@ -12,6 +12,7 @@ import { QUERY_PRODUCTS } from '../utils/queries';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 import Rating from '@mui/material/Rating';
+import Auth from '../utils/auth';
 
 import './Detail.scss';
 
@@ -81,6 +82,22 @@ function Detail() {
 
     idbPromise('cart', 'delete', { ...currentProduct });
   };
+
+  function showCommentInput() {
+    if (Auth.loggedIn()) {
+      return (
+        <>
+          <div className="commentInput">Logged in</div>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <div className="commentInput">Not logged in</div>
+        </>
+      );
+    }
+  }
 
   return (
     <>
@@ -157,6 +174,7 @@ function Detail() {
                 </div>
               </div>
             </div>
+            <div>{showCommentInput()}</div>
           </div>
           <div className="otherPhotos">
             <hr style={{ width: '75%' }} />
