@@ -9,18 +9,11 @@ const resolvers = {
       return User.find();
     },
     user: async (parent, { _id }, context) => {
-      if (context.user) {
-        if(context.user._id === _id){
-            return User.findById(_id);
-        } else {
-            throw new AuthenticationError('Not authorized');
-        }
-      } else {
-          throw new AuthenticationError('Not logged in');
-      }
+      return User.findOne({ _id });
     },
     photos: async () => {
-      return Photo.find();
+      // do Photo.find() and then do another search for each createdBy _id to get username
+      return Photo.find().populate('createdBy');
     },
     photo: async (parent, { _id }) => {
       return Photo.findById(_id);
@@ -34,7 +27,7 @@ const resolvers = {
     },
     order: async (parent, { _id }, context) => {
       if (context.user) {
-        return await Order.findOne({ '_id': _id, 'user._id': context.user._id });
+        return await Order.findOne({ _id: _id, 'user._id': context.user._id });
       }
 
       throw new AuthenticationError('Not logged in');
@@ -56,7 +49,7 @@ const resolvers = {
         const product = await stripe.products.create({
           name: products[i].name,
           description: products[i].description,
-          images: [`${url}/images/${products[i].image}`]
+          images: [`${url}/images/${products[i].image}`],
         });
 
         const price = await stripe.prices.create({
@@ -67,7 +60,7 @@ const resolvers = {
 
         line_items.push({
           price: price.id,
-          quantity: 1
+          quantity: 1,
         });
       }
 
@@ -76,11 +69,11 @@ const resolvers = {
         line_items,
         mode: 'payment',
         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${url}/`
+        cancel_url: `${url}/`,
       });
 
       return { session: session.id };
-    }
+    },
   },
   Mutation: {
     addUser: async (parent, args) => {
@@ -137,14 +130,22 @@ const resolvers = {
     },
     addComment: async (parent, { photoId, content }, context) => {
       if (context.user) {
-        return await Comment.create({ photo: photoId, text: content, createdBy: context.user._id });
+        return await Comment.create({
+          photo: photoId,
+          text: content,
+          createdBy: context.user._id,
+        });
       }
-    
+
       throw new AuthenticationError('Not logged in');
     },
     updatePhoto: async (parent, { _id, ...args }, context) => {
       if (context.user) {
-        const photo = await Photo.findByIdAndUpdate(_id, { ...args }, { new: true });
+        const photo = await Photo.findByIdAndUpdate(
+          _id,
+          { ...args },
+          { new: true }
+        );
         return photo;
       }
 
@@ -152,7 +153,11 @@ const resolvers = {
     },
     updateComment: async (parent, { _id, ...args }, context) => {
       if (context.user) {
-        const comment = await Comment.findByIdAndUpdate(_id, { ...args }, { new: true });
+        const comment = await Comment.findByIdAndUpdate(
+          _id,
+          { ...args },
+          { new: true }
+        );
         return comment;
       }
 

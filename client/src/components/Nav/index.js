@@ -1,11 +1,14 @@
 import React from 'react';
 import Auth from '../../utils/auth';
-import { Link } from 'react-router-dom';
+import Cart from '../Cart';
+import { Link, useLocation, Outlet } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import './index.scss';
 
 function Nav() {
-  function showNavigation() {
+  const location = useLocation();
+
+  function showLoginOptions() {
     if (Auth.loggedIn()) {
       return (
         <ul className="flex-row">
@@ -23,9 +26,6 @@ function Nav() {
                 Log Out
               </Button>
             </a>
-          </li>
-          <li className="mx-1">
-            <Link to="/upload">Upload</Link>
           </li>
         </ul>
       );
@@ -49,25 +49,51 @@ function Nav() {
     }
   }
 
+  function showPersonalTab() {
+    // if logged in, show the Personal tab
+    if (Auth.loggedIn()) {
+      return (
+        <Link to="/personal">
+          <div className="linkText">Personal</div>
+        </Link>
+      );
+    }
+  }
+
+  function showUploadTab() {
+    // if logged in, show the Upload tab
+    if (Auth.loggedIn()) {
+      return (
+        <Link
+          // make the link go to /upload if it isnt, and navigate -1 if it isnt
+          to={location.pathname === '/upload' ? '/discover' : '/upload'}
+          state={{ previousLocation: location }}>
+          <div className="linkText">Upload</div>
+        </Link>
+      );
+    }
+  }
+
   return (
     <header className="flex-row">
       <div className="titleLinks">
-        <h1 className="websiteTitle">websiteTitle</h1>
+        <Link to="/">
+          <h1 className="websiteTitle">websiteTitle</h1>
+        </Link>
         <div className="verticalDivider"></div>
         <Link to="/discover">
           <div className="linkText">Discover</div>
         </Link>
-        <Link to="/upload">
-          <div className="linkText">Upload</div>
-        </Link>
-        <Link to="/personal">
-          <div className="linkText">Personal</div>
-        </Link>
+        {showPersonalTab()}
+        {showUploadTab()}
         <Link to="/ContactUs">
           <div className="linkText">ContactUs</div>
         </Link>
+        <Outlet />
       </div>
-      <nav>{showNavigation()}</nav>
+      <Cart />
+      <div>{showLoginOptions()}</div>
+
       <div className="rainbowContainer">
         <div
           className="rainbowDiv"
@@ -93,58 +119,5 @@ function Nav() {
     </header>
   );
 }
-
-// function Nav() {
-
-//   function showNavigation() {
-//     if (Auth.loggedIn()) {
-//       return (
-//         <ul className="flex-row">
-//           <li className="mx-1">
-//             <Link to="/orderHistory">
-//               Order History
-//             </Link>
-//           </li>
-//           <li className="mx-1">
-//             {/* this is not using the Link component to logout or user and then refresh the application to the start */}
-//             <a href="/" onClick={() => Auth.logout()}>
-//               Logout
-//             </a>
-//           </li>
-//         </ul>
-//       );
-//     } else {
-//       return (
-//         <ul className="flex-row">
-//           <li className="mx-1">
-//             <Link to="/signup">
-//               Signup
-//             </Link>
-//           </li>
-//           <li className="mx-1">
-//             <Link to="/login">
-//               Login
-//             </Link>
-//           </li>
-//         </ul>
-//       );
-//     }
-//   }
-
-//   return (
-//     <header className="flex-row px-1">
-//       <h1>
-//         <Link to="/">
-//           <span role="img" aria-label="shopping bag">🛍️</span>
-//           -Shop-Shop
-//         </Link>
-//       </h1>
-
-//       <nav>
-//         {showNavigation()}
-//       </nav>
-//     </header>
-//   );
-// }
 
 export default Nav;
