@@ -8,8 +8,16 @@ const resolvers = {
     users: async () => {
       return User.find();
     },
-    user: async (parent, { username }, context) => {
-      return User.findOne({ username });
+    user: async (parent, { _id }, context) => {
+      if (context.user) {
+        if(context.user._id === _id){
+            return User.findById(_id);
+        } else {
+            throw new AuthenticationError('Not authorized');
+        }
+      } else {
+          throw new AuthenticationError('Not logged in');
+      }
     },
     photos: async () => {
       return Photo.find();

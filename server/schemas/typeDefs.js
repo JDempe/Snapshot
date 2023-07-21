@@ -68,7 +68,7 @@ const typeDefs = gql`
   type Query {
     checkout(products: [ProductInput]!): Session
     users: [User]
-    user(username: String!): User
+    user(_id: ID!): User
     photos: [Photo]
     photo(_id: ID!): Photo
     orders: [Order]
