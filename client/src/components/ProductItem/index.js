@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useStoreContext } from '../../utils/GlobalState';
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from '../../utils/actions';
 import { idbPromise } from '../../utils/helpers';
+import './style.scss';
 
 function ProductItem(item) {
   const [state, dispatch] = useStoreContext();
@@ -33,11 +34,11 @@ function ProductItem(item) {
   };
 
   return (
-    <div className="card px-1 py-1">
+    <div className="card discover-photo">
       <Link to={`/products/${_id}`}>
         <img alt={title} src={`${url}`} />
       </Link>
-      <div className="createdBy">{`${createdBy}`}</div>
+      <div className="createdBy discover-photo-overlay">{`${createdBy}`}</div>
     </div>
   );
 }
