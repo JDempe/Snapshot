@@ -138,12 +138,14 @@ function Login(props) {
             style={{
               width: '100%',
               justifyContent: 'space-between',
-              marginLeft: '0',
+              margin: '0',
+              flexDirection: 'column',
             }}
           />
         </FormGroup>
 
         <h2>Login</h2>
+        <p>No account? Switch to sign up!</p>
         <form onSubmit={handleFormSubmit}>
           <div className="flex-row space-between my-2">
             <label htmlFor="email">Email address:</label>

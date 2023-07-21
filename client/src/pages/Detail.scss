@@ -1,0 +1,135 @@
+body {
+  padding-top: 4rem;
+}
+
+.contentContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1rem;
+  margin: 0 auto;
+}
+
+.backdrop {
+  background-color: #2e3547;
+  width: 100vw;
+  padding: 20px 0 45px 0;
+}
+
+.imageContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.imageInfo {
+  padding-top: 1rem;
+  width: 45vw;
+  position: relative;
+}
+
+.avatar {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+  position: absolute;
+  top: 30px;
+  left: -65px;
+  z-index: 1;
+}
+
+.imageTitleWrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.imageName {
+  font-family: 'Fira Sans', sans-serif;
+  font-weight: 600;
+  color: #2e3547;
+  margin-bottom: 0;
+}
+
+.imageAuthor {
+  font-family: 'Arial', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  margin-bottom: 0.1rem;
+}
+
+.imageDescription {
+  font-family: Calibri, sans-serif;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+}
+
+.purchaseContainer {
+  text-align: right;
+}
+
+.commentSection {
+  overflow: auto;
+  max-height: 40vw;
+  width: 50vw;
+}
+
+.commentText {
+  width: 40vw;
+  font-family: Calibri, sans-serif;
+  font-size: 1.2rem;
+  line-height: 1.6rem;
+  padding-left: 3.5rem;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  white-space: normal;
+}
+
+.commentContent {
+  width: 100%;
+  flex: 1;
+}
+
+.nameRating {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.commentOrientation {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 4rem;
+}
+
+.avatarCommentor {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  margin-right: 1rem;
+}
+
+.commentAuthor {
+  font-family: 'Arial', sans-serif;
+  font-weight: 400;
+  font-size: 1rem;
+  margin-bottom: 0.1rem;
+}
+
+.commentDate {
+  font-family: Arial, sans-serif;
+  font-size: 0.7rem;
+  padding-left: 3.5rem;
+  font-weight: bold;
+  color: #5c6271;
+}
+
+.otherPhotos {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1rem;
+  margin: 0 auto;
+}

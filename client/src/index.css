@@ -21,7 +21,7 @@ body {
 
 body {
   margin: 0;
-  padding-top: 7rem;
+  padding-top: 4rem;
   font-family: 'Karla', sans-serif;
   font-weight: 400;
   line-height: 1.5;
@@ -35,8 +35,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Rubik', sans-serif;
-  font-weight: 500;
+  font-family: 'Fira Sans', sans-serif;
   margin: 5px 0;
   line-height: 1.25;
 }
@@ -66,7 +65,7 @@ h6 {
 }
 
 p {
-  font-size: 1.1rem;
+  /* font-size: 1.1rem; */
   margin-top: 0;
 }
 
@@ -215,6 +214,13 @@ input:focus {
 
 .error-text {
   color: var(--error);
+}
+
+hr {
+  border: none;
+  height: 1px;
+  background-color: #6c676741;
+  margin: 20px 0;
 }
 
 @media screen and (max-width: 768px) {
