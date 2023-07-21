@@ -1,37 +1,61 @@
+.card.discover-photo {
+  line-height: 0px;
+  background-color: transparent;
+  border-radius: 15px;
+}
+
 .discover-photo {
   transition: all 0.2s ease-in-out;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
 .discover-photo img {
-  border-radius: 5px;
+  border-radius: 10px;
   transition: all 0.2s ease-in-out;
+}
+
+.discover-photo img:hover {
+  cursor: pointer;
 }
 
 .discover-photo:hover {
   transform: scale(1.015);
   transition: all 0.2s ease-in-out;
-  cursor: pointer;
-  filter: brightness(70%);
 }
 
-.discover-photo-overlay {
+.discover-photo-top-overlay {
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  background: linear-gradient(to bottom, #000000b3, transparent 70%);
+  transition: all 0.2s ease-in-out;
+  text-align: right;
+  padding: 20px 12px 60px 12px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.discover-photo-bottom-overlay {
   opacity: 0;
   position: fixed;
   bottom: 0;
   right: 0;
   width: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: linear-gradient(to top, #000000b3, transparent 70%);
   transition: all 0.2s ease-in-out;
   color: white;
   text-align: right;
-  padding: 12px;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
+  padding: 60px 12px 20px 12px;
+  margin-bottom: 0;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
 }
 
 // on .discover-photo hover, show the .discover-photo-overlay
-.discover-photo:hover .discover-photo-overlay {
+.discover-photo:hover .discover-photo-bottom-overlay,
+.discover-photo:hover .discover-photo-top-overlay {
   opacity: 1;
   transition: all 0.2s ease-in-out;
 }

@@ -8,6 +8,7 @@ import { idbPromise } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
 import { Box } from '@mui/material';
 import { Masonry } from '@mui/lab';
+import './index.scss';
 
 function PhotoList() {
   const [state, dispatch] = useStoreContext();
