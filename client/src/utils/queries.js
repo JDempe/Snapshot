@@ -32,7 +32,7 @@ export const QUERY_ALL_PHOTOS = gql`
       title
       description
       createdBy {
-        _id
+        username
       }
       likes
       #   comments {
@@ -58,23 +58,25 @@ export const QUERY_CATEGORIES = gql`
 `;
 
 export const QUERY_USER = gql`
-  {
-    user {
+  query GetUser($id: ID!) {
+    user(_id: $id) {
+      _id
+      username
+      email
       firstName
       lastName
-      username
-      orders {
-        _id
-        purchaseDate
-        products {
-          _id
-          name
-          description
-          price
-          quantity
-          image
-        }
-      }
+      # orders {
+      #   _id
+      #   purchaseDate
+      #   products {
+      #     _id
+      #     name
+      #     description
+      #     price
+      #     quantity
+      #     image
+      #   }
+      # }
     }
   }
 `;
