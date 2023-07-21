@@ -13,12 +13,19 @@ body {
 .backdrop {
   background-color: #2e3547;
   width: 100vw;
+  min-height: 420px;
+  max-height: 900px;
   padding: 20px 0 45px 0;
 }
 
 .imageContainer {
   display: flex;
   justify-content: center;
+}
+
+.imageContainer img {
+  max-width: 100%;
+  max-height: 535px;
 }
 
 .imageInfo {

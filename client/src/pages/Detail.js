@@ -116,7 +116,7 @@ function Detail() {
                 className="avatar"
               />
               <div className="imageTitleWrap">
-                <h2 className="imageName">{currentPhoto.name}</h2>
+                <h2 className="imageName">{currentPhoto.title}</h2>
                 <p style={{ paddingTop: '0.6rem', fontSize: '0.9rem' }}>
                   Uploaded: DATE
                 </p>
