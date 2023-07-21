@@ -4,9 +4,17 @@ body {
 
 .arrowLink {
   color: #ffffffd0;
-  font-size: 1.5rem;
+  font-size: 1.8rem;
   font-weight: bold;
   text-decoration: none;
+  margin-bottom: 13rem;
+  cursor: pointer;
+}
+
+.iconColumn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .backdrop {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { useStoreContext } from '../utils/GlobalState';
 import {
@@ -14,6 +14,8 @@ import spinner from '../assets/spinner.gif';
 import Rating from '@mui/material/Rating';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
+import WestIcon from '@mui/icons-material/West';
 import Auth from '../utils/auth';
 
 import './Detail.scss';
@@ -101,21 +103,34 @@ function Detail() {
     }
   }
 
+  const navigate = useNavigate();
+
   return (
     <>
       {currentPhoto && cart ? (
         <div className="my-1">
           <div className="backdrop">
-            <Link to="/">← Return</Link>
             <div class="backdropContainer">
-              <div className="arrowLink">
-                <ArrowBackIosNewIcon fontSize="inherit" color="inherit" />
+              <div className="iconColumn">
+                <Link onClick={() => navigate(-1)} className="arrowLink">
+                  <WestIcon fontSize="inherit" color="inherit" />
+                </Link>
+                <div className="arrowLink">
+                  <ArrowBackIosNewIcon fontSize="inherit" color="inherit" />
+                </div>
               </div>
               <div className="imageContainer">
                 <img src={`${currentPhoto.url}`} alt={currentPhoto.title} />
               </div>
-              <div className="arrowLink">
-                <ArrowForwardIosIcon fontSize="inherit" color="inherit" />
+              <div className="iconColumn">
+                <OpenInFullIcon
+                  fontSize="inherit"
+                  color="inherit"
+                  className="arrowLink"
+                />
+                <div className="arrowLink">
+                  <ArrowForwardIosIcon fontSize="inherit" color="inherit" />
+                </div>
               </div>
             </div>
           </div>
