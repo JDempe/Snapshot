@@ -9,10 +9,6 @@ import spinner from '../../assets/spinner.gif';
 import { Box } from '@mui/material';
 import { Masonry } from '@mui/lab';
 
-const heights = [
-  150, 30, 90, 70, 110, 150, 130, 80, 50, 90, 100, 150, 30, 50, 80,
-];
-
 function PhotoList() {
   const [state, dispatch] = useStoreContext();
 
@@ -63,7 +59,6 @@ function PhotoList() {
               _id={photo._id}
               image={photo.url}
               name={photo.name}
-              height={heights[i % heights.length]}
             />
           ))}
         </Masonry>
