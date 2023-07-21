@@ -86,7 +86,21 @@ const Cart = () => {
           <div className="flex-row space-between">
             <strong>Total: ${calculateTotal()}</strong>
 
-            {Auth.loggedIn() ? (
+            <div>
+              <button onClick={submitCheckout}>Checkout</button>
+              {!Auth.loggedIn() && (
+                <p>
+                  <Link
+                    to="/login"
+                    className="checkout-link"
+                    style={{ color: '#000' }}>
+                    (Log in to check out)
+                  </Link>
+                </p>
+              )}
+            </div>
+
+            {/* {Auth.loggedIn() ? (
               <button onClick={submitCheckout}>Checkout</button>
             ) : (
               <Link
@@ -95,7 +109,7 @@ const Cart = () => {
                 style={{ color: '#000' }}>
                 (log in to check out)
               </Link>
-            )}
+            )} */}
           </div>
         </div>
       ) : (
