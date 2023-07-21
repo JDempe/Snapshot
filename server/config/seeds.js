@@ -93,7 +93,7 @@ db.once('open', async () => {
       likes: 0,
     },
     {
-      url: 'https://images.unsplash.com/photo-1444080748397-f442aa95c3e5',
+      url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1689922435/istockphoto-1138389252-612x612_ivufb8.jpg',
       title: 'City in Night',
       description: 'Night view of a bustling city from the top.',
       createdBy: users[Math.floor(Math.random() * users.length)]._id,
