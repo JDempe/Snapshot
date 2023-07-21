@@ -62,7 +62,7 @@ function PhotoList() {
               url={photo.url}
               title={photo.title}
               description={photo.description}
-              createdBy={username}
+              createdBy={photo.createdBy.username}
             />
           ))}
         </Masonry>

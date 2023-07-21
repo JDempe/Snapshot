@@ -32,7 +32,7 @@ export const QUERY_ALL_PHOTOS = gql`
       title
       description
       createdBy {
-        _id
+        username
       }
       likes
       #   comments {

@@ -12,7 +12,8 @@ const resolvers = {
       return User.findOne({ _id });
     },
     photos: async () => {
-      return Photo.find();
+      // do Photo.find() and then do another search for each createdBy _id to get username
+      return Photo.find().populate('createdBy');
     },
     photo: async (parent, { _id }) => {
       return Photo.findById(_id);
