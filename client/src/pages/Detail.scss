@@ -159,9 +159,21 @@ body {
 }
 
 .commentInput {
-  max-width: 50vw;
-  min-width: 50vw;
+  width: 50vw;
+  resize: vertical;
   min-height: 15vh;
+  max-height: 50vh;
+  font-size: 1.2rem;
+  color: #393f50;
+  border: #00000044 1px solid;
+  border-radius: 6px 6px 1px 6px;
+  font-family: 'Fira Sans', sans-serif;
+  background-color: #ffffffe7;
+}
+
+.commentInput:focus {
+  box-shadow: 0 0 1.5px #549cf1;
+  outline: none;
 }
 
 .commentText {

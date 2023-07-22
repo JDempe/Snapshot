@@ -142,13 +142,15 @@ function Detail() {
     if (Auth.loggedIn()) {
       return (
         <>
-          <form>
-            <textarea
-              className="commentInput"
-              placeholder="Enter your comment..."
-            />
-            <button type="submit">Submit</button>
-          </form>
+          <div>
+            <form>
+              <textarea
+                className="commentInput"
+                placeholder="Enter your comment..."
+              />
+              <button type="submit">Submit</button>
+            </form>
+          </div>
         </>
       );
     } else {
