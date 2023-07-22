@@ -47,8 +47,9 @@ const typeDefs = gql`
   }
 
   type Checkout {
-    session: ID
-  }
+    id: ID!
+    status: String
+}
 
   type Auth {
     token: ID
@@ -65,7 +66,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    checkout(products: [ProductInput]!): Session
+    checkout(products: [ID]!): Checkout
     users: [User]
     user(_id: ID!): User
     photos: [Photo]
