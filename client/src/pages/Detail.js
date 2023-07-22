@@ -149,7 +149,7 @@ function Detail() {
               <p className="imageAuthor">
                 by{' '}
                 <Link style={{ color: '#549cf1', fontWeight: 'bold' }}>
-                  {/* <p>{createdBy.username}</p> */}
+                  {/* <p>{currentPhoto.createdBy.username}</p> */}
                 </Link>
               </p>
               <div className="imageDescription">
