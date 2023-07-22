@@ -156,7 +156,7 @@ function Detail() {
     } else {
       return (
         <>
-          <div className="commentInput">Log in to comment</div>
+          <h4 style={{ textAlign: 'center' }}>Log in to comment</h4>
         </>
       );
     }
