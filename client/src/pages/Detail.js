@@ -16,6 +16,8 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import WestIcon from '@mui/icons-material/West';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import Auth from '../utils/auth';
 
 import './Detail.scss';
@@ -103,12 +105,25 @@ function Detail() {
     }
   }
 
+  // return to previous screen button
   const navigate = useNavigate();
 
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const toggleFullscreen = () => {
     setIsFullscreen(!isFullscreen);
+  };
+
+  // random photo navigation
+  const photoIds = data ? data.photos.map((photo) => photo._id) : [];
+
+  const navigateToRandomPhoto = () => {
+    if (photoIds.length === 0) {
+      return;
+    }
+    const randomPhotoId = photoIds[Math.floor(Math.random() * photoIds.length)];
+
+    navigate(`/products/${randomPhotoId}`);
   };
 
   useEffect(() => {
@@ -153,7 +168,11 @@ function Detail() {
                 </Link>
                 <div
                   className={`arrowLink ${isFullscreen ? 'hideElement' : ''}`}>
-                  <ArrowBackIosNewIcon fontSize="inherit" color="inherit" />
+                  <ArrowBackIosNewIcon
+                    fontSize="inherit"
+                    color="inherit"
+                    onClick={() => navigateToRandomPhoto()}
+                  />
                 </div>
               </div>
               <div
@@ -173,7 +192,11 @@ function Detail() {
                 )}
                 <div
                   className={`arrowLink ${isFullscreen ? 'hideElement' : ''}`}>
-                  <ArrowForwardIosIcon fontSize="inherit" color="inherit" />
+                  <ArrowForwardIosIcon
+                    fontSize="inherit"
+                    color="inherit"
+                    onClick={() => navigateToRandomPhoto()}
+                  />
                 </div>
               </div>
             </div>
@@ -186,9 +209,13 @@ function Detail() {
               />
               <div className="imageTitleWrap">
                 <h2 className="imageName">{currentPhoto.title}</h2>
-                <p style={{ paddingTop: '0.6rem', fontSize: '0.9rem' }}>
-                  Uploaded: DATE
-                </p>
+                <div className="socialContainer">
+                  <div className="socialText">{currentPhoto.likes}</div>
+                  <FavoriteBorderIcon
+                    style={{ fontSize: '2rem' }}
+                    color="inherit"
+                  />
+                </div>
               </div>
               <p className="imageAuthor">
                 by{' '}
@@ -199,14 +226,17 @@ function Detail() {
               <div className="imageDescription">
                 <p>{currentPhoto.description}</p>
               </div>
-              <div className=" my-1 purchaseContainer">
-                <strong>Price:</strong>${currentPhoto.price}{' '}
-                <button onClick={addToCart}>Add to Cart</button>
-                <button
-                  disabled={!cart.find((p) => p._id === currentPhoto._id)}
-                  onClick={removeFromCart}>
-                  Remove from Cart
-                </button>
+              <div className="bottomRow">
+                <p>Uploaded: DATE</p>
+                <div className=" my-1 purchaseContainer">
+                  <strong>Price:</strong>${currentPhoto.price}{' '}
+                  <button onClick={addToCart}>Add to Cart</button>
+                  <button
+                    disabled={!cart.find((p) => p._id === currentPhoto._id)}
+                    onClick={removeFromCart}>
+                    Remove from Cart
+                  </button>
+                </div>
               </div>
             </div>
             <div className="commentSection">

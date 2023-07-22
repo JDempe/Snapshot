@@ -41,6 +41,7 @@ body {
   background-color: #2e3547;
   width: 100%;
   padding: 15px 0 35px 0;
+  height: 575px;
   max-height: 575px;
 }
 
@@ -102,6 +103,16 @@ body {
   z-index: 1;
 }
 
+.socialContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: right;
+}
+
+.socialText {
+  font-size: 1.3rem;
+}
+
 .imageTitleWrap {
   display: flex;
   justify-content: space-between;
@@ -128,8 +139,16 @@ body {
   line-height: 1.6rem;
 }
 
+.bottomRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 45vw;
+  margin-top: 1rem;
+}
+
 .purchaseContainer {
-  text-align: right;
 }
 
 .commentSection {
