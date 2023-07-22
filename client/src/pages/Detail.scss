@@ -41,6 +41,7 @@ body {
   background-color: #2e3547;
   width: 100%;
   padding: 15px 0 35px 0;
+  height: 575px;
   max-height: 575px;
 }
 
@@ -102,6 +103,17 @@ body {
   z-index: 1;
 }
 
+.socialContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: right;
+}
+
+.socialText {
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
 .imageTitleWrap {
   display: flex;
   justify-content: space-between;
@@ -128,14 +140,40 @@ body {
   line-height: 1.6rem;
 }
 
+.bottomRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 45vw;
+  margin-top: 1rem;
+}
+
 .purchaseContainer {
-  text-align: right;
 }
 
 .commentSection {
   overflow: auto;
   max-height: 40vw;
   width: 50vw;
+}
+
+.commentInput {
+  width: 50vw;
+  resize: vertical;
+  min-height: 15vh;
+  max-height: 50vh;
+  font-size: 1.2rem;
+  color: #393f50;
+  border: #00000044 1px solid;
+  border-radius: 6px 6px 1px 6px;
+  font-family: 'Fira Sans', sans-serif;
+  background-color: #ffffffe7;
+}
+
+.commentInput:focus {
+  box-shadow: 0 0 1.5px #549cf1;
+  outline: none;
 }
 
 .commentText {
@@ -196,4 +234,44 @@ body {
   align-items: center;
   padding: 0 1rem;
   margin: 0 auto;
+}
+
+.otherPhotosContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.otherPhotoBarrier {
+  padding: 0 9px 30px 9px;
+}
+
+.otherPhoto img {
+  max-height: 230px;
+  height: auto;
+  width: auto;
+  border-radius: 10px;
+}
+
+.otherPhoto {
+  transition: all 0.2s ease-in-out;
+  height: 230px;
+  border-radius: 10px;
+}
+
+.otherPhoto img {
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+.otherPhoto img:hover {
+  cursor: pointer;
+}
+
+.otherPhoto:hover {
+  transform: scale(1.015);
+  transition: all 0.2s ease-in-out;
 }

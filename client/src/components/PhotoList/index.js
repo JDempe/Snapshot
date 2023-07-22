@@ -59,6 +59,7 @@ function PhotoList() {
               title={photo.title}
               description={photo.description}
               createdBy={photo.createdBy.username}
+              likes={photo.likes}
             />
           ))}
         </Masonry>

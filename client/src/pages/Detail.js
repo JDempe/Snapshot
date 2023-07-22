@@ -16,6 +16,8 @@ import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import WestIcon from '@mui/icons-material/West';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 import Auth from '../utils/auth';
 
 import './Detail.scss';
@@ -29,6 +31,16 @@ function Detail() {
   const { loading, data } = useQuery(QUERY_ALL_PHOTOS);
 
   const { photos, cart } = state;
+
+  // displaying other photos at bottom of page
+  const otherPhotosLimit = 4;
+  const otherPhotos = data
+    ? data.photos.filter((photo) => photo._id !== id).slice(0, otherPhotosLimit)
+    : [];
+
+  const navigateOtherPhoto = (photoId) => {
+    navigate(`/products/${photoId}`);
+  };
 
   useEffect(() => {
     // already in global store
@@ -87,29 +99,88 @@ function Detail() {
     idbPromise('cart', 'delete', { ...currentPhoto });
   };
 
-  function showCommentInput() {
+  // function commentBox() {
+  //   const [comment, setComment] = useState('');
+
+  //   const handleInputChange = (event) => {
+  //     setComment(event.target.value);
+  //   };
+
+  //   const handleSubmit = (event) => {
+  //     event.preventDefault();
+  //     console.log('Submitted comment:', comment);
+  //     setComment('');
+  //   };
+
+  // const showCommentInput = () => {
+  //   if (Auth.loggedIn()) {
+  //     return (
+  //       <>
+  //         <form onSubmit={handleSubmit}>
+  //           <textarea
+  //             rows="4"
+  //             cols="50"
+  //             placeholder="Enter your comment..."
+  //             value={comment}
+  //             onChange={handleInputChange}
+  //           />
+  //           <button type="submit">Submit</button>
+  //         </form>
+  //       </>
+  //     );
+  //   } else {
+  //     return (
+  //       <>
+  //         <div className="commentInput">Log in to comment</div>
+  //       </>
+  //     );
+  //   }
+
+  // };
+
+  const showCommentInput = () => {
     if (Auth.loggedIn()) {
       return (
         <>
-          <div className="commentInput">Logged in</div>
+          <div>
+            <form>
+              <textarea
+                className="commentInput"
+                placeholder="Enter your comment..."
+              />
+              <button type="submit">Submit</button>
+            </form>
+          </div>
         </>
       );
     } else {
       return (
         <>
-          <div className="commentInput">Not logged in</div>
+          <h4 style={{ textAlign: 'center' }}>Log in to comment</h4>
         </>
       );
     }
-  }
+  };
 
   const navigate = useNavigate();
-
-  const [isFullscreen, setIsFullscreen] = useState(false);
 
   const toggleFullscreen = () => {
     setIsFullscreen(!isFullscreen);
   };
+
+  // random photo navigation
+  const photoIds = data ? data.photos.map((photo) => photo._id) : [];
+
+  const navigateToRandomPhoto = () => {
+    if (photoIds.length === 0) {
+      return;
+    }
+    const randomPhotoId = photoIds[Math.floor(Math.random() * photoIds.length)];
+
+    navigate(`/products/${randomPhotoId}`);
+  };
+
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
   useEffect(() => {
     const closeFullscreen = () => {
@@ -147,13 +218,17 @@ function Detail() {
             <div className="backdropContainer">
               <div className="iconColumn">
                 <Link
-                  onClick={() => navigate(-1)}
+                  to="/"
                   className={`arrowLink ${isFullscreen ? 'hideElement' : ''}`}>
                   <WestIcon fontSize="inherit" color="inherit" />
                 </Link>
                 <div
                   className={`arrowLink ${isFullscreen ? 'hideElement' : ''}`}>
-                  <ArrowBackIosNewIcon fontSize="inherit" color="inherit" />
+                  <ArrowBackIosNewIcon
+                    fontSize="inherit"
+                    color="inherit"
+                    onClick={() => navigateToRandomPhoto()}
+                  />
                 </div>
               </div>
               <div
@@ -173,7 +248,11 @@ function Detail() {
                 )}
                 <div
                   className={`arrowLink ${isFullscreen ? 'hideElement' : ''}`}>
-                  <ArrowForwardIosIcon fontSize="inherit" color="inherit" />
+                  <ArrowForwardIosIcon
+                    fontSize="inherit"
+                    color="inherit"
+                    onClick={() => navigateToRandomPhoto()}
+                  />
                 </div>
               </div>
             </div>
@@ -186,9 +265,13 @@ function Detail() {
               />
               <div className="imageTitleWrap">
                 <h2 className="imageName">{currentPhoto.title}</h2>
-                <p style={{ paddingTop: '0.6rem', fontSize: '0.9rem' }}>
-                  Uploaded: DATE
-                </p>
+                <div className="socialContainer">
+                  <div className="socialText">{currentPhoto.likes}</div>
+                  <FavoriteBorderIcon
+                    style={{ fontSize: '2rem' }}
+                    color="inherit"
+                  />
+                </div>
               </div>
               <p className="imageAuthor">
                 by{' '}
@@ -199,18 +282,22 @@ function Detail() {
               <div className="imageDescription">
                 <p>{currentPhoto.description}</p>
               </div>
-              <div className=" my-1 purchaseContainer">
-                <strong>Price:</strong>${currentPhoto.price}{' '}
-                <button onClick={addToCart}>Add to Cart</button>
-                <button
-                  disabled={!cart.find((p) => p._id === currentPhoto._id)}
-                  onClick={removeFromCart}>
-                  Remove from Cart
-                </button>
+              <div className="bottomRow">
+                <div>Uploaded: DATE</div>
+                <div className=" my-1 purchaseContainer">
+                  <strong>Price:</strong>${currentPhoto.price}{' '}
+                  <button onClick={addToCart}>Add to Cart</button>
+                  <button
+                    disabled={!cart.find((p) => p._id === currentPhoto._id)}
+                    onClick={removeFromCart}>
+                    Remove from Cart
+                  </button>
+                </div>
               </div>
             </div>
             <div className="commentSection">
               <hr />
+              <div>{showCommentInput()}</div>
               <h5 style={{ marginBottom: '1.2rem' }}>#VALUE comments</h5>
               <div className="comment">
                 <div className="commentOrientation">
@@ -240,12 +327,30 @@ function Detail() {
                 </div>
               </div>
             </div>
-            <div>{showCommentInput()}</div>
           </div>
-          <div className="otherPhotos">
-            <hr style={{ width: '75%' }} />
-            <h5>Check out these other photos</h5>
-          </div>
+          {otherPhotos.length > 0 && (
+            <div className="otherPhotos">
+              <hr style={{ width: '75%' }} />
+              <h5 style={{ padding: '1rem 0 1.1rem 0' }}>
+                Check out these other photos
+              </h5>
+              <div className="otherPhotosContainer">
+                {otherPhotos.map((photo) => (
+                  <div className="otherPhotoBarrier">
+                    <div className="otherPhoto">
+                      <img
+                        key={photo._id}
+                        src={photo.url}
+                        alt={photo.title}
+                        className="otherPhoto"
+                        onClick={() => navigateOtherPhoto(photo._id)}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       ) : null}
       {loading ? <img src={spinner} alt="loading" /> : null}
@@ -254,105 +359,3 @@ function Detail() {
 }
 
 export default Detail;
-
-// function Detail() {
-//   const [state, dispatch] = useStoreContext();
-//   const { id } = useParams();
-
-//   const [currentProduct, setCurrentProduct] = useState({});
-
-//   const { loading, data } = useQuery(QUERY_PRODUCTS);
-
-//   const { products, cart } = state;
-
-//   useEffect(() => {
-//     // already in global store
-//     if (products.length) {
-//       setCurrentProduct(products.find((product) => product._id === id));
-//     }
-//     // retrieved from server
-//     else if (data) {
-//       dispatch({
-//         type: UPDATE_PRODUCTS,
-//         products: data.products,
-//       });
-
-//       data.products.forEach((product) => {
-//         idbPromise('products', 'put', product);
-//       });
-//     }
-//     // get cache from idb
-//     else if (!loading) {
-//       idbPromise('products', 'get').then((indexedProducts) => {
-//         dispatch({
-//           type: UPDATE_PRODUCTS,
-//           products: indexedProducts,
-//         });
-//       });
-//     }
-//   }, [products, data, loading, dispatch, id]);
-
-//   const addToCart = () => {
-//     const itemInCart = cart.find((cartItem) => cartItem._id === id);
-//     if (itemInCart) {
-//       dispatch({
-//         type: UPDATE_CART_QUANTITY,
-//         _id: id,
-//         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-//       });
-//       idbPromise('cart', 'put', {
-//         ...itemInCart,
-//         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-//       });
-//     } else {
-//       dispatch({
-//         type: ADD_TO_CART,
-//         product: { ...currentProduct, purchaseQuantity: 1 },
-//       });
-//       idbPromise('cart', 'put', { ...currentProduct, purchaseQuantity: 1 });
-//     }
-//   };
-
-//   const removeFromCart = () => {
-//     dispatch({
-//       type: REMOVE_FROM_CART,
-//       _id: currentProduct._id,
-//     });
-
-//     idbPromise('cart', 'delete', { ...currentProduct });
-//   };
-
-//   return (
-//     <>
-//       {currentProduct && cart ? (
-//         <div className="container my-1">
-//           <Link to="/">← Back to Products</Link>
-
-//           <h2>{currentProduct.name}</h2>
-
-//           <p>{currentProduct.description}</p>
-
-//           <p>
-//             <strong>Price:</strong>${currentProduct.price}{' '}
-//             <button onClick={addToCart}>Add to Cart</button>
-//             <button
-//               disabled={!cart.find((p) => p._id === currentProduct._id)}
-//               onClick={removeFromCart}
-//             >
-//               Remove from Cart
-//             </button>
-//           </p>
-
-//           <img
-//             src={`/images/${currentProduct.image}`}
-//             alt={currentProduct.name}
-//           />
-//         </div>
-//       ) : null}
-//       {loading ? <img src={spinner} alt="loading" /> : null}
-//       <Cart />
-//     </>
-//   );
-// }
-
-// export default Detail;
