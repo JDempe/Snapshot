@@ -18,9 +18,10 @@ export const ADD_ORDER = gql`
       products {
         photo {
           _id
-          url
           title
           description
+          price
+          name
           createdBy {
             _id
             username
