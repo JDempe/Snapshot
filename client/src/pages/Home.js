@@ -1,12 +1,10 @@
 import React from 'react';
-import ProductList from '../components/ProductList';
-import CategoryMenu from '../components/CategoryMenu';
+import PhotoList from '../components/PhotoList';
 
 const Home = () => {
   return (
-    <div className="container">
-      <CategoryMenu />
-      <ProductList />
+    <div className="container" sx={{ width: 1 }}>
+      <PhotoList />
     </div>
   );
 };

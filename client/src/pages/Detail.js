@@ -1,17 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { useStoreContext } from '../utils/GlobalState';
 import {
   REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
   ADD_TO_CART,
-  UPDATE_PRODUCTS,
+  UPDATE_PHOTOS,
 } from '../utils/actions';
-import { QUERY_PRODUCTS } from '../utils/queries';
+import { QUERY_ALL_PHOTOS, QUERY_USER } from '../utils/queries';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 import Rating from '@mui/material/Rating';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
+import WestIcon from '@mui/icons-material/West';
+import Auth from '../utils/auth';
 
 import './Detail.scss';
 
@@ -19,38 +24,38 @@ function Detail() {
   const [state, dispatch] = useStoreContext();
   const { id } = useParams();
 
-  const [currentProduct, setCurrentProduct] = useState({});
+  const [currentPhoto, setCurrentPhoto] = useState({});
 
-  const { loading, data } = useQuery(QUERY_PRODUCTS);
+  const { loading, data } = useQuery(QUERY_ALL_PHOTOS);
 
-  const { products, cart } = state;
+  const { photos, cart } = state;
 
   useEffect(() => {
     // already in global store
-    if (products.length) {
-      setCurrentProduct(products.find((product) => product._id === id));
+    if (photos.length) {
+      setCurrentPhoto(photos.find((photos) => photos._id === id));
     }
     // retrieved from server
     else if (data) {
       dispatch({
-        type: UPDATE_PRODUCTS,
-        products: data.products,
+        type: UPDATE_PHOTOS,
+        photos: data.photos,
       });
 
-      data.products.forEach((product) => {
-        idbPromise('products', 'put', product);
+      data.photos.forEach((photo) => {
+        idbPromise('photos', 'put', photo);
       });
     }
     // get cache from idb
     else if (!loading) {
-      idbPromise('products', 'get').then((indexedProducts) => {
+      idbPromise('photos', 'get').then((indexedPhotos) => {
         dispatch({
-          type: UPDATE_PRODUCTS,
-          products: indexedProducts,
+          type: UPDATE_PHOTOS,
+          photos: indexedPhotos,
         });
       });
     }
-  }, [products, data, loading, dispatch, id]);
+  }, [photos, data, loading, dispatch, id]);
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === id);
@@ -67,42 +72,120 @@ function Detail() {
     } else {
       dispatch({
         type: ADD_TO_CART,
-        product: { ...currentProduct, purchaseQuantity: 1 },
+        photo: { ...currentPhoto, purchaseQuantity: 1 },
       });
-      idbPromise('cart', 'put', { ...currentProduct, purchaseQuantity: 1 });
+      idbPromise('cart', 'put', { ...currentPhoto, purchaseQuantity: 1 });
     }
   };
 
   const removeFromCart = () => {
     dispatch({
       type: REMOVE_FROM_CART,
-      _id: currentProduct._id,
+      _id: currentPhoto._id,
     });
 
-    idbPromise('cart', 'delete', { ...currentProduct });
+    idbPromise('cart', 'delete', { ...currentPhoto });
   };
+
+  function showCommentInput() {
+    if (Auth.loggedIn()) {
+      return (
+        <>
+          <div className="commentInput">Logged in</div>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <div className="commentInput">Not logged in</div>
+        </>
+      );
+    }
+  }
+
+  const navigate = useNavigate();
+
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
+  };
+
+  useEffect(() => {
+    const closeFullscreen = () => {
+      setIsFullscreen(false);
+    };
+
+    if (isFullscreen) {
+      const darkOverlayDiv = document.createElement('div');
+      darkOverlayDiv.classList.add('darkOverlay');
+
+      darkOverlayDiv.addEventListener('click', closeFullscreen);
+
+      document.body.insertAdjacentElement('afterend', darkOverlayDiv);
+    } else {
+      const darkOverlayDiv = document.querySelector('.darkOverlay');
+      if (darkOverlayDiv) {
+        darkOverlayDiv.remove();
+      }
+    }
+
+    return () => {
+      const darkOverlayDiv = document.querySelector('.darkOverlay');
+      if (darkOverlayDiv) {
+        darkOverlayDiv.removeEventListener('click', closeFullscreen);
+        darkOverlayDiv.remove();
+      }
+    };
+  }, [isFullscreen]);
 
   return (
     <>
-      {currentProduct && cart ? (
+      {currentPhoto && cart ? (
         <div className="my-1">
           <div className="backdrop">
-            <Link to="/">← Return</Link>
-            <div className="imageContainer">
-              <img
-                src={`/images/${currentProduct.image}`}
-                alt={currentProduct.name}
-              />
+            <div class="backdropContainer">
+              <div className="iconColumn">
+                <Link
+                  onClick={() => navigate(-1)}
+                  className={`arrowLink ${isFullscreen ? 'hideElement' : ''}`}>
+                  <WestIcon fontSize="inherit" color="inherit" />
+                </Link>
+                <div
+                  className={`arrowLink ${isFullscreen ? 'hideElement' : ''}`}>
+                  <ArrowBackIosNewIcon fontSize="inherit" color="inherit" />
+                </div>
+              </div>
+              <div
+                className={`imageContainer ${
+                  isFullscreen ? 'fullscreenImage' : ''
+                }`}>
+                <img src={`${currentPhoto.url}`} alt={currentPhoto.title} />
+              </div>
+              <div className="iconColumn">
+                {!isFullscreen && (
+                  <OpenInFullIcon
+                    fontSize="1.9rem"
+                    color="inherit"
+                    onClick={toggleFullscreen}
+                    className={`arrowLink`}
+                  />
+                )}
+                <div
+                  className={`arrowLink ${isFullscreen ? 'hideElement' : ''}`}>
+                  <ArrowForwardIosIcon fontSize="inherit" color="inherit" />
+                </div>
+              </div>
             </div>
           </div>
           <div className="contentContainer">
-            <div className=" my-1 imageInfo">
+            <div className="imageInfo">
               <img
                 src="https://www.seekpng.com/png/full/110-1100707_person-avatar-placeholder.png"
                 className="avatar"
               />
               <div className="imageTitleWrap">
-                <h2 className="imageName">{currentProduct.name}</h2>
+                <h2 className="imageName">{currentPhoto.title}</h2>
                 <p style={{ paddingTop: '0.6rem', fontSize: '0.9rem' }}>
                   Uploaded: DATE
                 </p>
@@ -110,17 +193,17 @@ function Detail() {
               <p className="imageAuthor">
                 by{' '}
                 <Link style={{ color: '#549cf1', fontWeight: 'bold' }}>
-                  Image Author
+                  {/* <p>{currentPhoto.createdBy.username}</p> */}
                 </Link>
               </p>
               <div className="imageDescription">
-                <p>{currentProduct.description}</p>
+                <p>{currentPhoto.description}</p>
               </div>
               <div className=" my-1 purchaseContainer">
-                <strong>Price:</strong>${currentProduct.price}{' '}
+                <strong>Price:</strong>${currentPhoto.price}{' '}
                 <button onClick={addToCart}>Add to Cart</button>
                 <button
-                  disabled={!cart.find((p) => p._id === currentProduct._id)}
+                  disabled={!cart.find((p) => p._id === currentPhoto._id)}
                   onClick={removeFromCart}>
                   Remove from Cart
                 </button>
@@ -157,6 +240,7 @@ function Detail() {
                 </div>
               </div>
             </div>
+            <div>{showCommentInput()}</div>
           </div>
           <div className="otherPhotos">
             <hr style={{ width: '75%' }} />

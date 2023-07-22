@@ -9,7 +9,8 @@ import { useStoreContext } from '../../utils/GlobalState';
 import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from '../../utils/actions';
 import './style.css';
 import { Link } from 'react-router-dom';
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClose, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const Cart = () => {
@@ -34,6 +35,43 @@ const Cart = () => {
       getCart();
     }
   }, [state.cart.length, dispatch]);
+
+  useEffect(() => {
+    let cartCloseTimer = null;
+
+    function handleMouseMovement() {
+      // Reset the timer whenever there is mouse movement inside the cart
+      clearTimeout(cartCloseTimer);
+      cartCloseTimer = null;
+    }
+
+    function handleMouseClickOutside(event) {
+      const cartElement = document.querySelector('.cart');
+
+      if (!cartElement.contains(event.target)) {
+        // If the click is outside the cart, close it
+        toggleCart();
+      }
+    }
+
+    if (state.cartOpen) {
+      // Start the timer when the cart is open
+      cartCloseTimer = setTimeout(() => {
+        toggleCart();
+      }, 15000);
+    }
+
+    window.addEventListener('mousemove', handleMouseMovement);
+    window.addEventListener('click', handleMouseClickOutside);
+
+    // Cleanup event listeners and timer when the component unmounts
+    return () => {
+      clearTimeout(cartCloseTimer);
+      cartCloseTimer = null;
+      window.removeEventListener('mousemove', handleMouseMovement);
+      window.removeEventListener('click', handleMouseClickOutside);
+    };
+  }, [state.cartOpen, toggleCart]);
 
   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
@@ -74,7 +112,16 @@ const Cart = () => {
   return (
     <div className="cart">
       <div className="close" onClick={toggleCart}>
-        [close]
+        <FontAwesomeIcon
+          icon={faClose}
+          color="#EFD81D"
+          style={{
+            height: '7%',
+            width: '7%',
+            position: 'relative',
+            right: '-92%',
+          }}
+        />
       </div>
       <h2>Shopping Cart</h2>
       {state.cart.length ? (
@@ -113,12 +160,15 @@ const Cart = () => {
           </div>
         </div>
       ) : (
-        <h3>
-          <span role="img" aria-label="shocked">
-            😱
-          </span>
-          You haven't added anything to your cart yet!
-        </h3>
+        <h5 style={{ color: 'gray', marginLeft: '3%' }}>
+          {' '}
+          <FontAwesomeIcon
+            icon={faCartPlus}
+            color="#EFD81D"
+            style={{ height: '7%', width: '7%' }}
+          />
+          &nbsp;&nbsp;Your Shopping Cart is Empty...
+        </h5>
       )}
     </div>
   );

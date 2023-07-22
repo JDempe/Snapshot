@@ -2,7 +2,7 @@ const { gql } = require('apollo-server-express');
 
 const typeDefs = gql`
   type User {
-    _id: ID
+    _id: ID!
     username: String
     firstName: String
     lastName: String
@@ -21,7 +21,6 @@ const typeDefs = gql`
     title: String
     description: String
     createdBy: User
-    sizes: [Size]
     likes: Int
     comments: [Comment]
   }
@@ -68,7 +67,7 @@ const typeDefs = gql`
   type Query {
     checkout(products: [ProductInput]!): Session
     users: [User]
-    user(username: String!): User
+    user(_id: ID!): User
     photos: [Photo]
     photo(_id: ID!): Photo
     orders: [Order]

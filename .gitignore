@@ -9,6 +9,7 @@
 !.vscode/extensions.json
 !.vscode/*.code-snippets
 .dependencygraph/
+.husky/
 
 # Local History for Visual Studio Code
 .history/

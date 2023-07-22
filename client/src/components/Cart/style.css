@@ -1,7 +1,7 @@
 .cart {
   position: fixed;
-  top: 0;
-  right: 0;
+  top: 9%;
+  right: 2%;
   min-width: 20%;
   max-width: 30%;
   max-height: 60%;
@@ -21,8 +21,8 @@
 
 .cart .close {
   position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
+  top: 6%;
+  right: 2%;
   cursor: pointer;
   color: var(--tertiary);
 }
