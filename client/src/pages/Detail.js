@@ -144,7 +144,7 @@ function Detail() {
       {currentPhoto && cart ? (
         <div className="my-1">
           <div className="backdrop">
-            <div class="backdropContainer">
+            <div className="backdropContainer">
               <div className="iconColumn">
                 <Link
                   onClick={() => navigate(-1)}

@@ -17,9 +17,6 @@ function PhotoList() {
 
   const { loading, data } = useQuery(QUERY_ALL_PHOTOS);
 
-  console.log(data);
-  console.log(state);
-
   useEffect(() => {
     if (data) {
       dispatch({

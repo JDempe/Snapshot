@@ -65,22 +65,12 @@ function Nav() {
     // if logged in, show the Upload tab
     if (Auth.loggedIn()) {
       return (
-        // if currently at /upload, navigate -1, else navigate to /upload
-        <div onClick={checkIfUploadIsOpen()}>
+        <Link to="/upload">
           <div className="linkText">Upload</div>
-        </div>
+        </Link>
       );
     }
   }
-
-  // if current at /upload, return navigate -1, else return /upload
-  const checkIfUploadIsOpen = () => {
-    if (location.pathname === '/upload') {
-      return navigate(-1);
-    } else {
-      return navigate('/upload');
-    }
-  };
 
   return (
     <header className="flex-row">
