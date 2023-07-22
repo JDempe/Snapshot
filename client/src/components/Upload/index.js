@@ -5,23 +5,13 @@ import { Alert, Collapse, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { ValidatorForm, TextValidator } from 'react-material-ui-form-validator';
 import { Box } from '@mui/material';
-import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
+import { useLockBodyScroll } from '@uidotdev/usehooks';
 
 function Upload() {
-  const modalRef = useRef();
-  const navigate = useNavigate();
+  useLockBodyScroll();
 
-  useEffect(() => {
-    const observerRefValue = modalRef.current;
-    disableBodyScroll(observerRefValue);
-    return () => {
-      if (observerRefValue) {
-        enableBodyScroll(observerRefValue);
-      }
-    };
-  }, []);
+  const navigate = useNavigate();
 
   const [formState, setFormState] = useState({
     photoName: '',
@@ -34,10 +24,14 @@ function Upload() {
   const [success, setSuccess] = useState(false); // this is the success message that will be displayed on the page
   const [failed, setFailed] = useState(false); // this is the error message that will be displayed on the page
 
-  const [uploadPhoto, { error }] = useMutation(UPLOAD_PHOTO);
+  const [addPhoto, { error }] = useMutation(UPLOAD_PHOTO);
 
   const handleFileUpload = (event) => {
     setPhotoImage(event.target.files[0]);
+
+    if (!event.target.files[0]) {
+      return;
+    }
     setImagePreview(URL.createObjectURL(event.target.files[0]));
     setIsReady(true);
   };
@@ -49,10 +43,11 @@ function Upload() {
     try {
       const image = new FormData();
       image.append('file', photoImage);
-      image.append('upload_preset', 'p0i4flkx');
+      // Use the upload preset from the .env file
+      image.append('upload_preset', process.env.REACT_APP_UPLOAD_PRESET);
 
       const res = await fetch(
-        'https://api.cloudinary.com/v1_1/dvifr0ga6/image/upload',
+        `https://api.cloudinary.com/v1_1/${process.env.REACT_APP_CLOUDINARY_NAME}/image/upload`,
         {
           method: 'POST',
           body: image,
@@ -60,7 +55,14 @@ function Upload() {
       );
 
       const file = await res.json();
-      console.log(file);
+
+      await addPhoto({
+        variables: {
+          title: formState.photoName,
+          description: formState.description,
+          url: file.secure_url,
+        },
+      });
 
       setIsLoading(false);
       setSuccess(true);
@@ -93,7 +95,7 @@ function Upload() {
   };
 
   return (
-    <div className="modalDiv">
+    <div id="uploadModal" className="modalDiv">
       <div className="modal">
         <Box sx={style}>
           <button type="button" onClick={() => navigate(-1)}>
