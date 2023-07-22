@@ -111,6 +111,7 @@ body {
 
 .socialText {
   font-size: 1.3rem;
+  font-weight: bold;
 }
 
 .imageTitleWrap {
@@ -215,4 +216,9 @@ body {
   align-items: center;
   padding: 0 1rem;
   margin: 0 auto;
+}
+
+.otherPhoto {
+  height: 100px;
+  width: auto;
 }

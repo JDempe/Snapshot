@@ -32,6 +32,11 @@ function Detail() {
 
   const { photos, cart } = state;
 
+  // displaying other photos at bottom of page
+  const otherPhotos = data
+    ? data.photos.filter((photo) => photo._id !== id)
+    : [];
+
   useEffect(() => {
     // already in global store
     if (photos.length) {
@@ -226,7 +231,7 @@ function Detail() {
                 <p>{currentPhoto.description}</p>
               </div>
               <div className="bottomRow">
-                <p>Uploaded: DATE</p>
+                <div>Uploaded: DATE</div>
                 <div className=" my-1 purchaseContainer">
                   <strong>Price:</strong>${currentPhoto.price}{' '}
                   <button onClick={addToCart}>Add to Cart</button>
@@ -271,10 +276,26 @@ function Detail() {
             </div>
             <div>{showCommentInput()}</div>
           </div>
-          <div className="otherPhotos">
-            <hr style={{ width: '75%' }} />
-            <h5>Check out these other photos</h5>
-          </div>
+          {otherPhotos.length > 0 && (
+            <div className="otherPhotos">
+              <hr style={{ width: '75%' }} />
+              <h5>Check out these other photos</h5>
+              <div className="otherPhotosContainer">
+                {otherPhotos.map((photo) => (
+                  <Link
+                    key={photo._id}
+                    to={`/products/${photo._id}`}
+                    className="otherPhotoLink">
+                    <img
+                      src={`${photo.url}`}
+                      alt={photo.title}
+                      className="otherPhoto"
+                    />
+                  </Link>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       ) : null}
       {loading ? <img src={spinner} alt="loading" /> : null}
