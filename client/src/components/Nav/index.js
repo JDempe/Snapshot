@@ -1,7 +1,13 @@
 import React from 'react';
 import Auth from '../../utils/auth';
 import Cart from '../Cart';
-import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
+import {
+  Link,
+  useLocation,
+  Outlet,
+  useNavigate,
+  NavLink,
+} from 'react-router-dom';
 import Button from '@mui/material/Button';
 import './index.scss';
 
@@ -65,9 +71,18 @@ function Nav() {
     // if logged in, show the Upload tab
     if (Auth.loggedIn()) {
       return (
-        <Link to="/upload">
-          <div className="linkText">Upload</div>
-        </Link>
+        <NavLink
+          id="uploadLink"
+          // make the link go to /upload if it isnt, and navigate -1 if it isnt
+          to="/upload"
+          end
+          state={{ previousLocation: location }}>
+          {({ isActive, isPending }) => (
+            <div className={isActive ? 'active linkText' : 'linkText'}>
+              Upload
+            </div>
+          )}
+        </NavLink>
       );
     }
   }
