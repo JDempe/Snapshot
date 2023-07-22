@@ -8,7 +8,7 @@ import {
   ADD_TO_CART,
   UPDATE_PHOTOS,
 } from '../utils/actions';
-import { QUERY_ALL_PHOTOS } from '../utils/queries';
+import { QUERY_ALL_PHOTOS, QUERY_USER } from '../utils/queries';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 import Rating from '@mui/material/Rating';
@@ -105,6 +105,34 @@ function Detail() {
 
   const navigate = useNavigate();
 
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
+  };
+
+  useEffect(() => {
+    if (isFullscreen) {
+      const darkOverlayDiv = document.createElement('div');
+      darkOverlayDiv.classList.add('darkOverlay');
+
+      document.body.insertAdjacentElement('afterend', darkOverlayDiv);
+    } else {
+      const darkOverlayDiv = document.querySelector('.darkOverlay');
+      if (darkOverlayDiv) {
+        darkOverlayDiv.remove();
+      }
+    }
+
+    return () => {
+      // Cleanup: remove the new div when the component unmounts
+      const darkOverlayDiv = document.querySelector('.darkOverlay');
+      if (darkOverlayDiv) {
+        darkOverlayDiv.remove();
+      }
+    };
+  }, [isFullscreen]);
+
   return (
     <>
       {currentPhoto && cart ? (
@@ -119,7 +147,10 @@ function Detail() {
                   <ArrowBackIosNewIcon fontSize="inherit" color="inherit" />
                 </div>
               </div>
-              <div className="imageContainer">
+              <div
+                className={`imageContainer ${
+                  isFullscreen ? 'fullscreenImage' : ''
+                }`}>
                 <img src={`${currentPhoto.url}`} alt={currentPhoto.title} />
               </div>
               <div className="iconColumn">
@@ -127,6 +158,7 @@ function Detail() {
                   fontSize="1.9rem"
                   color="inherit"
                   className="arrowLink"
+                  onClick={toggleFullscreen}
                 />
                 <div className="arrowLink">
                   <ArrowForwardIosIcon fontSize="inherit" color="inherit" />
