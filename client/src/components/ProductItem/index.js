@@ -9,7 +9,7 @@ function ProductItem(item) {
   const [state, dispatch] = useStoreContext();
   const navigate = useNavigate();
 
-  const { url, createdBy, title, _id } = item;
+  const { url, createdBy, title, _id, likes } = item;
 
   const { cart } = state;
 
@@ -43,7 +43,12 @@ function ProductItem(item) {
       <img alt={title} src={`${url}`} onClick={handleImageClick} />
       <div className="overlay-container">
         <div className="createdBy discover-photo-top-overlay"></div>
-        <div className="createdBy discover-photo-bottom-overlay">{`${createdBy}`}</div>
+        <div className="createdBy discover-photo-bottom-overlay">
+          <div className="overlay-info">
+            <div>{`${createdBy}`}</div>
+            <div>{`${likes} likes`}</div>
+          </div>
+        </div>
       </div>
     </div>
   );
