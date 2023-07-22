@@ -53,15 +53,14 @@ export const ADD_USER = gql`
 `;
 
 export const UPLOAD_PHOTO = gql`
-  mutation uploadPhoto(
-    $uploadURL: Blob!
-    $description: String!
-    $photoName: String!
-  ) {
-    uploadPhoto(
-      uploadURL: $uploadURL
-      description: $description
-      photoName: $photoName
-    )
+  mutation addPhoto($url: String!, $title: String!, $description: String!) {
+    addPhoto(url: $url, title: $title, description: $description) {
+      url
+      title
+      description
+      createdBy {
+        _id
+      }
+    }
   }
 `;

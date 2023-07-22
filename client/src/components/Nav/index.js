@@ -1,12 +1,13 @@
 import React from 'react';
 import Auth from '../../utils/auth';
 import Cart from '../Cart';
-import { Link, useLocation, Outlet } from 'react-router-dom';
+import { Link, useLocation, Outlet, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import './index.scss';
 
 function Nav() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   function showLoginOptions() {
     if (Auth.loggedIn()) {
@@ -64,15 +65,22 @@ function Nav() {
     // if logged in, show the Upload tab
     if (Auth.loggedIn()) {
       return (
-        <Link
-          // make the link go to /upload if it isnt, and navigate -1 if it isnt
-          to={location.pathname === '/upload' ? '/discover' : '/upload'}
-          state={{ previousLocation: location }}>
+        // if currently at /upload, navigate -1, else navigate to /upload
+        <div onClick={checkIfUploadIsOpen()}>
           <div className="linkText">Upload</div>
-        </Link>
+        </div>
       );
     }
   }
+
+  // if current at /upload, return navigate -1, else return /upload
+  const checkIfUploadIsOpen = () => {
+    if (location.pathname === '/upload') {
+      return navigate(-1);
+    } else {
+      return navigate('/upload');
+    }
+  };
 
   return (
     <header className="flex-row">

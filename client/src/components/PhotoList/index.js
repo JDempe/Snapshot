@@ -16,8 +16,6 @@ function PhotoList() {
 
   const { loading, data } = useQuery(QUERY_ALL_PHOTOS);
 
-  const { username } = useQuery(QUERY_USER);
-
   console.log(data);
   console.log(state);
 
