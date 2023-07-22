@@ -8,6 +8,7 @@ import { idbPromise } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
 import { Box } from '@mui/material';
 import { Masonry } from '@mui/lab';
+import './index.scss';
 
 function PhotoList() {
   const [state, dispatch] = useStoreContext();
@@ -49,9 +50,9 @@ function PhotoList() {
   }
 
   return (
-    <Box sx={{ width: 900, minHeight: 400 }}>
+    <Box sx={{ width: 1, minHeight: 400, marginTop: 10, marginBottom: 10 }}>
       {state.photos.length ? (
-        <Masonry columns={3} spacing={0}>
+        <Masonry columns={3} spacing={1}>
           {/* Display the photos using different heights based on the heights array */}
           {state.photos.map((photo, i) => (
             <ProductItem

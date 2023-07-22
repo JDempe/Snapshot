@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useNavigate } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { useStoreContext } from '../utils/GlobalState';
 import {
@@ -8,10 +8,15 @@ import {
   ADD_TO_CART,
   UPDATE_PHOTOS,
 } from '../utils/actions';
-import { QUERY_PHOTOS } from '../utils/queries';
+import { QUERY_ALL_PHOTOS, QUERY_USER } from '../utils/queries';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 import Rating from '@mui/material/Rating';
+import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import OpenInFullIcon from '@mui/icons-material/OpenInFull';
+import WestIcon from '@mui/icons-material/West';
+import Auth from '../utils/auth';
 
 import './Detail.scss';
 
@@ -21,7 +26,7 @@ function Detail() {
 
   const [currentPhoto, setCurrentPhoto] = useState({});
 
-  const { loading, data } = useQuery(QUERY_PHOTOS);
+  const { loading, data } = useQuery(QUERY_ALL_PHOTOS);
 
   const { photos, cart } = state;
 
@@ -82,24 +87,105 @@ function Detail() {
     idbPromise('cart', 'delete', { ...currentPhoto });
   };
 
+  function showCommentInput() {
+    if (Auth.loggedIn()) {
+      return (
+        <>
+          <div className="commentInput">Logged in</div>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <div className="commentInput">Not logged in</div>
+        </>
+      );
+    }
+  }
+
+  const navigate = useNavigate();
+
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const toggleFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
+  };
+
+  useEffect(() => {
+    const closeFullscreen = () => {
+      setIsFullscreen(false);
+    };
+
+    if (isFullscreen) {
+      const darkOverlayDiv = document.createElement('div');
+      darkOverlayDiv.classList.add('darkOverlay');
+
+      darkOverlayDiv.addEventListener('click', closeFullscreen);
+
+      document.body.insertAdjacentElement('afterend', darkOverlayDiv);
+    } else {
+      const darkOverlayDiv = document.querySelector('.darkOverlay');
+      if (darkOverlayDiv) {
+        darkOverlayDiv.remove();
+      }
+    }
+
+    return () => {
+      const darkOverlayDiv = document.querySelector('.darkOverlay');
+      if (darkOverlayDiv) {
+        darkOverlayDiv.removeEventListener('click', closeFullscreen);
+        darkOverlayDiv.remove();
+      }
+    };
+  }, [isFullscreen]);
+
   return (
     <>
       {currentPhoto && cart ? (
         <div className="my-1">
           <div className="backdrop">
-            <Link to="/">← Return</Link>
-            <div className="imageContainer">
-              <img src={`${currentPhoto.url}`} alt={currentPhoto.title} />
+            <div class="backdropContainer">
+              <div className="iconColumn">
+                <Link
+                  onClick={() => navigate(-1)}
+                  className={`arrowLink ${isFullscreen ? 'hideElement' : ''}`}>
+                  <WestIcon fontSize="inherit" color="inherit" />
+                </Link>
+                <div
+                  className={`arrowLink ${isFullscreen ? 'hideElement' : ''}`}>
+                  <ArrowBackIosNewIcon fontSize="inherit" color="inherit" />
+                </div>
+              </div>
+              <div
+                className={`imageContainer ${
+                  isFullscreen ? 'fullscreenImage' : ''
+                }`}>
+                <img src={`${currentPhoto.url}`} alt={currentPhoto.title} />
+              </div>
+              <div className="iconColumn">
+                {!isFullscreen && (
+                  <OpenInFullIcon
+                    fontSize="1.9rem"
+                    color="inherit"
+                    onClick={toggleFullscreen}
+                    className={`arrowLink`}
+                  />
+                )}
+                <div
+                  className={`arrowLink ${isFullscreen ? 'hideElement' : ''}`}>
+                  <ArrowForwardIosIcon fontSize="inherit" color="inherit" />
+                </div>
+              </div>
             </div>
           </div>
           <div className="contentContainer">
-            <div className=" my-1 imageInfo">
+            <div className="imageInfo">
               <img
                 src="https://www.seekpng.com/png/full/110-1100707_person-avatar-placeholder.png"
                 className="avatar"
               />
               <div className="imageTitleWrap">
-                <h2 className="imageName">{currentPhoto.name}</h2>
+                <h2 className="imageName">{currentPhoto.title}</h2>
                 <p style={{ paddingTop: '0.6rem', fontSize: '0.9rem' }}>
                   Uploaded: DATE
                 </p>
@@ -107,7 +193,7 @@ function Detail() {
               <p className="imageAuthor">
                 by{' '}
                 <Link style={{ color: '#549cf1', fontWeight: 'bold' }}>
-                  Image Author
+                  {/* <p>{currentPhoto.createdBy.username}</p> */}
                 </Link>
               </p>
               <div className="imageDescription">
@@ -154,6 +240,7 @@ function Detail() {
                 </div>
               </div>
             </div>
+            <div>{showCommentInput()}</div>
           </div>
           <div className="otherPhotos">
             <hr style={{ width: '75%' }} />
