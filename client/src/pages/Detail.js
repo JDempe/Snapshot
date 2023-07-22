@@ -298,10 +298,6 @@ function Detail() {
                         className="otherPhoto"
                         onClick={() => navigateOtherPhoto(photo._id)}
                       />
-                      <div className="overlay-container">
-                        <div className="createdBy otherPhoto-top-overlay"></div>
-                        <div className="createdBy otherPhoto-bottom-overlay"></div>
-                      </div>
                     </div>
                   </div>
                 ))}
