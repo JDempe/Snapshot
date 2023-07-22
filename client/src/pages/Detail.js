@@ -112,9 +112,15 @@ function Detail() {
   };
 
   useEffect(() => {
+    const closeFullscreen = () => {
+      setIsFullscreen(false);
+    };
+
     if (isFullscreen) {
       const darkOverlayDiv = document.createElement('div');
       darkOverlayDiv.classList.add('darkOverlay');
+
+      darkOverlayDiv.addEventListener('click', closeFullscreen);
 
       document.body.insertAdjacentElement('afterend', darkOverlayDiv);
     } else {
@@ -125,9 +131,9 @@ function Detail() {
     }
 
     return () => {
-      // Cleanup: remove the new div when the component unmounts
       const darkOverlayDiv = document.querySelector('.darkOverlay');
       if (darkOverlayDiv) {
+        darkOverlayDiv.removeEventListener('click', closeFullscreen);
         darkOverlayDiv.remove();
       }
     };
@@ -140,10 +146,13 @@ function Detail() {
           <div className="backdrop">
             <div class="backdropContainer">
               <div className="iconColumn">
-                <Link onClick={() => navigate(-1)} className="arrowLink">
+                <Link
+                  onClick={() => navigate(-1)}
+                  className={`arrowLink ${isFullscreen ? 'hideElement' : ''}`}>
                   <WestIcon fontSize="inherit" color="inherit" />
                 </Link>
-                <div className="arrowLink">
+                <div
+                  className={`arrowLink ${isFullscreen ? 'hideElement' : ''}`}>
                   <ArrowBackIosNewIcon fontSize="inherit" color="inherit" />
                 </div>
               </div>
@@ -154,13 +163,16 @@ function Detail() {
                 <img src={`${currentPhoto.url}`} alt={currentPhoto.title} />
               </div>
               <div className="iconColumn">
-                <OpenInFullIcon
-                  fontSize="1.9rem"
-                  color="inherit"
-                  className="arrowLink"
-                  onClick={toggleFullscreen}
-                />
-                <div className="arrowLink">
+                {!isFullscreen && (
+                  <OpenInFullIcon
+                    fontSize="1.9rem"
+                    color="inherit"
+                    onClick={toggleFullscreen}
+                    className={`arrowLink`}
+                  />
+                )}
+                <div
+                  className={`arrowLink ${isFullscreen ? 'hideElement' : ''}`}>
                   <ArrowForwardIosIcon fontSize="inherit" color="inherit" />
                 </div>
               </div>
