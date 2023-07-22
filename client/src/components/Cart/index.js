@@ -47,9 +47,11 @@ const Cart = () => {
 
     function handleMouseClickOutside(event) {
       const cartElement = document.querySelector('.cart');
-
-      if (!cartElement.contains(event.target)) {
-        // If the click is outside the cart, close it
+      if (state.cartOpen) {
+        if (cartElement?.contains(event.target)) {
+          // If the click is outside the cart, close it
+          return;
+        }
         toggleCart();
       }
     }
