@@ -21,7 +21,6 @@ export const ADD_ORDER = gql`
           title
           description
           price
-          name
           createdBy {
             _id
             username
@@ -30,7 +29,6 @@ export const ADD_ORDER = gql`
         size
         quantity
       }
-      total
     }
   }
 `;
