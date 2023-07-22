@@ -1,11 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useStoreContext } from '../../utils/GlobalState';
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from '../../utils/actions';
 import { idbPromise } from '../../utils/helpers';
+import './style.scss';
 
 function ProductItem(item) {
   const [state, dispatch] = useStoreContext();
+  const navigate = useNavigate();
 
   const { url, createdBy, title, _id } = item;
 
@@ -32,12 +34,17 @@ function ProductItem(item) {
     }
   };
 
+  const handleImageClick = () => {
+    navigate(`/products/${_id}`);
+  };
+
   return (
-    <div className="card px-1 py-1">
-      <Link to={`/products/${_id}`}>
-        <img alt={title} src={`${url}`} />
-      </Link>
-      <div className="createdBy">{`${createdBy}`}</div>
+    <div className="card discover-photo">
+      <img alt={title} src={`${url}`} onClick={handleImageClick} />
+      <div className="overlay-container">
+        <div className="createdBy discover-photo-top-overlay"></div>
+        <div className="createdBy discover-photo-bottom-overlay">{`${createdBy}`}</div>
+      </div>
     </div>
   );
 }
