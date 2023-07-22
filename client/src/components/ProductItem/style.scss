@@ -60,3 +60,9 @@
   opacity: 1;
   transition: all 0.2s ease-in-out;
 }
+
+.overlay-info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
