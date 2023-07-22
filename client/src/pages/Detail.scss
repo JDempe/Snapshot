@@ -158,6 +158,12 @@ body {
   width: 50vw;
 }
 
+.commentInput {
+  max-width: 50vw;
+  min-width: 50vw;
+  min-height: 15vh;
+}
+
 .commentText {
   width: 40vw;
   font-family: Calibri, sans-serif;

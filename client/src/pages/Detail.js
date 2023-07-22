@@ -99,21 +99,66 @@ function Detail() {
     idbPromise('cart', 'delete', { ...currentPhoto });
   };
 
-  function showCommentInput() {
+  // function commentBox() {
+  //   const [comment, setComment] = useState('');
+
+  //   const handleInputChange = (event) => {
+  //     setComment(event.target.value);
+  //   };
+
+  //   const handleSubmit = (event) => {
+  //     event.preventDefault();
+  //     console.log('Submitted comment:', comment);
+  //     setComment('');
+  //   };
+
+  // const showCommentInput = () => {
+  //   if (Auth.loggedIn()) {
+  //     return (
+  //       <>
+  //         <form onSubmit={handleSubmit}>
+  //           <textarea
+  //             rows="4"
+  //             cols="50"
+  //             placeholder="Enter your comment..."
+  //             value={comment}
+  //             onChange={handleInputChange}
+  //           />
+  //           <button type="submit">Submit</button>
+  //         </form>
+  //       </>
+  //     );
+  //   } else {
+  //     return (
+  //       <>
+  //         <div className="commentInput">Log in to comment</div>
+  //       </>
+  //     );
+  //   }
+
+  // };
+
+  const showCommentInput = () => {
     if (Auth.loggedIn()) {
       return (
         <>
-          <div className="commentInput">Logged in</div>
+          <form>
+            <textarea
+              className="commentInput"
+              placeholder="Enter your comment..."
+            />
+            <button type="submit">Submit</button>
+          </form>
         </>
       );
     } else {
       return (
         <>
-          <div className="commentInput">Not logged in</div>
+          <div className="commentInput">Log in to comment</div>
         </>
       );
     }
-  }
+  };
 
   const navigate = useNavigate();
 
@@ -250,6 +295,7 @@ function Detail() {
             </div>
             <div className="commentSection">
               <hr />
+              <div>{showCommentInput()}</div>
               <h5 style={{ marginBottom: '1.2rem' }}>#VALUE comments</h5>
               <div className="comment">
                 <div className="commentOrientation">
@@ -279,7 +325,6 @@ function Detail() {
                 </div>
               </div>
             </div>
-            <div>{showCommentInput()}</div>
           </div>
           {otherPhotos.length > 0 && (
             <div className="otherPhotos">
