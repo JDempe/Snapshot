@@ -33,7 +33,7 @@ function Detail() {
   const { photos, cart } = state;
 
   // displaying other photos at bottom of page
-  const otherPhotosLimit = 5;
+  const otherPhotosLimit = 4;
   const otherPhotos = data
     ? data.photos.filter((photo) => photo._id !== id).slice(0, otherPhotosLimit)
     : [];
