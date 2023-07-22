@@ -33,9 +33,14 @@ function Detail() {
   const { photos, cart } = state;
 
   // displaying other photos at bottom of page
+  const otherPhotosLimit = 5;
   const otherPhotos = data
-    ? data.photos.filter((photo) => photo._id !== id)
+    ? data.photos.filter((photo) => photo._id !== id).slice(0, otherPhotosLimit)
     : [];
+
+  const navigateOtherPhoto = (photoId) => {
+    navigate(`/products/${photoId}`);
+  };
 
   useEffect(() => {
     // already in global store
@@ -279,19 +284,26 @@ function Detail() {
           {otherPhotos.length > 0 && (
             <div className="otherPhotos">
               <hr style={{ width: '75%' }} />
-              <h5>Check out these other photos</h5>
+              <h5 style={{ padding: '1rem 0 1.1rem 0' }}>
+                Check out these other photos
+              </h5>
               <div className="otherPhotosContainer">
                 {otherPhotos.map((photo) => (
-                  <Link
-                    key={photo._id}
-                    to={`/products/${photo._id}`}
-                    className="otherPhotoLink">
-                    <img
-                      src={`${photo.url}`}
-                      alt={photo.title}
-                      className="otherPhoto"
-                    />
-                  </Link>
+                  <div className="otherPhotoBarrier">
+                    <div className="otherPhoto">
+                      <img
+                        key={photo._id}
+                        src={photo.url}
+                        alt={photo.title}
+                        className="otherPhoto"
+                        onClick={() => navigateOtherPhoto(photo._id)}
+                      />
+                      <div className="overlay-container">
+                        <div className="createdBy otherPhoto-top-overlay"></div>
+                        <div className="createdBy otherPhoto-bottom-overlay"></div>
+                      </div>
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>

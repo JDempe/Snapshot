@@ -218,7 +218,81 @@ body {
   margin: 0 auto;
 }
 
-.otherPhoto {
-  height: 100px;
+.otherPhotosContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.otherPhotoBarrier {
+  padding: 0 9px 30px 9px;
+}
+
+.otherPhoto img {
+  max-height: 230px;
+  height: auto;
   width: auto;
+  border-radius: 10px;
+}
+
+.otherPhoto {
+  transition: all 0.2s ease-in-out;
+  height: 230px;
+  border-radius: 10px;
+}
+
+.otherPhoto img {
+  border-radius: 10px;
+  transition: all 0.2s ease-in-out;
+}
+
+.otherPhoto img:hover {
+  cursor: pointer;
+}
+
+.otherPhoto:hover {
+  transform: scale(1.015);
+  transition: all 0.2s ease-in-out;
+}
+
+.otherPhoto-top-overlay {
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  background: linear-gradient(to bottom, #000000b3, transparent 70%);
+  transition: all 0.2s ease-in-out;
+  text-align: right;
+  padding: 20px 12px 60px 12px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  pointer-events: none;
+}
+
+.discover-photo-bottom-overlay {
+  opacity: 0;
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 100%;
+  background: linear-gradient(to top, #000000b3, transparent 70%);
+  transition: all 0.2s ease-in-out;
+  color: white;
+  text-align: right;
+  padding: 60px 12px 20px 12px;
+  margin-bottom: 0;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  pointer-events: none;
+}
+
+// on .discover-photo hover, show the .discover-photo-overlay
+.discover-photo:hover .discover-photo-bottom-overlay,
+.discover-photo:hover .discover-photo-top-overlay {
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
 }
