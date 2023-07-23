@@ -1,0 +1,80 @@
+.modalBody {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  box-shadow: 24px;
+  padding: 2px;
+  border-radius: 15px;
+  height: fit-content;
+  width: 30vw;
+  max-height: 80vh;
+  min-width: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  scroll-behavior: smooth;
+  overflow-y: auto;
+}
+
+.closeButton {
+  position: relative;
+  align-self: end;
+}
+
+h2 {
+  text-align: center;
+  width: fit-content;
+}
+
+#uploadForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  width: 80%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+#upload {
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  width: 100%;
+  height: fit-content;
+  margin: 5px auto;
+}
+
+#previewImageBox {
+  width: 70%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #d7d7d7;
+  border: 1px solid #dfdfdf;
+  border-radius: 5px;
+  margin: 10px;
+}
+
+#previewImage {
+  width: 200px;
+  height: 200px;
+  object-fit: scale-down;
+}
+
+#uploadTitle {
+  width: 100%;
+}
+
+#uploadDescription {
+  width: 100%;
+}
+
+#uploadButton {
+  margin: 8px auto;
+}
