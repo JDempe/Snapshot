@@ -115,17 +115,38 @@ const resolvers = {
 
       return { token, user };
     },
+    // addOrder: async (parent, { products }, context) => {
+    //   if (context.user) {
+    //     const order = new Order({ products });
+
+    //     await User.findByIdAndUpdate(context.user._id, {
+    //       $push: { orders: order },
+    //     });
+
+    //     return order;
+    //   }
+
+    //   throw new AuthenticationError('Not logged in');
+    // },
+
     addOrder: async (parent, { products }, context) => {
       if (context.user) {
         const order = new Order({ products });
-
+    
+        // calculating the total price of the order
+        let totalPrice = 0;
+        for(let product of products) {
+          totalPrice += product.quantity * product.price;
+        }
+        order.total = totalPrice;
+    
         await User.findByIdAndUpdate(context.user._id, {
           $push: { orders: order },
         });
-
+    
         return order;
       }
-
+    
       throw new AuthenticationError('Not logged in');
     },
     updateUser: async (parent, args, context) => {

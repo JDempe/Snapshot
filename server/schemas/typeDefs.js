@@ -16,14 +16,14 @@ const typeDefs = gql`
   }
 
   type Photo {
-    _id: ID
-    url: String
-    title: String
-    description: String
-    createdBy: User
-    likes: Int
-    comments: [Comment]
-  }
+  _id: ID
+  url: String
+  title: String
+  description: String
+  createdBy: User
+  likes: Int
+  comments: [Comment]
+}
 
   type Order {
     _id: ID
@@ -33,10 +33,11 @@ const typeDefs = gql`
   }
 
   type OrderProduct {
-    photo: Photo
-    size: String
-    quantity: Int
-  }
+  photo: Photo
+  size: String
+  quantity: Int
+  price: Float
+}
 
   type Comment {
     _id: ID
@@ -57,9 +58,10 @@ const typeDefs = gql`
   }
 
   input ProductInput {
-    _id: ID!
-    quantity: Int!
-  }
+  _id: ID!
+  quantity: Int!
+  price: Float!
+}
 
   type Session {
     id: ID!
@@ -87,7 +89,6 @@ const typeDefs = gql`
     ): Auth
     login(email: String!, password: String!): Auth
     addPhoto(url: String!, title: String!, description: String!): Photo
-
     addOrder(products: [ProductInput]!): Order
     updateUser(
       username: String
