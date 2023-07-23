@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 import { useQuery } from '@apollo/client';
 import { QUERY_USER } from '../utils/queries';
 
@@ -22,26 +21,34 @@ function OrderHistory() {
             <h2>
               Order History for {user.firstName} {user.lastName}
             </h2>
-            {user.orders.map((order) => (
-              <div key={order._id} className="my-2">
-                <h3>
-                  {new Date(parseInt(order.purchaseDate)).toLocaleDateString()}
-                </h3>
-                <div className="flex-row">
-                  {order.products.map(({ _id, image, name, price }, index) => (
-                    <div key={index} className="card px-1 py-1">
-                      <Link to={`/products/${_id}`}>
-                        <img alt={name} src={`/images/${image}`} />
-                        <p>{name}</p>
-                      </Link>
-                      <div>
-                        <span>${price}</span>
+            {user.orders.length ? (
+              user.orders.map((order, index) => (
+                <div key={order._id || index} className="my-2">
+                  <h3>
+                    {new Date(parseInt(order.purchaseDate)).toLocaleDateString()}
+                  </h3>
+                  <h4>Order Number: {order._id || "No Order ID"}</h4>
+                  <div className="flex-row">
+                    {order.products.map(({ photo: { _id, title, description, price, name }, size, quantity }, index) => (
+                      <div key={index} className="card px-1 py-1">
+                        <Link to={`/products/${_id}`}>
+                          <p>{name}</p>
+                        </Link>
+                        <div>
+                          <span>${price}</span>
+                        </div>
+                        <div>
+                          <span>Size: {size}</span>
+                          <span>Quantity: {quantity}</span>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))
+            ) : (
+              <h4>You have no order history</h4>
+            )}
           </>
         ) : null}
       </div>
