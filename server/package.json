@@ -12,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@uidotdev/usehooks": "^2.0.1",
     "apollo-server-express": "^3.6.2",
     "bcrypt": "^4.0.1",
     "cloudinary": "^1.37.3",
