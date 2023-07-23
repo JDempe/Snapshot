@@ -57,7 +57,7 @@ function OrderHistory() {
                 </div>
               ))
             ) : (
-              <h4>You have no order history</h4>
+              <h4>You have no orders</h4>
             )}
           </>
         ) : (
