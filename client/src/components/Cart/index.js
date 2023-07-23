@@ -11,11 +11,16 @@ import './style.css';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faCartPlus } from '@fortawesome/free-solid-svg-icons';
+import { ShoppingCartOutlined } from '@mui/icons-material';
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
+
+  function toggleCart() {
+    dispatch({ type: TOGGLE_CART });
+  }
 
   useEffect(() => {
     if (data) {
@@ -39,28 +44,55 @@ const Cart = () => {
   useEffect(() => {
     let cartCloseTimer = null;
 
-    function handleMouseMovement() {
+    function handleMouseMovement(event) {
       // Reset the timer whenever there is mouse movement inside the cart
       clearTimeout(cartCloseTimer);
-      cartCloseTimer = null;
+      cartCloseTimer = setTimeout(() => {
+        if (!isMouseInsideCart(event)) {
+          toggleCart();
+        }
+      }, 10000);
     }
 
+    // function handleMouseClickOutside(event) {
+    //   const cartElement = document.querySelector('.cart');
+    //   if (state.cartOpen) {
+    //     if (!cartElement?.contains(event.target)) {
+    //       // If the click is outside the cart, close it
+    //       toggleCart();
+    //     }
+    //   }
+    // }
     function handleMouseClickOutside(event) {
       const cartElement = document.querySelector('.cart');
+      const closeIconElement = event.target.closest('.close');
+
       if (state.cartOpen) {
-        if (cartElement?.contains(event.target)) {
-          // If the click is outside the cart, close it
-          return;
+        if (closeIconElement) {
+          toggleCart();
+        } else {
+          if (!cartElement?.contains(event.target)) {
+            // If the click is outside the cart and not on the close icon, close it
+            toggleCart();
+          }
         }
-        toggleCart();
       }
+    }
+
+    function isMouseInsideCart(event) {
+      const cartElement = document.querySelector('.cart');
+      return cartElement?.contains(event?.target);
     }
 
     if (state.cartOpen) {
       // Start the timer when the cart is open
       cartCloseTimer = setTimeout(() => {
-        toggleCart();
-      }, 15000);
+        if (!isMouseInsideCart()) {
+          toggleCart();
+        }
+      }, 10000);
+    } else {
+      return;
     }
 
     window.addEventListener('mousemove', handleMouseMovement);
@@ -86,6 +118,7 @@ const Cart = () => {
   //   });
   //   return sum.toFixed(2);
   // }
+
   function calculateTotal() {
     let sum = 0;
     state.cart.forEach((item) => {
@@ -118,16 +151,20 @@ const Cart = () => {
   if (!state.cartOpen) {
     return (
       <div className="cart-closed" onClick={toggleCart}>
-        <span role="img" aria-label="trash">
-          🛒
-        </span>
+        <ShoppingCartOutlined />
       </div>
     );
   }
 
   return (
     <div className="cart">
-      <div className="close" onClick={toggleCart}>
+      {/* shoppign cart icon */}
+      {/* <div className="cart-icon">
+        <ShoppingCartOutlined />
+      </div> */}
+
+      {/* close icon to close shopping cart */}
+      <div className="close" onClick={(e) => e.stopPropagation()}>
         <FontAwesomeIcon
           icon={faClose}
           color="#EFD81D"
@@ -137,8 +174,10 @@ const Cart = () => {
             position: 'relative',
             right: '-92%',
           }}
+          onClick={toggleCart}
         />
       </div>
+
       <h2>Shopping Cart</h2>
       {state.cart.length ? (
         <div>

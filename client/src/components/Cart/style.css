@@ -27,9 +27,9 @@
   color: var(--tertiary);
 }
 
-.cart .close:hover {
+/* .cart .close:hover {
   text-decoration: underline;
-}
+} */
 
 .cart-closed {
   position: fixed;
@@ -37,7 +37,7 @@
   right: 1%;
   font-size: 2rem;
   cursor: pointer;
-  background-color: var(--secondary);
+  /* background-color: var(--secondary); */
   border-radius: 50%;
   padding: 0.25rem;
   width: 50px;
