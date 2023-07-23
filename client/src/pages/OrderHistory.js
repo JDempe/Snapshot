@@ -4,7 +4,9 @@ import { useQuery } from '@apollo/client';
 import { QUERY_USER } from '../utils/queries';
 
 function OrderHistory() {
+  
   const { data } = useQuery(QUERY_USER);
+  console.log(data)
   let user;
 
   if (data) {
