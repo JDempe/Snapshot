@@ -8,12 +8,18 @@ const resolvers = {
     users: async () => {
       return User.find();
     },
-    user: async (parent, args, context) => {
-      if (context.user) {
-        return User.findOne({ _id: context.user._id });
-      }
-      throw new Error('You need to be logged in!');
-    },
+    // user: async (parent, args, context) => {
+    //   if (context.user) {
+    //     return User.findOne({ _id: context.user._id });
+    //   }
+    //   throw new Error('You need to be logged in!');
+    // },
+
+    
+      user: async (parent, { _id }, context) => {
+        return User.findOne({ _id: _id });
+      },
+    
     photos: async () => {
       // do Photo.find() and then do another search for each createdBy _id to get username
       return Photo.find().populate('createdBy');

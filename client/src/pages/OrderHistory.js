@@ -1,18 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { QUERY_USER } from '../utils/queries';
 
 function OrderHistory() {
-  
-  const { data } = useQuery(QUERY_USER);
-  console.log(data)
+  const { id } = useParams();
+
+  console.log('id:', id); // Log the id
+
+  const { loading, error, data } = useQuery(QUERY_USER, {
+    variables: { _id: id },
+  });
+
+  console.log('loading:', loading); 
+  console.log('error:', error); 
+  console.log('data:', data); 
+
   let user;
 
   if (data) {
     user = data.user;
   }
-
   return (
     <>
       <div className="container my-1">

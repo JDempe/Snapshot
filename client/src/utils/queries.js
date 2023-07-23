@@ -104,24 +104,55 @@ export const QUERY_CATEGORIES = gql`
 //     }
 //   }
 // `;
+// export const QUERY_USER = gql`
+//   query getUser($id: ID!) {
+//     user(_id: $id) {
+//       _id
+//       username
+//       email
+//       firstName
+//       lastName
+//       orders {
+//         _id
+//         purchaseDate
+//         products {
+//           photo {
+//             _id
+//             title
+//           }
+//           size
+//           quantity
+//         }
+//       }
+//     }
+//   }
+// `;
+
+
+
 export const QUERY_USER = gql`
-  query getUser($id: ID!) {
-    user(_id: $id) {
+  query User($_id: ID!) {
+    user(_id: $_id) {
       _id
       username
       email
       firstName
       lastName
       orders {
-        _id
+        total
         purchaseDate
         products {
-          photo {
-            _id
-            title
-          }
           size
           quantity
+          photo {
+            url
+            title
+            likes
+            description
+            createdBy {
+              username
+            }
+          }
         }
       }
     }

@@ -10,6 +10,7 @@ import {
 } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import './index.scss';
+const userId = localStorage.getItem('user_id');
 
 function Nav() {
   const location = useLocation();
@@ -20,7 +21,7 @@ function Nav() {
       return (
         <ul className="flex-row">
           <li className="mx-1">
-            <Link to="/orderHistory">
+          <Link to={`/orderHistory/${localStorage.getItem('user_id')}`}>
               <Button variant="outlined" className="orderButton">
                 Order History
               </Button>

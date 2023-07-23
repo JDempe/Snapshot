@@ -64,7 +64,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/success" element={<Success />} />
-            <Route path="/orderHistory" element={<OrderHistory />} />
+            <Route path="/orderHistory/:id" element={<OrderHistory />} />
             <Route path="/products/:id" element={<Detail />} />
             <Route path="/ContactUs" element={<ContactUs />} />
             <Route path="*" element={<NoMatch />} />
