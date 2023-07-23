@@ -60,6 +60,7 @@ h2 {
   background-color: #f4f4f4;
   border: 1px solid #c4c4c4;
   border-radius: 5px;
+  margin-bottom: 10px;
 }
 
 #previewImage {
@@ -70,6 +71,12 @@ h2 {
 
 #uploadTitle {
   width: 100%;
+}
+
+#uploadTitle:focus {
+  outline: 0;
+  outline-color: transparent;
+  outline-style: none;
 }
 
 #uploadDescription {

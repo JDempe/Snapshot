@@ -76,13 +76,22 @@ function Upload() {
 
       setIsLoading(false);
       setSuccess(true);
+      setFormState({
+        photoName: '',
+        description: '',
+      });
+      setPhotoImage(null);
+      setImagePreview(null);
+      setTitleReady(false);
+      setDescriptionReady(false);
+      // reset the form
+      document.getElementById('uploadForm').reset();
     } catch (e) {
       console.log(e);
       setIsLoading(false);
       setFailed(true);
     }
   };
-
   const handleChangeTitle = (event) => {
     const { name, value } = event.target;
     setFormState({
@@ -145,6 +154,8 @@ function Upload() {
                 name="upload"
                 type="file"
                 id="upload"
+                accept="image/*"
+                required
                 onChange={handleFileUpload}
               />
 
@@ -161,7 +172,8 @@ function Upload() {
                 name="photoName"
                 label="Title"
                 required
-                margin="normal"
+                margin="dense"
+                multiline
                 inputProps={{ maxLength: 20 }}
                 error={titleError}
                 value={formState.photoName}
@@ -175,9 +187,9 @@ function Upload() {
                 label="Description"
                 name="description"
                 multiline
-                rows={4}
+                rows={2}
                 required
-                margin="small"
+                margin={'dense'}
                 inputProps={{ maxLength: 120 }}
                 error={descriptionError}
                 id="uploadDescription"
@@ -195,45 +207,45 @@ function Upload() {
                 type="submit">
                 {isLoading ? 'Loading...' : 'Upload Photo'}
               </Button>
-
-              <Collapse in={success}>
-                <Alert
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setSuccess(false);
-                      }}>
-                      <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                  }
-                  sx={{ mb: 2 }}>
-                  Successfully uploaded!
-                </Alert>
-              </Collapse>
-
-              <Collapse in={failed}>
-                <Alert
-                  severity="error"
-                  action={
-                    <IconButton
-                      aria-label="close"
-                      color="inherit"
-                      size="small"
-                      onClick={() => {
-                        setFailed(false);
-                      }}>
-                      <CloseIcon fontSize="inherit" />
-                    </IconButton>
-                  }
-                  sx={{ mb: 2 }}>
-                  Something went wrong! Please try again.
-                </Alert>
-              </Collapse>
             </FormControl>
           </form>
+
+          <Collapse in={success}>
+            <Alert
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setSuccess(false);
+                  }}>
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}>
+              Successfully uploaded!
+            </Alert>
+          </Collapse>
+
+          <Collapse in={failed}>
+            <Alert
+              severity="error"
+              action={
+                <IconButton
+                  aria-label="close"
+                  color="inherit"
+                  size="small"
+                  onClick={() => {
+                    setFailed(false);
+                  }}>
+                  <CloseIcon fontSize="inherit" />
+                </IconButton>
+              }
+              sx={{ mb: 2 }}>
+              Something went wrong! Please try again.
+            </Alert>
+          </Collapse>
         </div>
       </div>
     </div>
