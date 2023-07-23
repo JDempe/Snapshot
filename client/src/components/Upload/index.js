@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { UPLOAD_PHOTO } from '../../utils/mutations';
 import {
@@ -45,6 +45,13 @@ function Upload() {
     }
     setImagePreview(URL.createObjectURL(event.target.files[0]));
   };
+
+  // if path is /upload, scroll to top of page
+  useEffect(() => {
+    if (document.location.pathname === '/upload') {
+      window.scrollTo(0, 0);
+    }
+  }, []);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
