@@ -3,6 +3,8 @@ import { useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { LOGIN } from '../utils/mutations';
 import Auth from '../utils/auth';
+import { useNavigate } from 'react-router-dom';
+
 import {
   styled,
   Switch,
@@ -14,6 +16,8 @@ import {
 function Login(props) {
   const [formState, setFormState] = useState({ email: '', password: '' });
   const [login, { error }] = useMutation(LOGIN);
+  const navigate = useNavigate();
+
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -22,12 +26,15 @@ function Login(props) {
         variables: { email: formState.email, password: formState.password },
       });
       const token = mutationResponse.data.login.token;
+      const userId = mutationResponse.data.login.user._id;
+      localStorage.setItem('id_token', token);
+      localStorage.setItem('user_id', userId);
       Auth.login(token);
+      navigate('/orderHistory');  // navigate to order history page
     } catch (e) {
       console.log(e);
     }
-  };
-
+};
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormState({

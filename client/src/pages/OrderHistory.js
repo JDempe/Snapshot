@@ -29,10 +29,10 @@ function OrderHistory() {
                   </h3>
                   <h4>Order Number: {order._id || "No Order ID"}</h4>
                   <div className="flex-row">
-                    {order.products.map(({ photo: { _id, title, description, price, name }, size, quantity }, index) => (
+                    {order.products.map(({ photo: { _id, title, price, size, quantity }}, index) => (
                       <div key={index} className="card px-1 py-1">
                         <Link to={`/products/${_id}`}>
-                          <p>{name}</p>
+                          <p>{title}</p>
                         </Link>
                         <div>
                           <span>${price}</span>
@@ -50,7 +50,9 @@ function OrderHistory() {
               <h4>You have no order history</h4>
             )}
           </>
-        ) : null}
+        ) : (
+          <h4>Please log in to see your order history</h4>
+        )}
       </div>
     </>
   );
