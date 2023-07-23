@@ -12,18 +12,22 @@ export const LOGIN = gql`
 `;
 
 export const ADD_ORDER = gql`
-  mutation addOrder($products: [ID]!) {
+  mutation addOrder($products: [ProductInput]!) {
     addOrder(products: $products) {
       purchaseDate
       products {
-        _id
-        name
-        description
-        price
-        quantity
-        category {
-          name
+        photo {
+          _id
+          title
+          description
+          price
+          createdBy {
+            _id
+            username
+          }
         }
+        size
+        quantity
       }
     }
   }
@@ -53,15 +57,14 @@ export const ADD_USER = gql`
 `;
 
 export const UPLOAD_PHOTO = gql`
-  mutation uploadPhoto(
-    $uploadURL: Blob!
-    $description: String!
-    $photoName: String!
-  ) {
-    uploadPhoto(
-      uploadURL: $uploadURL
-      description: $description
-      photoName: $photoName
-    )
+  mutation addPhoto($url: String!, $title: String!, $description: String!) {
+    addPhoto(url: $url, title: $title, description: $description) {
+      url
+      title
+      description
+      createdBy {
+        _id
+      }
+    }
   }
 `;

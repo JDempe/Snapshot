@@ -1,16 +1,39 @@
 import { gql } from '@apollo/client';
 
+// export const QUERY_PHOTOS = gql`
+//   query getProducts($category: ID) {
+//     products(category: $category) {
+//       _id
+//       name
+//       description
+//       price
+//       quantity
+//       image
+//       category {
+//         _id
+//       }
+//     }
+//   }
+// `;
 export const QUERY_PHOTOS = gql`
-  query getProducts($category: ID) {
-    products(category: $category) {
+  query getPhotos {
+    photos {
       _id
-      name
+      url
+      title
       description
-      price
-      quantity
-      image
-      category {
+      createdBy {
         _id
+        username
+      }
+      likes
+      comments {
+        _id
+        text
+        createdBy {
+          _id
+          username
+        }
       }
     }
   }
@@ -19,7 +42,8 @@ export const QUERY_PHOTOS = gql`
 export const QUERY_CHECKOUT = gql`
   query getCheckout($products: [ID]!) {
     checkout(products: $products) {
-      session
+      id
+      status
     }
   }
 `;

@@ -17,11 +17,6 @@ function PhotoList() {
 
   const { loading, data } = useQuery(QUERY_ALL_PHOTOS);
 
-  const { username } = useQuery(QUERY_USER);
-
-  console.log(data);
-  console.log(state);
-
   useEffect(() => {
     if (data) {
       dispatch({
@@ -64,6 +59,7 @@ function PhotoList() {
               title={photo.title}
               description={photo.description}
               createdBy={photo.createdBy.username}
+              likes={photo.likes}
             />
           ))}
         </Masonry>

@@ -117,14 +117,33 @@ const Cart = () => {
     };
   }, [state.cartOpen, toggleCart]);
 
+  function toggleCart() {
+    dispatch({ type: TOGGLE_CART });
+  }
+
+  // function calculateTotal() {
+  //   let sum = 0;
+  //   state.cart.forEach((item) => {
+  //     sum += item.price * item.purchaseQuantity;
+  //   });
+  //   return sum.toFixed(2);
+  // }
+
   function calculateTotal() {
     let sum = 0;
     state.cart.forEach((item) => {
-      sum += item.price * item.purchaseQuantity;
+      console.log(item); 
+      let price = Number(item.price);
+      let quantity = Number(item.purchaseQuantity);
+      console.log(typeof price, typeof quantity); 
+      if (isNaN(price) || isNaN(quantity)) {
+        console.error('price or purchaseQuantity is not a valid number', item);
+      } else {
+        sum += price * quantity;
+      }
     });
     return sum.toFixed(2);
-  }
-
+}
   function submitCheckout() {
     const productIds = [];
 
@@ -172,10 +191,13 @@ const Cart = () => {
       <h2>Shopping Cart</h2>
       {state.cart.length ? (
         <div>
-          {state.cart.map((item) => (
-            <CartItem key={item._id} item={item} />
-          ))}
-
+        {state.cart.map((item, index) => {
+      if (!item) {
+        console.error(`Item at index ${index} is undefined`);
+        } else {
+        return <CartItem key={item._id} item={item} />
+            }
+          })}
           <div className="flex-row space-between">
             <strong>Total: ${calculateTotal()}</strong>
 
