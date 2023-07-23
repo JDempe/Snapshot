@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { UPLOAD_PHOTO } from '../../utils/mutations';
-import { Alert, Collapse, IconButton } from '@mui/material';
-import CloseIcon from '@mui/icons-material/Close';
 import {
+  Alert,
+  Collapse,
+  IconButton,
   FormControl,
-  FormLabel,
-  FormHelperText,
-  InputLabel,
-  Input,
   Button,
+  TextField,
 } from '@mui/material';
-import TextField from '@mui/material/TextField';
+import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import { useLockBodyScroll } from '@uidotdev/usehooks';
 import './style.scss';
@@ -28,10 +26,13 @@ function Upload() {
   const [photoImage, setPhotoImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null); // this is the image preview that will be displayed on the page
   const [isLoading, setIsLoading] = useState(null);
-  const [isReady, setIsReady] = useState(false); // this is if the image is ready to be uploaded
-  const [submitDisabled, setSubmitDisabled] = useState(true); // this is if the submit button is disabled or not
   const [success, setSuccess] = useState(false); // this is the success message that will be displayed on the page
   const [failed, setFailed] = useState(false); // this is the error message that will be displayed on the page
+
+  const [titleError, setTitleError] = useState(false);
+  const [titleReady, setTitleReady] = useState(false);
+  const [descriptionError, setDescriptionError] = useState(false);
+  const [descriptionReady, setDescriptionReady] = useState(false);
 
   const [addPhoto, { error }] = useMutation(UPLOAD_PHOTO);
 
@@ -43,7 +44,6 @@ function Upload() {
       return;
     }
     setImagePreview(URL.createObjectURL(event.target.files[0]));
-    handleFormReady();
   };
 
   const handleFormSubmit = async (event) => {
@@ -83,37 +83,42 @@ function Upload() {
     }
   };
 
-  const handleFormReady = () => {
-    // check if the form is ready to be submitted by checking the length of the 3 fields (photoName, description, and photoImage)
-    if (
-      formState.photoName.length > 0 &&
-      formState.description.length > 0 &&
-      photoImage
-    ) {
-      setIsReady(true);
-    } else {
-      setIsReady(false);
-    }
-  };
-
-  const handleChange = (event) => {
+  const handleChangeTitle = (event) => {
     const { name, value } = event.target;
     setFormState({
       ...formState,
       [name]: value,
     });
 
-    handleFormReady();
+    if (value.length === 0) {
+      setTitleError(false);
+      setTitleReady(false);
+    } else if (value.length < 3) {
+      setTitleError(true);
+      setTitleReady(false);
+    } else {
+      setTitleError(false);
+      setTitleReady(true);
+    }
   };
 
-  const handleChangeTitle = (e) => {
-    let titleValid = e.target.value ? true : false; // basic title validation
-    let submitValid = this.state.textValid && titleValid; // validate total form
-    this.setState({
-      title: e.target.value,
-      titleValid: titleValid,
-      submitDisabled: !submitValid,
+  const handleChangeDescription = (event) => {
+    const { name, value } = event.target;
+    setFormState({
+      ...formState,
+      [name]: value,
     });
+
+    if (value.length === 0) {
+      setDescriptionError(false);
+      setDescriptionReady(false);
+    } else if (value.length < 5) {
+      setDescriptionError(true);
+      setDescriptionReady(false);
+    } else {
+      setDescriptionError(false);
+      setDescriptionReady(true);
+    }
   };
 
   return (
@@ -157,7 +162,8 @@ function Upload() {
                 label="Title"
                 required
                 margin="normal"
-                color="primary"
+                inputProps={{ maxLength: 20 }}
+                error={titleError}
                 value={formState.photoName}
                 onChange={handleChangeTitle}
               />
@@ -171,18 +177,21 @@ function Upload() {
                 multiline
                 rows={4}
                 required
-                margin="normal"
-                error={formState.description.length < 5}
+                margin="small"
+                inputProps={{ maxLength: 120 }}
+                error={descriptionError}
                 id="uploadDescription"
                 value={formState.description}
-                onChange={handleChange}
+                onChange={handleChangeDescription}
               />
 
               {/* submit button that is disabled if isLoading is true */}
               <Button
                 variant="contained"
                 id="uploadButton"
-                // disabled={isLoading || !isReady}
+                disabled={
+                  isLoading || !titleReady || !descriptionReady || !photoImage
+                }
                 type="submit">
                 {isLoading ? 'Loading...' : 'Upload Photo'}
               </Button>
