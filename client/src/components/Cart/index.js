@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { useLazyQuery } from '@apollo/client';
 import { QUERY_CHECKOUT } from '../../utils/queries';
@@ -17,9 +17,19 @@ const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
+  const [isClosing, setIsClosing] = useState(false); // track cart closing
 
   function toggleCart() {
-    dispatch({ type: TOGGLE_CART });
+    if (state.cartOpen) {
+      // If the cart is open, trigger the closing animation and set the isClosing state to true
+      setIsClosing(true);
+      setTimeout(() => {
+        dispatch({ type: TOGGLE_CART });
+        setIsClosing(false); // Reset the isClosing state after the closing animation is done
+      }, 300);
+    } else {
+      dispatch({ type: TOGGLE_CART });
+    }
   }
 
   useEffect(() => {
@@ -138,7 +148,7 @@ const Cart = () => {
   }
 
   return (
-    <div className="cart">
+    <div className={`cart ${isClosing ? 'cart-closing' : ''}`}>
       {/* shoppign cart icon */}
       {/* <div className="cart-icon">
         <ShoppingCartOutlined />
