@@ -59,6 +59,15 @@
   margin: 0 0.5rem 1rem 0;
 }
 
+.cart-closing {
+  opacity: 0;
+  transition: opacity 0.3s ease-out; /* You can adjust the duration and timing function as needed */
+}
+
+/* .cart-opening {
+  transition: opacity 5s ease-in;
+} */
+
 @media screen and (max-width: 768px) {
   .cart {
     position: relative;

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { useLazyQuery } from '@apollo/client';
 import { QUERY_CHECKOUT } from '../../utils/queries';
@@ -11,16 +11,41 @@ import './style.css';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faCartPlus } from '@fortawesome/free-solid-svg-icons';
-import { ShoppingCartOutlined } from '@mui/icons-material';
+import { IconButton, Button } from '@mui/material';
+import { AddShoppingCartSharp } from '@mui/icons-material';
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
+  const [isClosing, setIsClosing] = useState(false); // track cart closing
+  const [isCartIconClicked, setIsCartIconClicked] = useState(false);
 
-  function toggleCart() {
-    dispatch({ type: TOGGLE_CART });
-  }
+  const toggleCart = useCallback(() => {
+    if (state.cartOpen) {
+      console.log('Closing the cart...');
+      setIsClosing(true);
+      setTimeout(() => {
+        dispatch({ type: TOGGLE_CART });
+        setIsClosing(false);
+      }, 300);
+    } else {
+      console.log('Opening the cart...');
+      dispatch({ type: TOGGLE_CART });
+    }
+  }, [state.cartOpen, dispatch]);
+
+  const handleCartIconClick = () => {
+    console.log('Cart icon clicked');
+    setIsCartIconClicked(true);
+  };
+
+  useEffect(() => {
+    if (isCartIconClicked) {
+      toggleCart();
+      setIsCartIconClicked(false);
+    }
+  }, [isCartIconClicked, toggleCart]);
 
   useEffect(() => {
     if (data) {
@@ -54,15 +79,6 @@ const Cart = () => {
       }, 10000);
     }
 
-    // function handleMouseClickOutside(event) {
-    //   const cartElement = document.querySelector('.cart');
-    //   if (state.cartOpen) {
-    //     if (!cartElement?.contains(event.target)) {
-    //       // If the click is outside the cart, close it
-    //       toggleCart();
-    //     }
-    //   }
-    // }
     function handleMouseClickOutside(event) {
       const cartElement = document.querySelector('.cart');
       const closeIconElement = event.target.closest('.close');
@@ -107,25 +123,13 @@ const Cart = () => {
     };
   }, [state.cartOpen, toggleCart]);
 
-  function toggleCart() {
-    dispatch({ type: TOGGLE_CART });
-  }
-
-  // function calculateTotal() {
-  //   let sum = 0;
-  //   state.cart.forEach((item) => {
-  //     sum += item.price * item.purchaseQuantity;
-  //   });
-  //   return sum.toFixed(2);
-  // }
-
   function calculateTotal() {
     let sum = 0;
     state.cart.forEach((item) => {
-      console.log(item); 
+      console.log(item);
       let price = Number(item.price);
       let quantity = Number(item.purchaseQuantity);
-      console.log(typeof price, typeof quantity); 
+      console.log(typeof price, typeof quantity);
       if (isNaN(price) || isNaN(quantity)) {
         console.error('price or purchaseQuantity is not a valid number', item);
       } else {
@@ -133,7 +137,7 @@ const Cart = () => {
       }
     });
     return sum.toFixed(2);
-}
+  }
   function submitCheckout() {
     const productIds = [];
 
@@ -150,19 +154,14 @@ const Cart = () => {
 
   if (!state.cartOpen) {
     return (
-      <div className="cart-closed" onClick={toggleCart}>
-        <ShoppingCartOutlined />
-      </div>
+      <IconButton className="cart-closed" onClick={handleCartIconClick}>
+        <AddShoppingCartSharp />
+      </IconButton>
     );
   }
 
   return (
-    <div className="cart">
-      {/* shoppign cart icon */}
-      {/* <div className="cart-icon">
-        <ShoppingCartOutlined />
-      </div> */}
-
+    <div className={`cart ${isClosing ? 'cart-closing' : ''}`}>
       {/* close icon to close shopping cart */}
       <div className="close" onClick={(e) => e.stopPropagation()}>
         <FontAwesomeIcon
@@ -181,11 +180,11 @@ const Cart = () => {
       <h2>Shopping Cart</h2>
       {state.cart.length ? (
         <div>
-        {state.cart.map((item, index) => {
-      if (!item) {
-        console.error(`Item at index ${index} is undefined`);
-        } else {
-        return <CartItem key={item._id} item={item} />
+          {state.cart.map((item, index) => {
+            if (!item) {
+              console.error(`Item at index ${index} is undefined`);
+            } else {
+              return <CartItem key={item._id} item={item} />;
             }
           })}
           <div className="flex-row space-between">
