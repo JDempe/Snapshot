@@ -12,9 +12,9 @@ function OrderHistory() {
     variables: { _id: id },
   });
 
-  console.log('loading:', loading); 
-  console.log('error:', error); 
-  console.log('data:', data); 
+  console.log('loading:', loading);
+  console.log('error:', error);
+  console.log('data:', data);
 
   let user;
 
@@ -35,24 +35,31 @@ function OrderHistory() {
               user.orders.map((order, index) => (
                 <div key={order._id || index} className="my-2">
                   <h3>
-                    {new Date(parseInt(order.purchaseDate)).toLocaleDateString()}
+                    {new Date(
+                      parseInt(order.purchaseDate)
+                    ).toLocaleDateString()}
                   </h3>
-                  <h4>Order Number: {order._id || "No Order ID"}</h4>
+                  <h4>Order Number: {order._id || 'No Order ID'}</h4>
                   <div className="flex-row">
-                    {order.products.map(({ photo: { _id, title, price, size, quantity }}, index) => (
-                      <div key={index} className="card px-1 py-1">
-                        <Link to={`/products/${_id}`}>
-                          <p>{title}</p>
-                        </Link>
-                        <div>
-                          <span>${price}</span>
+                    {order.products.map(
+                      (
+                        { photo: { _id, title, price, size, quantity } },
+                        index
+                      ) => (
+                        <div key={index} className="card px-1 py-1">
+                          <Link to={`/products/${_id}`}>
+                            <p>{title}</p>
+                          </Link>
+                          <div>
+                            <span>${price}</span>
+                          </div>
+                          <div>
+                            <span>Size: {size}</span>
+                            <span>Quantity: {quantity}</span>
+                          </div>
                         </div>
-                        <div>
-                          <span>Size: {size}</span>
-                          <span>Quantity: {quantity}</span>
-                        </div>
-                      </div>
-                    ))}
+                      )
+                    )}
                   </div>
                 </div>
               ))

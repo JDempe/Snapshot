@@ -15,11 +15,10 @@ const resolvers = {
     //   throw new Error('You need to be logged in!');
     // },
 
-    
-      user: async (parent, { _id }, context) => {
-        return User.findOne({ _id: _id });
-      },
-    
+    user: async (parent, { _id }, context) => {
+      return User.findOne({ _id: _id });
+    },
+
     photos: async () => {
       // do Photo.find() and then do another search for each createdBy _id to get username
       return Photo.find().populate('createdBy');
@@ -47,33 +46,33 @@ const resolvers = {
     comment: async (parent, { _id }) => {
       return Comment.findById(_id);
     },
-    
+
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
       const order = new Order({ products: args.products });
       const line_items = [];
-  
+
       const { products } = await order.populate('products');
-  
+
       for (let i = 0; i < products.length; i++) {
         const product = await stripe.products.create({
           name: products[i].name,
           description: products[i].description,
           images: [`${url}/images/${products[i].image}`],
         });
-  
+
         const price = await stripe.prices.create({
           product: product.id,
           unit_amount: products[i].price * 100,
           currency: 'usd',
         });
-  
+
         line_items.push({
           price: price.id,
           quantity: 1,
         });
       }
-  
+
       // const session = await stripe.checkout.sessions.create({
       //   payment_method_types: ['card'],
       //   line_items,
@@ -101,12 +100,8 @@ const resolvers = {
         // cancel_url: 'https://example.com/cancel',
       });
 
-
-
-
-  
-      return { id: session.id, status: 'Created' };  // returning object with id and status
-  },
+      return { id: session.id, status: 'Created' }; // returning object with id and status
+    },
   },
   Mutation: {
     addUser: async (parent, args) => {
@@ -132,21 +127,21 @@ const resolvers = {
     addOrder: async (parent, { products }, context) => {
       if (context.user) {
         const order = new Order({ products });
-    
+
         // calculating the total price of the order
         let totalPrice = 0;
-        for(let product of products) {
+        for (let product of products) {
           totalPrice += product.quantity * product.price;
         }
         order.total = totalPrice;
-    
+
         await User.findByIdAndUpdate(context.user._id, {
           $push: { orders: order },
         });
-    
+
         return order;
       }
-    
+
       throw new AuthenticationError('Not logged in');
     },
     updateUser: async (parent, args, context) => {

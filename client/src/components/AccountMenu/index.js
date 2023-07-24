@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { styled, alpha } from '@mui/material/styles';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {
   Menu,
@@ -10,55 +9,32 @@ import {
   Tooltip,
   IconButton,
   Avatar,
+  ListItemIcon,
+  Typography,
+  Box,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
 import Auth from '../../utils/auth';
 import './style.scss';
+import { useQuery } from '@apollo/client';
+import { QUERY_USER } from '../../utils/queries';
 
-const StyledMenu = styled((props) => (
-  <Menu
-    elevation={0}
-    anchorOrigin={{
-      vertical: 'bottom',
-      horizontal: 'right',
-    }}
-    transformOrigin={{
-      vertical: 'top',
-      horizontal: 'right',
-    }}
-    {...props}
-  />
-))(({ theme }) => ({
-  '& .MuiPaper-root': {
-    borderRadius: 6,
-    marginTop: theme.spacing(1),
-    minWidth: 180,
-    color:
-      theme.palette.mode === 'light'
-        ? 'rgb(55, 65, 81)'
-        : theme.palette.grey[300],
-    boxShadow:
-      'rgb(255, 255, 255) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px',
-    '& .MuiMenu-list': {
-      padding: '4px 0',
-    },
-    '& .MuiMenuItem-root': {
-      '& .MuiSvgIcon-root': {
-        fontSize: 18,
-        color: theme.palette.text.secondary,
-        marginRight: theme.spacing(1.5),
-      },
-      '&:active': {
-        backgroundColor: alpha(
-          theme.palette.primary.main,
-          theme.palette.action.selectedOpacity
-        ),
-      },
-    },
-  },
-}));
+export default function AccountMenu() {
+  Auth.loggedIn() ? console.log('logged in') : console.log('not logged in');
 
-export default function CustomizedMenus() {
+  const userId = Auth.getProfile().data._id; // Get the user id from the Auth.getProfile() function
+
+  console.log('id:', userId); // Log the id
+
+  // use the QUERY_USER GetUser query to get the user data for the logged in user
+  const { loading, data } = useQuery(QUERY_USER, {
+    variables: { _id: userId },
+  });
+
+  console.log(data);
+
+  const user = data?.user || {};
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -69,31 +45,72 @@ export default function CustomizedMenus() {
   };
 
   return (
-    <div>
-      <Tooltip title="Account settings">
-        <IconButton
-          onClick={handleClick}
-          size="small"
-          sx={{ ml: 2 }}
-          aria-controls={open ? 'account-menu' : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? 'true' : undefined}>
-          <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
-        </IconButton>
-      </Tooltip>
-      <StyledMenu
-        id="demo-customized-menu"
-        MenuListProps={{
-          'aria-labelledby': 'demo-customized-button',
-        }}
+    <React.Fragment>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          textAlign: 'center',
+          width: 'fit-content',
+        }}>
+        <Tooltip title="Account settings">
+          <IconButton
+            onClick={handleClick}
+            size="small"
+            sx={{ ml: 2 }}
+            aria-controls={open ? 'account-menu' : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? 'true' : undefined}>
+            <Avatar sx={{ width: 32, height: 32 }}>
+              <img src={user.profilePicture} alt="profilePicture"></img>
+            </Avatar>
+          </IconButton>
+        </Tooltip>
+      </Box>
+      <Menu
         anchorEl={anchorEl}
+        id="account-menu"
         open={open}
         onClose={handleClose}
-        disableScrollLock={true}>
+        onClick={handleClose}
+        disableScrollLock={true}
+        PaperProps={{
+          elevation: 0,
+          sx: {
+            overflow: 'visible',
+            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
+            mt: 1.5,
+            '& .MuiAvatar-root': {
+              width: 32,
+              height: 32,
+              ml: -0.5,
+              mr: 1,
+            },
+            '&:before': {
+              content: '""',
+              display: 'block',
+              position: 'absolute',
+              top: 0,
+              right: 14,
+              width: 10,
+              height: 10,
+              bgcolor: 'background.paper',
+              transform: 'translateY(-50%) rotate(45deg)',
+              zIndex: 0,
+            },
+          },
+        }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
         {/* display the user first and last name, not clickable menu item just avatar and text */}
         <div id="dropdownUsername">
-          <Avatar sx={{ width: 50, height: 50 }}>M</Avatar>
-          <p>First Last</p>
+          <Avatar sx={{ width: 50, height: 50 }}>
+            {' '}
+            <img src={user.profilePicture} alt="profilePicture"></img>
+          </Avatar>
+          <p fontSize="1rem">
+            {user.firstName} {user.lastName}
+          </p>
         </div>
 
         <Divider sx={{ my: 0.5 }} />
@@ -102,22 +119,22 @@ export default function CustomizedMenus() {
           to="/orderhistory"
           onClick={handleClose}
           disableRipple>
-          <ShoppingCartIcon />
+          <ListItemIcon>
+            <ShoppingCartIcon fontSize="small" />
+          </ListItemIcon>
           Order History
         </MenuItem>
-        {/* <MenuItem  component={Link} to="/settings" onClick={handleClose} disableRipple>
-          <SettingsIcon />
-          Settings
-        </MenuItem> */}
         <MenuItem
           component={Link}
-          to="/logout"
+          to="/"
           onClick={() => Auth.logout()}
           disableRipple>
-          <LogoutIcon />
+          <ListItemIcon>
+            <LogoutIcon fontSize="small" />
+          </ListItemIcon>
           Logout
         </MenuItem>
-      </StyledMenu>
-    </div>
+      </Menu>
+    </React.Fragment>
   );
 }

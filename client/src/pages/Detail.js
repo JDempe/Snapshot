@@ -30,6 +30,8 @@ function Detail() {
 
   const { loading, data } = useQuery(QUERY_ALL_PHOTOS);
 
+  const photosList = data?.photos || [];
+
   const { photos, cart } = state;
 
   // displaying other photos at bottom of page

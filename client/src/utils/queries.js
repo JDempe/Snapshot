@@ -128,8 +128,6 @@ export const QUERY_CATEGORIES = gql`
 //   }
 // `;
 
-
-
 export const QUERY_USER = gql`
   query User($_id: ID!) {
     user(_id: $_id) {
@@ -138,6 +136,7 @@ export const QUERY_USER = gql`
       email
       firstName
       lastName
+      profilePicture
       orders {
         total
         purchaseDate
