@@ -1,16 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { QUERY_USER } from '../utils/queries';
 
 function OrderHistory() {
-  const { data } = useQuery(QUERY_USER);
+  const { id } = useParams();
+
+  console.log('id:', id); // Log the id
+
+  const { loading, error, data } = useQuery(QUERY_USER, {
+    variables: { _id: id },
+  });
+
+  console.log('loading:', loading); 
+  console.log('error:', error); 
+  console.log('data:', data); 
+
   let user;
 
   if (data) {
     user = data.user;
   }
-
   return (
     <>
       <div className="container my-1">
@@ -29,10 +39,10 @@ function OrderHistory() {
                   </h3>
                   <h4>Order Number: {order._id || "No Order ID"}</h4>
                   <div className="flex-row">
-                    {order.products.map(({ photo: { _id, title, description, price, name }, size, quantity }, index) => (
+                    {order.products.map(({ photo: { _id, title, price, size, quantity }}, index) => (
                       <div key={index} className="card px-1 py-1">
                         <Link to={`/products/${_id}`}>
-                          <p>{name}</p>
+                          <p>{title}</p>
                         </Link>
                         <div>
                           <span>${price}</span>
@@ -47,10 +57,12 @@ function OrderHistory() {
                 </div>
               ))
             ) : (
-              <h4>You have no order history</h4>
+              <h4>You have no orders</h4>
             )}
           </>
-        ) : null}
+        ) : (
+          <h4>Please log in to see your order history</h4>
+        )}
       </div>
     </>
   );

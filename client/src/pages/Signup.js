@@ -33,7 +33,10 @@ function Signup(props) {
       },
     });
     const token = mutationResponse.data.addUser.token;
+
     Auth.login(token);
+    localStorage.setItem('user_id', mutationResponse.data.addUser.user._id); 
+
   };
 
   const handleChange = (event) => {

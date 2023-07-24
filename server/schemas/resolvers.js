@@ -8,9 +8,18 @@ const resolvers = {
     users: async () => {
       return User.find();
     },
-    user: async (parent, { _id }, context) => {
-      return User.findOne({ _id });
-    },
+    // user: async (parent, args, context) => {
+    //   if (context.user) {
+    //     return User.findOne({ _id: context.user._id });
+    //   }
+    //   throw new Error('You need to be logged in!');
+    // },
+
+    
+      user: async (parent, { _id }, context) => {
+        return User.findOne({ _id: _id });
+      },
+    
     photos: async () => {
       // do Photo.find() and then do another search for each createdBy _id to get username
       return Photo.find().populate('createdBy');
@@ -106,17 +115,38 @@ const resolvers = {
 
       return { token, user };
     },
+    // addOrder: async (parent, { products }, context) => {
+    //   if (context.user) {
+    //     const order = new Order({ products });
+
+    //     await User.findByIdAndUpdate(context.user._id, {
+    //       $push: { orders: order },
+    //     });
+
+    //     return order;
+    //   }
+
+    //   throw new AuthenticationError('Not logged in');
+    // },
+
     addOrder: async (parent, { products }, context) => {
       if (context.user) {
         const order = new Order({ products });
-
+    
+        // calculating the total price of the order
+        let totalPrice = 0;
+        for(let product of products) {
+          totalPrice += product.quantity * product.price;
+        }
+        order.total = totalPrice;
+    
         await User.findByIdAndUpdate(context.user._id, {
           $push: { orders: order },
         });
-
+    
         return order;
       }
-
+    
       throw new AuthenticationError('Not logged in');
     },
     updateUser: async (parent, args, context) => {
