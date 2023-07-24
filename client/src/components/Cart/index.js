@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { useLazyQuery } from '@apollo/client';
-import { QUERY_CHECKOUT } from '../../utils/queries';
+import { QUERY_CHECKOUT, QUERY_ORDERS } from '../../utils/queries';
 import { idbPromise } from '../../utils/helpers';
 import CartItem from '../CartItem';
 import Auth from '../../utils/auth';
@@ -50,7 +50,7 @@ const Cart = () => {
   useEffect(() => {
     if (data) {
       stripePromise.then((res) => {
-        res.redirectToCheckout({ sessionId: data.checkout.session });
+        res.redirectToCheckout({ sessionId: data.checkout.id }); // data.checkout.session vs data.checkout.id
       });
     }
   }, [data]);
@@ -58,6 +58,7 @@ const Cart = () => {
   useEffect(() => {
     async function getCart() {
       const cart = await idbPromise('cart', 'get');
+      console.log(cart);
       dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
     }
 
@@ -125,27 +126,41 @@ const Cart = () => {
 
   function calculateTotal() {
     let sum = 0;
+    console.log('Cart items:', state.cart);
     state.cart.forEach((item) => {
       console.log(item);
-      let price = Number(item.price);
-      let quantity = Number(item.purchaseQuantity);
-      console.log(typeof price, typeof quantity);
-      if (isNaN(price) || isNaN(quantity)) {
-        console.error('price or purchaseQuantity is not a valid number', item);
-      } else {
-        sum += price * quantity;
+      if (item && item.price && item.purchaseQuantity) {
+        let price = Number(item.price);
+        let quantity = Number(item.purchaseQuantity);
+        console.log(
+          'price',
+          typeof price,
+          price,
+          'quantity',
+          typeof quantity,
+          quantity
+        );
+        if (isNaN(price) || isNaN(quantity)) {
+          console.error(
+            'price or purchaseQuantity is not a valid number',
+            item
+          );
+        } else {
+          sum += price * quantity;
+        }
       }
     });
     return sum.toFixed(2);
   }
-  function submitCheckout() {
-    const productIds = [];
 
-    state.cart.forEach((item) => {
-      for (let i = 0; i < item.purchaseQuantity; i++) {
-        productIds.push(item._id);
-      }
-    });
+  function submitCheckout() {
+    const productIds = state.cart.map((item) => item._id);
+
+    // state.cart.forEach((item) => {
+    //   for (let i = 0; i < item.purchaseQuantity; i++) {
+    //     productIds.push(item._id);
+    //   }
+    // });
 
     getCheckout({
       variables: { products: productIds },
@@ -183,8 +198,15 @@ const Cart = () => {
           {state.cart.map((item, index) => {
             if (!item) {
               console.error(`Item at index ${index} is undefined`);
+              return null;
+            } else if (item._id && item.price) {
+              const price = item.price;
+              return <CartItem key={item._id} item={item} price={price} />;
             } else {
-              return <CartItem key={item._id} item={item} />;
+              console.error(
+                `Item at index ${index} is missing required properties`
+              );
+              return null;
             }
           })}
           <div className="flex-row space-between">

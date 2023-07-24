@@ -70,6 +70,8 @@ function Detail() {
   }, [photos, data, loading, dispatch, id]);
 
   const addToCart = () => {
+    console.log('addToCart function called');
+
     const itemInCart = cart.find((cartItem) => cartItem._id === id);
     if (itemInCart) {
       dispatch({
@@ -84,9 +86,17 @@ function Detail() {
     } else {
       dispatch({
         type: ADD_TO_CART,
-        photo: { ...currentPhoto, purchaseQuantity: 1 },
+        photo: {
+          ...currentPhoto,
+          purchaseQuantity: 1,
+          price: Number(currentPhoto.price),
+        },
       });
-      idbPromise('cart', 'put', { ...currentPhoto, purchaseQuantity: 1 });
+      idbPromise('cart', 'put', {
+        ...currentPhoto,
+        purchaseQuantity: 1,
+        price: Number(currentPhoto.price),
+      });
     }
   };
 

@@ -39,6 +39,25 @@ export const QUERY_PHOTOS = gql`
   }
 `;
 
+export const QUERY_ORDERS = gql`
+  query getOrders {
+    orders {
+      _id
+      purchaseDate
+      products {
+        photo {
+          _id
+          url
+        }
+        size
+        price # Include the price field here to get the price of each product in the order
+        quantity
+      }
+      total
+    }
+  }
+`;
+
 export const QUERY_CHECKOUT = gql`
   query getCheckout($products: [ID]!) {
     checkout(products: $products) {
