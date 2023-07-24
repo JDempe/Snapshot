@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { Alert, Collapse, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import './style.scss';
 
 function Login(props) {
   const [formState, setFormState] = useState({ email: '', password: '' });
@@ -64,6 +65,7 @@ function Login(props) {
 
   const [passwordError, setPasswordError] = useState(false);
   const [passwordReady, setPasswordReady] = useState(false);
+  const [passwordHelper, setPasswordHelper] = useState(true);
   const handleChangePassword = (event) => {
     const { name, value } = event.target;
     setFormState({
@@ -111,18 +113,19 @@ function Login(props) {
             error={emailError}
           />
           <TextField
-            margin="normal"
             required
             fullWidth
+            inputProps={{ minLength: 1, maxLength: 128 }}
             name="password"
             label="Password"
             type="password"
             id="password"
-            autoComplete="current-password"
-            multiline
+            autoComplete="new-password"
             onChange={handleChangePassword}
+            onFocus={() => setPasswordHelper(true)}
             error={passwordError}
           />
+
           {/* <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"

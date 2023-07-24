@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { useMutation } from '@apollo/client';
 import Auth from '../../utils/auth';
 import { ADD_USER } from '../../utils/mutations';
+import './style.scss';
 
 function Signup(props) {
   const [failed, setFailed] = useState(false); // this is the error message t
@@ -29,19 +30,25 @@ function Signup(props) {
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
-    const mutationResponse = await addUser({
-      variables: {
-        email: formState.email,
-        username: formState.username,
-        password: formState.password,
-        firstName: formState.firstName,
-        lastName: formState.lastName,
-      },
-    });
-    const token = mutationResponse.data.addUser.token;
 
-    Auth.login(token);
-    localStorage.setItem('user_id', mutationResponse.data.addUser.user._id);
+    try {
+      const mutationResponse = await addUser({
+        variables: {
+          email: formState.email,
+          username: formState.username,
+          password: formState.password,
+          firstName: formState.firstName,
+          lastName: formState.lastName,
+        },
+      });
+      const token = mutationResponse.data.addUser.token;
+
+      Auth.login(token);
+      localStorage.setItem('user_id', mutationResponse.data.addUser.user._id);
+    } catch (e) {
+      console.log(e);
+      setFailed(true);
+    }
   };
 
   const [firstNameError, setFirstNameError] = useState(false);
@@ -88,6 +95,7 @@ function Signup(props) {
 
   const [usernameError, setUsernameError] = useState(false);
   const [usernameReady, setUsernameReady] = useState(false);
+  const [usernameHelper, setUsernameHelper] = useState(false);
   const handleChangeUsername = (event) => {
     const { name, value } = event.target;
     setFormState({
@@ -109,6 +117,7 @@ function Signup(props) {
 
   const [emailError, setEmailError] = useState(false);
   const [emailReady, setEmailReady] = useState(false);
+  const [emailHelper, setEmailHelper] = useState(false);
   const handleChangeEmail = (event) => {
     const { name, value } = event.target;
     setFormState({
@@ -130,6 +139,7 @@ function Signup(props) {
 
   const [passwordError, setPasswordError] = useState(false);
   const [passwordReady, setPasswordReady] = useState(false);
+  const [passwordHelper, setPasswordHelper] = useState(false);
   const handleChangePassword = (event) => {
     const { name, value } = event.target;
     setFormState({
@@ -205,7 +215,14 @@ function Signup(props) {
                 onChange={handleChangeEmail}
                 error={emailError}
                 multiline
+                onFocus={() => setEmailHelper(true)}
+                onBlur={() => setEmailHelper(false)}
               />
+              <Collapse in={emailHelper}>
+                <Alert severity="info" sx={{ mb: 2 }}>
+                  Please enter a valid email address.
+                </Alert>
+              </Collapse>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -219,7 +236,14 @@ function Signup(props) {
                 onChange={handleChangeUsername}
                 error={usernameError}
                 multiline
+                onFocus={() => setUsernameHelper(true)}
+                onBlur={() => setUsernameHelper(false)}
               />
+              <Collapse in={usernameHelper}>
+                <Alert severity="info" sx={{ mb: 2 }}>
+                  Username must be at least 5 characters long.
+                </Alert>
+              </Collapse>
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -233,8 +257,15 @@ function Signup(props) {
                 autoComplete="new-password"
                 onChange={handleChangePassword}
                 error={passwordError}
-                multiline
+                onFocus={() => setPasswordHelper(true)}
+                onBlur={() => setPasswordHelper(false)}
               />
+              <Collapse in={passwordHelper}>
+                <Alert severity="info" sx={{ mb: 2 }}>
+                  Password must be at least 5 characters long, contain at least
+                  1 number, and contain at least 1 special character.
+                </Alert>
+              </Collapse>
             </Grid>
           </Grid>
           <Button
@@ -266,7 +297,7 @@ function Signup(props) {
                 </IconButton>
               }
               sx={{ mb: 2 }}>
-              Incorrect Credentials! Please try again.
+              Something went wrong! Please try again.
             </Alert>
           </Collapse>
           <Grid container justifyContent="center">
