@@ -1,7 +1,7 @@
 import React from 'react';
 import PhotoList from '../components/PhotoList';
 
-const Home = () => {
+const Discover = () => {
   return (
     <div className="container" sx={{ width: 1 }}>
       <PhotoList />
@@ -9,4 +9,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Discover;

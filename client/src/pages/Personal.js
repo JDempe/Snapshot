@@ -10,11 +10,7 @@ import { QUERY_USER_PHOTOS } from '../utils/queries';
 import './Personal.scss';
 
 const Personal = () => {
-  Auth.loggedIn() ? console.log('logged in') : console.log('not logged in');
-
   const userId = Auth.getProfile().data._id; // Get the user id from the Auth.getProfile() function
-
-  console.log('id:', userId); // Log the id
 
   // use the QUERY_USER User query to get the user data for the logged in user
   const { loading, data } = useQuery(QUERY_USER_PHOTOS, {

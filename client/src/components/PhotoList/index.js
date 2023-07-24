@@ -12,10 +12,10 @@ import './index.scss';
 
 function PhotoList() {
   const [state, dispatch] = useStoreContext();
-
-  const { currentCategory } = state;
-
   const { loading, data } = useQuery(QUERY_ALL_PHOTOS);
+
+  console.log('requerying from PhotoList');
+  console.log(data);
 
   useEffect(() => {
     if (data) {
@@ -36,22 +36,12 @@ function PhotoList() {
     }
   }, [data, loading, dispatch]);
 
-  function filterProducts() {
-    if (!currentCategory) {
-      return state.products;
-    }
-
-    return state.products.filter(
-      (product) => product.category._id === currentCategory
-    );
-  }
-
   return (
     <Box sx={{ width: 1, minHeight: 400, marginTop: 10, marginBottom: 10 }}>
       {state.photos.length ? (
         <Masonry columns={3} spacing={1}>
           {/* Display the photos using different heights based on the heights array */}
-          {state.photos.map((photo, i) => (
+          {state.photos.map((photo) => (
             <ProductItem
               key={photo._id}
               _id={photo._id}
