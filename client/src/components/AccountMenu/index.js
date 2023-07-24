@@ -28,7 +28,7 @@ export default function AccountMenu() {
 
   // use the QUERY_USER GetUser query to get the user data for the logged in user
   const { loading, data } = useQuery(QUERY_USER, {
-    variables: { id: userId },
+    variables: { _id: userId },
   });
 
   console.log(data);
