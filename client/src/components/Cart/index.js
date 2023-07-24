@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { useLazyQuery } from '@apollo/client';
-import { QUERY_CHECKOUT } from '../../utils/queries';
+import { QUERY_CHECKOUT, QUERY_ORDERS } from '../../utils/queries';
 import { idbPromise } from '../../utils/helpers';
 import CartItem from '../CartItem';
 import Auth from '../../utils/auth';
@@ -13,6 +13,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton, Button } from '@mui/material';
 import { AddShoppingCartSharp } from '@mui/icons-material';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const Cart = () => {
@@ -50,7 +52,7 @@ const Cart = () => {
   useEffect(() => {
     if (data) {
       stripePromise.then((res) => {
-        res.redirectToCheckout({ sessionId: data.checkout.session });
+        res.redirectToCheckout({ sessionId: data.checkout.id }); // data.checkout.session vs data.checkout.id
       });
     }
   }, [data]);
@@ -58,7 +60,8 @@ const Cart = () => {
   useEffect(() => {
     async function getCart() {
       const cart = await idbPromise('cart', 'get');
-      dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
+
+      dispatch({ type: ADD_MULTIPLE_TO_CART, photos: [...cart] });
     }
 
     if (!state.cart.length) {
@@ -125,86 +128,114 @@ const Cart = () => {
 
   function calculateTotal() {
     let sum = 0;
+    console.log('Cart items:', state.cart);
     state.cart.forEach((item) => {
       console.log(item);
-      let price = Number(item.price);
-      let quantity = Number(item.purchaseQuantity);
-      console.log(typeof price, typeof quantity);
-      if (isNaN(price) || isNaN(quantity)) {
-        console.error('price or purchaseQuantity is not a valid number', item);
-      } else {
-        sum += price * quantity;
+      if (item && item.price && item.purchaseQuantity) {
+        let price = Number(item.price);
+        let quantity = Number(item.purchaseQuantity);
+        console.log(
+          'price',
+          typeof price,
+          price,
+          'quantity',
+          typeof quantity,
+          quantity
+        );
+        if (isNaN(price) || isNaN(quantity)) {
+          console.error(
+            'price or purchaseQuantity is not a valid number',
+            item
+          );
+        } else {
+          sum += price * quantity;
+        }
       }
     });
     return sum.toFixed(2);
   }
-  function submitCheckout() {
-    const productIds = [];
 
-    state.cart.forEach((item) => {
-      for (let i = 0; i < item.purchaseQuantity; i++) {
-        productIds.push(item._id);
-      }
-    });
+  function submitCheckout() {
+    const productIds = state.cart.map((item) => item._id);
+
+    // state.cart.forEach((item) => {
+    //   for (let i = 0; i < item.purchaseQuantity; i++) {
+    //     productIds.push(item._id);
+    //   }
+    // });
 
     getCheckout({
       variables: { products: productIds },
     });
   }
 
-  if (!state.cartOpen) {
+  // if (!state.cartOpen) {
+  //   return (
+  //     <IconButton
+  //       className="cart-closed linkText"
+  //       onClick={handleCartIconClick}>
+  //       <ShoppingCartIcon style={{ fontSize: 26 }} />
+  //     </IconButton>
+  //   );
+  // }
+
+  if (state.cartOpen) {
     return (
-      <IconButton className="cart-closed" onClick={handleCartIconClick}>
-        <AddShoppingCartSharp />
-      </IconButton>
-    );
-  }
+      <div>
+        <IconButton className="linkText" onClick={handleCartIconClick}>
+          <ShoppingCartIcon style={{ fontSize: 26 }} />
+        </IconButton>
+        <div className={`cart ${isClosing ? 'cart-closing' : ''}`}>
+          <div className="close" onClick={(e) => e.stopPropagation()}>
+            <FontAwesomeIcon
+              icon={faClose}
+              color="#EFD81D"
+              style={{
+                height: '7%',
+                width: '7%',
+                position: 'relative',
+                right: '-92%',
+              }}
+              onClick={toggleCart}
+            />
+          </div>
 
-  return (
-    <div className={`cart ${isClosing ? 'cart-closing' : ''}`}>
-      {/* close icon to close shopping cart */}
-      <div className="close" onClick={(e) => e.stopPropagation()}>
-        <FontAwesomeIcon
-          icon={faClose}
-          color="#EFD81D"
-          style={{
-            height: '7%',
-            width: '7%',
-            position: 'relative',
-            right: '-92%',
-          }}
-          onClick={toggleCart}
-        />
-      </div>
-
-      <h2>Shopping Cart</h2>
-      {state.cart.length ? (
-        <div>
-          {state.cart.map((item, index) => {
-            if (!item) {
-              console.error(`Item at index ${index} is undefined`);
-            } else {
-              return <CartItem key={item._id} item={item} />;
-            }
-          })}
-          <div className="flex-row space-between">
-            <strong>Total: ${calculateTotal()}</strong>
-
+          <h2>Shopping Cart</h2>
+          {state.cart.length ? (
             <div>
-              <button onClick={submitCheckout}>Checkout</button>
-              {!Auth.loggedIn() && (
-                <p>
-                  <Link
-                    to="/login"
-                    className="checkout-link"
-                    style={{ color: '#000' }}>
-                    (Log in to check out)
-                  </Link>
-                </p>
-              )}
-            </div>
+              {state.cart.map((item, index) => {
+                if (!item) {
+                  console.error(`Item at index ${index} is undefined`);
+                  return null;
+                } else if (item._id) {
+                  console.log('item', item);
+                  console.log(state.cart);
+                  return <CartItem key={item._id} item={item} />;
+                } else {
+                  console.error(
+                    `Item at index ${index} is missing required properties`
+                  );
+                  return null;
+                }
+              })}
+              <div className="flex-row space-between">
+                <strong>Total: ${calculateTotal()}</strong>
 
-            {/* {Auth.loggedIn() ? (
+                <div>
+                  <button onClick={submitCheckout}>Checkout</button>
+                  {!Auth.loggedIn() && (
+                    <p>
+                      <Link
+                        to="/login"
+                        className="checkout-link"
+                        style={{ color: '#000' }}>
+                        (Log in to check out)
+                      </Link>
+                    </p>
+                  )}
+                </div>
+
+                {/* {Auth.loggedIn() ? (
               <button onClick={submitCheckout}>Checkout</button>
             ) : (
               <Link
@@ -214,20 +245,28 @@ const Cart = () => {
                 (log in to check out)
               </Link>
             )} */}
-          </div>
+              </div>
+            </div>
+          ) : (
+            <h5 style={{ color: 'gray', marginLeft: '3%' }}>
+              {' '}
+              <FontAwesomeIcon
+                icon={faCartPlus}
+                color="#EFD81D"
+                style={{ height: '7%', width: '7%' }}
+              />
+              &nbsp;&nbsp;Your Shopping Cart is Empty...
+            </h5>
+          )}
         </div>
-      ) : (
-        <h5 style={{ color: 'gray', marginLeft: '3%' }}>
-          {' '}
-          <FontAwesomeIcon
-            icon={faCartPlus}
-            color="#EFD81D"
-            style={{ height: '7%', width: '7%' }}
-          />
-          &nbsp;&nbsp;Your Shopping Cart is Empty...
-        </h5>
-      )}
-    </div>
+      </div>
+    );
+  }
+
+  return (
+    <IconButton className="cart-closed linkText" onClick={handleCartIconClick}>
+      <ShoppingCartIcon style={{ fontSize: 26 }} />
+    </IconButton>
   );
 };
 

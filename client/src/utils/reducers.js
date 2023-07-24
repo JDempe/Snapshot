@@ -5,8 +5,6 @@ import {
   UPDATE_CART_QUANTITY,
   REMOVE_FROM_CART,
   ADD_MULTIPLE_TO_CART,
-  UPDATE_CATEGORIES,
-  UPDATE_CURRENT_CATEGORY,
   CLEAR_CART,
   TOGGLE_CART,
 } from './actions';
@@ -23,13 +21,13 @@ export const reducer = (state, action) => {
       return {
         ...state,
         cartOpen: true,
-        cart: [...state.cart, action.product],
+        cart: [...state.cart, action.photo],
       };
 
     case ADD_MULTIPLE_TO_CART:
       return {
         ...state,
-        cart: [...state.cart, ...action.products],
+        cart: [...action.photos],
       };
 
     case UPDATE_CART_QUANTITY:
@@ -66,18 +64,6 @@ export const reducer = (state, action) => {
       return {
         ...state,
         cartOpen: !state.cartOpen,
-      };
-
-    case UPDATE_CATEGORIES:
-      return {
-        ...state,
-        categories: [...action.categories],
-      };
-
-    case UPDATE_CURRENT_CATEGORY:
-      return {
-        ...state,
-        currentCategory: action.currentCategory,
       };
 
     default:
