@@ -188,9 +188,25 @@ export const QUERY_USER_PHOTOS = gql`
       profilePicture
       savedPhotos {
         _id
+        url
+        username
+        title
+        description
+        likes
+        createdBy {
+          username
+        }
       }
       likedPhotos {
         _id
+        url
+        username
+        title
+        description
+        likes
+        createdBy {
+          username
+        }
       }
     }
   }
