@@ -30,6 +30,8 @@ function Detail() {
 
   const { loading, data } = useQuery(QUERY_ALL_PHOTOS);
 
+  const photosList = data?.photos || [];
+
   const { photos, cart } = state;
 
   // displaying other photos at bottom of page
@@ -286,7 +288,10 @@ function Detail() {
               <p className="imageAuthor">
                 by{' '}
                 <Link style={{ color: '#549cf1', fontWeight: 'bold' }}>
-                  {/* <p>{currentPhoto.createdBy.username}</p> */}
+                <span>
+              <span>{currentPhoto && currentPhoto.createdBy ? currentPhoto.createdBy.username : 'Loading...'}</span>
+              </span>
+                {/* <p>{currentPhoto && currentPhoto.createdBy ? currentPhoto.createdBy.username : 'Loading...'}</p> */}
                 </Link>
               </p>
               <div className="imageDescription">
@@ -345,19 +350,18 @@ function Detail() {
                 Check out these other photos
               </h5>
               <div className="otherPhotosContainer">
-                {otherPhotos.map((photo) => (
-                  <div className="otherPhotoBarrier">
-                    <div className="otherPhoto">
-                      <img
-                        key={photo._id}
-                        src={photo.url}
-                        alt={photo.title}
-                        className="otherPhoto"
-                        onClick={() => navigateOtherPhoto(photo._id)}
-                      />
-                    </div>
-                  </div>
-                ))}
+              {otherPhotos.map((photo) => (
+              <div className="otherPhotoBarrier" key={photo._id}>
+                <div className="otherPhoto">
+              <img
+               src={photo.url}
+               alt={photo.title}
+              className="otherPhoto"
+               onClick={() => navigateOtherPhoto(photo._id)}
+              />
+          </div>
+               </div>
+              ))}
               </div>
             </div>
           )}

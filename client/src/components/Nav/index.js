@@ -1,6 +1,7 @@
 import React from 'react';
 import Auth from '../../utils/auth';
 import Cart from '../Cart';
+import AccountMenu from '../AccountMenu';
 import {
   Link,
   useLocation,
@@ -9,7 +10,11 @@ import {
   NavLink,
 } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import './index.scss';
+import './style.scss';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import FileUploadIcon from '@mui/icons-material/FileUpload';
+import './style.scss';
+const userId = localStorage.getItem('user_id');
 
 function Nav() {
   const location = useLocation();
@@ -17,25 +22,7 @@ function Nav() {
 
   function showLoginOptions() {
     if (Auth.loggedIn()) {
-      return (
-        <ul className="flex-row">
-          <li className="mx-1">
-            <Link to="/orderHistory">
-              <Button variant="outlined" className="orderButton">
-                Order History
-              </Button>
-            </Link>
-          </li>
-          <li className="mx-1">
-            {/* this is not using the Link component to logout or user and then refresh the application to the start */}
-            <a href="/" onClick={() => Auth.logout()}>
-              <Button variant="outlined" className="logoutButton">
-                Log Out
-              </Button>
-            </a>
-          </li>
-        </ul>
-      );
+      return <AccountMenu />;
     } else {
       return (
         <ul className="flex-row alignRight">
@@ -79,10 +66,25 @@ function Nav() {
           state={{ previousLocation: location }}>
           {({ isActive, isPending }) => (
             <div className={isActive ? 'active linkText' : 'linkText'}>
-              Upload
+              {/* upload icon */}
+              <FileUploadIcon style={{ fontSize: 32 }} />
             </div>
           )}
         </NavLink>
+      );
+    }
+  }
+
+  function showShoppingCart() {
+    // if logged in, show the cart button
+    if (Auth.loggedIn()) {
+      return (
+        <div className="linkText">
+          <ShoppingCartIcon
+            onClick={() => navigate('/cart')}
+            style={{ fontSize: 26 }}
+          />
+        </div>
       );
     }
   }
@@ -98,14 +100,15 @@ function Nav() {
           <div className="linkText">Discover</div>
         </Link>
         {showPersonalTab()}
-        {showUploadTab()}
-        <Link to="/ContactUs">
-          <div className="linkText">ContactUs</div>
-        </Link>
-        <Outlet />
       </div>
-      <Cart />
-      <div>{showLoginOptions()}</div>
+
+      <div className="titleLinks">
+        {showUploadTab()}
+        <Outlet />
+        <Cart />
+        {showShoppingCart()}
+        {showLoginOptions()}
+      </div>
 
       <div className="rainbowContainer">
         <div
