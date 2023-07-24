@@ -10,11 +10,11 @@ import {
   NavLink,
 } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import './index.scss';
-const userId = localStorage.getItem('user_id');
+import './style.scss'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import './style.scss';
+const userId = localStorage.getItem('user_id');
 
 function Nav() {
   const location = useLocation();
