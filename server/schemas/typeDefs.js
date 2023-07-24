@@ -7,6 +7,7 @@ const typeDefs = gql`
     firstName: String
     lastName: String
     email: String
+    profilePicture: String
     orders: [Order]
   }
 
@@ -49,7 +50,7 @@ const typeDefs = gql`
   type Checkout {
     id: ID!
     status: String
-}
+  }
 
   type Auth {
     token: ID
