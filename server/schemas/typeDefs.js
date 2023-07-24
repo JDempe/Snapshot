@@ -37,6 +37,7 @@ const typeDefs = gql`
     photo: Photo
     size: String
     quantity: Int
+    price: Float
   }
 
   type Comment {
@@ -60,6 +61,7 @@ const typeDefs = gql`
   input ProductInput {
     _id: ID!
     quantity: Int!
+    price: Float!
   }
 
   type Session {
@@ -88,7 +90,6 @@ const typeDefs = gql`
     ): Auth
     login(email: String!, password: String!): Auth
     addPhoto(url: String!, title: String!, description: String!): Photo
-
     addOrder(products: [ProductInput]!): Order
     updateUser(
       username: String
