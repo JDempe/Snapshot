@@ -8,6 +8,13 @@ import { Box } from '@mui/material';
 import './index.scss';
 
 function Footer() {
+  const footerTitleText = {
+    fontFamily: 'Montserrat',
+    fontWeight: 700,
+    fontSize: '1.2em',
+    color: '#5b77a1',
+  };
+
   return (
     <Box
       component="footer"
@@ -22,19 +29,37 @@ function Footer() {
       }}>
       <Container maxWidth="lg">
         <Typography variant="body1">
-          <Grid container spacing={5}>
+          <Grid container spacing={6}>
             <Grid item xs={12} sm={3}>
-              <Typography variant="h6" color="text.primary" gutterBottom>
-                About Us
+              <Typography
+                style={footerTitleText}
+                variant="h6"
+                color="text.primary"
+                gutterBottom>
+                ABOUT US
               </Typography>
               <Typography className="footerDefText">
                 We are XYZ company, dedicated to providing the best service to
                 our customers.
               </Typography>
+              <div className="footerTextPadding">
+                <br />
+                <a
+                  href=""
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="footerText">
+                  contact us
+                </a>
+              </div>
             </Grid>
             <Grid item xs={12} sm={2}>
-              <Typography variant="h6" color="text.primary" gutterBottom>
-                Technology
+              <Typography
+                style={footerTitleText}
+                variant="h6"
+                color="text.primary"
+                gutterBottom>
+                TECHNOLOGY
               </Typography>
               <div className="footerTextPadding">
                 <a
@@ -83,8 +108,12 @@ function Footer() {
               </div>
             </Grid>
             <Grid item xs={12} sm={2}>
-              <Typography variant="h6" color="text.primary" gutterBottom>
-                (cont.)
+              <Typography
+                style={footerTitleText}
+                variant="h6"
+                color="text.primary"
+                gutterBottom>
+                (CONT.)
               </Typography>
               <div className="footerTextPadding">
                 <a
@@ -132,21 +161,29 @@ function Footer() {
                 </a>
               </div>
             </Grid>
-            <Grid item xs={12} sm={2}>
-              <Typography variant="h6" color="text.primary" gutterBottom>
-                Contact Us
+            {/* <Grid item xs={12} sm={2}>
+              <Typography
+                style={footerTitleText}
+                variant="h6"
+                color="text.primary"
+                gutterBottom>
+                CONTACT US
               </Typography>
-            </Grid>
+            </Grid> */}
             <Grid item xs={12} sm={3}>
-              <Typography variant="h6" color="text.primary" gutterBottom>
-                Follow Us on
+              <Typography
+                style={footerTitleText}
+                variant="h6"
+                color="text.primary"
+                gutterBottom>
+                FOLLOW US ON&nbsp;&nbsp;
                 {/* <div className="footerTextPadding"> */}
                 <a
                   href="https://github.com/JDempe/project3"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footerIcon">
-                  <GitHub />
+                  <GitHub className="GitHub" />
                 </a>
                 {/* </div> */}
               </Typography>
