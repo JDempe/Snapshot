@@ -24,8 +24,8 @@ function Footer() {
             ? theme.palette.grey[200]
             : theme.palette.grey[800],
         p: 6,
-        position: 'sticky',
-        bottom: 0,
+        // position: 'sticky',
+        bottom: '0vh',
       }}>
       <Container maxWidth="lg">
         <Typography variant="body1">

@@ -60,29 +60,23 @@ function App() {
         }}>
         <StoreProvider>
           <Nav />
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              minHeight: '100vh',
-            }}>
-            <Routes location={previousLocation || location}>
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/success" element={<Success />} />
-              <Route path="/orderHistory/:id" element={<OrderHistory />} />
-              <Route path="/products/:id" element={<Detail />} />
-              <Route path="/personal" element={<Personal />} />
-              <Route path="/ContactUs" element={<ContactUs />} />
-              <Route path="*" element={<NoMatch />} />
+
+          <Routes location={previousLocation || location}>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/success" element={<Success />} />
+            <Route path="/orderHistory/:id" element={<OrderHistory />} />
+            <Route path="/products/:id" element={<Detail />} />
+            <Route path="/personal" element={<Personal />} />
+            <Route path="/ContactUs" element={<ContactUs />} />
+            <Route path="*" element={<NoMatch />} />
+          </Routes>
+          {previousLocation && (
+            <Routes>
+              <Route path="/upload" element={<Upload />} />
             </Routes>
-            {previousLocation && (
-              <Routes>
-                <Route path="/upload" element={<Upload />} />
-              </Routes>
-            )}
-          </Box>
+          )}
           <Footer />
         </StoreProvider>
       </div>
