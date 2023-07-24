@@ -13,8 +13,11 @@ const Personal = () => {
   };
 
   return (
-    <div className="container personalContaienr" sx={{ width: 1 }}>
-      <Box sx={{ width: '100%', bgcolor: 'background.paper' }}>
+    <div
+      className="container"
+      sx={{ width: 1 }}
+      style={{ position: 'relative' }}>
+      <Box sx={{ width: '100%', bgcolor: 'background.paper' }} className="tabs">
         <Tabs value={value} onChange={handleChange} centered>
           <Tab label="Item One" />
           <Tab label="Item Two" />
