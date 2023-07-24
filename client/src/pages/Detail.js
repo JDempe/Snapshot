@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { useStoreContext } from '../utils/GlobalState';
 import {
@@ -45,7 +45,7 @@ function Detail() {
     : [];
 
   const navigateOtherPhoto = (photoId) => {
-    navigate(`/products/${photoId}`);
+    navigate(`/photos/${photoId}`);
   };
 
   useEffect(() => {
@@ -178,6 +178,41 @@ function Detail() {
     }
   };
 
+  const navigateTo = (path) => {
+    navigate(path);
+  };
+
+  const showPurchaseButton = () => {
+    if (Auth.loggedIn()) {
+      return (
+        <>
+          <Button
+            className={`purchaseButton ${
+              dropdownVisible ? 'purchaseInactive' : ''
+            }`}
+            onClick={toggleDropdown}>
+            Purchase a print
+            {iconState === 'down' ? (
+              <KeyboardArrowDownIcon />
+            ) : (
+              <KeyboardArrowUpIcon />
+            )}
+          </Button>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Button
+            className="purchaseButton"
+            onClick={() => navigateTo('/login')}>
+            Log In to Purchase
+          </Button>
+        </>
+      );
+    }
+  };
+
   const navigate = useNavigate();
 
   const toggleFullscreen = () => {
@@ -193,7 +228,7 @@ function Detail() {
     }
     const randomPhotoId = photoIds[Math.floor(Math.random() * photoIds.length)];
 
-    navigate(`/products/${randomPhotoId}`);
+    navigate(`/photos/${randomPhotoId}`);
   };
 
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -233,6 +268,12 @@ function Detail() {
     setDropdownVisible((prevVisible) => !prevVisible);
     setIconState((prevIconState) => (prevIconState === 'down' ? 'up' : 'down'));
   };
+
+  const location = useLocation();
+  useEffect(() => {
+    setDropdownVisible(false);
+    setIconState('down');
+  }, [location]);
 
   return (
     <>
@@ -321,20 +362,7 @@ function Detail() {
                     onClick={removeFromCart}>
                     Remove from Cart
                   </button> */}
-                <div>
-                  <Button
-                    className={`purchaseButton ${
-                      dropdownVisible ? 'purchaseInactive' : ''
-                    }`}
-                    onClick={toggleDropdown}>
-                    Purchase a print{' '}
-                    {iconState === 'down' ? (
-                      <KeyboardArrowDownIcon />
-                    ) : (
-                      <KeyboardArrowUpIcon />
-                    )}
-                  </Button>
-                </div>
+                <div>{showPurchaseButton()}</div>
               </div>
               {dropdownVisible && (
                 <div className="dropdownContainer">
