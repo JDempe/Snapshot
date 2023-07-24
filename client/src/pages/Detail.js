@@ -19,6 +19,9 @@ import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import WestIcon from '@mui/icons-material/West';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import Quantity from '../components/Quantity/Quantity.js';
 import Auth from '../utils/auth';
 
 import './Detail.scss';
@@ -223,6 +226,14 @@ function Detail() {
     };
   }, [isFullscreen]);
 
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [iconState, setIconState] = useState('down');
+
+  const toggleDropdown = () => {
+    setDropdownVisible((prevVisible) => !prevVisible);
+    setIconState((prevIconState) => (prevIconState === 'down' ? 'up' : 'down'));
+  };
+
   return (
     <>
       {currentPhoto && cart ? (
@@ -302,19 +313,45 @@ function Detail() {
               <div className="imageDescription">
                 <p>{currentPhoto.description}</p>
               </div>
+              <div>Uploaded: DATE</div>
               <div className="bottomRow">
-                <div>Uploaded: DATE</div>
-                <div className=" my-1 purchaseContainer">
-                  <strong>Price:</strong>${currentPhoto.price}{' '}
-                  {/* <button onClick={addToCart}>Add to Cart</button>
+                {/* <button onClick={addToCart}>Add to Cart</button>
                   <button
                     disabled={!cart.find((p) => p._id === currentPhoto._id)}
                     onClick={removeFromCart}>
                     Remove from Cart
                   </button> */}
-                  <Button className="purchaseButton">Purchase a print</Button>
+                <div>
+                  <Button
+                    className={`purchaseButton ${
+                      dropdownVisible ? 'purchaseInactive' : ''
+                    }`}
+                    onClick={toggleDropdown}>
+                    Purchase a print{' '}
+                    {iconState === 'down' ? (
+                      <KeyboardArrowDownIcon />
+                    ) : (
+                      <KeyboardArrowUpIcon />
+                    )}
+                  </Button>
                 </div>
               </div>
+              {dropdownVisible && (
+                <div className="dropdownContainer">
+                  <div>
+                    <div className="dropdownItem">Container 1</div>
+                    <Quantity />
+                  </div>
+                  <div>
+                    <div className="dropdownItem">Container 2</div>
+                    <Quantity />
+                  </div>
+                  <div>
+                    <div className="dropdownItem">Container 3</div>
+                    <Quantity />
+                  </div>
+                </div>
+              )}
             </div>
             <div className="commentSection">
               <hr />
