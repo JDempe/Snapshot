@@ -36,10 +36,15 @@
   display: flex;
   align-items: center;
   padding-right: 2rem;
+  margin: auto 0;
 }
 
 .linkText {
-  margin: 0 0.8rem 0 0.5rem;
+  margin: auto 0 auto 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
   font-family: 'Segoe UI', Helvetica, sans-serif;
   font-weight: 400;
   font-size: 1.1rem;
