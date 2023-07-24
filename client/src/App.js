@@ -16,8 +16,7 @@ import Home from './pages/Home';
 import Detail from './pages/Detail';
 import NoMatch from './pages/NoMatch';
 import ContactUs from './components/ContactUs';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
+import Authentication from './pages/Authentication';
 import Upload from './components/Upload';
 import Personal from './pages/Personal';
 import Nav from './components/Nav';
@@ -59,11 +58,10 @@ function App() {
         }}>
         <StoreProvider>
           <Nav />
-
           <Routes location={previousLocation || location}>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Authentication mode="login" />} />
+            <Route path="/signup" element={<Authentication mode="signup" />} />
             <Route path="/success" element={<Success />} />
             <Route path="/orderHistory/:id" element={<OrderHistory />} />
             <Route path="/photos/:id" element={<Detail />} />
