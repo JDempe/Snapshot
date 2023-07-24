@@ -78,14 +78,7 @@ function Nav() {
   function showShoppingCart() {
     // if logged in, show the cart button
     if (Auth.loggedIn()) {
-      return (
-        <div className="linkText">
-          <ShoppingCartIcon
-            onClick={() => navigate('/cart')}
-            style={{ fontSize: 26 }}
-          />
-        </div>
-      );
+      return <Cart />;
     }
   }
 
@@ -105,7 +98,7 @@ function Nav() {
       <div className="titleLinks">
         {showUploadTab()}
         <Outlet />
-        <Cart />
+
         {showShoppingCart()}
         {showLoginOptions()}
       </div>

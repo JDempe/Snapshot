@@ -4,7 +4,7 @@ import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from '../../utils/actions';
 import { idbPromise } from '../../utils/helpers';
 
 const CartItem = ({ item }) => {
-  const [, dispatch] = useStoreContext();
+  const [state, dispatch] = useStoreContext();
 
   const removeFromCart = (item) => {
     dispatch({
@@ -36,7 +36,7 @@ const CartItem = ({ item }) => {
     <div className="flex-row">
       <div>
         {/* photo display */}
-        <img src={`/images/${item.image}`} alt="" />
+        <img src={item.url} alt="" />
       </div>
       <div>
         {/* display size and price */}
