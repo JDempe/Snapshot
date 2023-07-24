@@ -124,9 +124,6 @@ const resolvers = {
     },
   },
   Order: {
-    user: async (parent) => {
-      return User.findOne({ _id: parent.user });
-    },
     products: async (parent) => {
       return Photo.find({ _id: { $in: parent.products } });
     },

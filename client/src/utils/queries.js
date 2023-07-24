@@ -152,26 +152,44 @@ export const QUERY_USER = gql`
     user(_id: $_id) {
       _id
       username
-      email
       firstName
       lastName
+      email
       profilePicture
       orders {
-        total
+        _id
         purchaseDate
         products {
-          size
-          quantity
           photo {
+            _id
             url
             title
-            likes
-            description
-            createdBy {
-              username
-            }
           }
+          size
+          quantity
+          price
         }
+        total
+      }
+      savedPhotos {
+        _id
+        url
+        title
+        description
+        createdBy {
+          username
+        }
+        likes
+      }
+      likedPhotos {
+        _id
+        url
+        title
+        description
+        createdBy {
+          username
+        }
+        likes
       }
     }
   }
