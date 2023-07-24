@@ -146,6 +146,38 @@ db.once('open', async () => {
 
   console.log('Photos seeded');
 
+  // Add photos to users' likedPhotos and savedPhotos if they created it
+  for (let i = 0; i < photos.length; i++) {
+    const photo = photos[i];
+
+    // Add photo to user's savedPhotos if they created it
+    await User.findOneAndUpdate(
+      { _id: photo.createdBy },
+      { $addToSet: { savedPhotos: photo._id } }
+    );
+
+    // add random photos from the photos to each users likedPhotos array
+    // for each user
+    // add random photo to user's likedPhotos if they didn't create it
+
+    for (let j = 0; j < users.length; j++) {
+      const user = users[j];
+
+      // if the user created the photo, skip
+      if (user._id.toString() === photo.createdBy.toString()) {
+        continue;
+      }
+
+      // 50% chance of adding photo to likedPhotos
+      if (Math.random() > 0.5) {
+        await User.findOneAndUpdate(
+          { _id: user._id },
+          { $addToSet: { likedPhotos: photo._id } }
+        );
+      }
+    }
+  }
+
   // Orders creation
   const orders = await Order.create([
     {

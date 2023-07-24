@@ -6,7 +6,7 @@ import Tab from '@mui/material/Tab';
 import Avatar from '@mui/material/Avatar';
 import Auth from '../utils/auth';
 import { useQuery } from '@apollo/client';
-import { QUERY_USER } from '../utils/queries';
+import { QUERY_USER_PHOTOS } from '../utils/queries';
 import './Personal.scss';
 
 const Personal = () => {
@@ -16,11 +16,12 @@ const Personal = () => {
 
   console.log('id:', userId); // Log the id
 
-  // use the QUERY_USER GetUser query to get the user data for the logged in user
-  const { loading, data } = useQuery(QUERY_USER, {
+  // use the QUERY_USER User query to get the user data for the logged in user
+  const { loading, data } = useQuery(QUERY_USER_PHOTOS, {
     variables: { _id: userId },
   });
 
+  // await the loading then display data
   console.log(data);
 
   const user = data?.user || {};

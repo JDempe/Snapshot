@@ -26,6 +26,7 @@ const resolvers = {
     photo: async (parent, { _id }) => {
       return Photo.findById(_id);
     },
+
     orders: async (parent, args, context) => {
       if (context.user) {
         return await Order.find({ 'user._id': context.user._id });
