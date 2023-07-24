@@ -152,6 +152,18 @@ body {
 .purchaseContainer {
 }
 
+.purchaseButton {
+  width: 10rem;
+  border: 1px solid #fca43c !important;
+  background-color: #fca43c !important;
+  border-radius: 20px !important;
+  font-size: 1rem;
+  font-family: 'Arial', Helvetica, sans-serif;
+  font-weight: bold !important;
+  color: #ffffff !important;
+  text-transform: none;
+}
+
 .commentSection {
   overflow: auto;
   max-height: 40vw;
