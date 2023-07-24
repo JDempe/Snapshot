@@ -116,7 +116,7 @@ export default function AccountMenu() {
         <Divider sx={{ my: 0.5 }} />
         <MenuItem
           component={Link}
-          to="/orderhistory"
+          to={`/orderHistory/${userId}`}
           onClick={handleClose}
           disableRipple>
           <ListItemIcon>
