@@ -104,6 +104,42 @@ const resolvers = {
       return { id: session.id, status: 'Created' }; // returning object with id and status
     },
   },
+  User: {
+    orders: async (parent) => {
+      return Order.find({ user: parent._id });
+    },
+    savedPhotos: async (parent) => {
+      return Photo.find({ _id: { $in: parent.savedPhotos } });
+    },
+    likedPhotos: async (parent) => {
+      return Photo.find({ _id: { $in: parent.likedPhotos } });
+    },
+  },
+  Photo: {
+    createdBy: async (parent) => {
+      return User.findOne({ _id: parent.createdBy });
+    },
+    comments: async (parent) => {
+      return Comment.find({ photo: parent._id });
+    },
+  },
+  Order: {
+    user: async (parent) => {
+      return User.findOne({ _id: parent.user });
+    },
+    products: async (parent) => {
+      return Photo.find({ _id: { $in: parent.products } });
+    },
+  },
+  Comment: {
+    createdBy: async (parent) => {
+      return User.findOne({ _id: parent.createdBy });
+    },
+    photo: async (parent) => {
+      return Photo.findOne({ _id: parent.photo });
+    },
+  },
+
   Mutation: {
     addUser: async (parent, args) => {
       const user = await User.create(args);
