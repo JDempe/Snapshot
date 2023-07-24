@@ -24,6 +24,7 @@ import Footer from './components/Footer';
 import Success from './pages/Success';
 import OrderHistory from './pages/OrderHistory';
 import { StoreProvider } from './utils/GlobalState';
+import { Box } from '@mui/material';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
