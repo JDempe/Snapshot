@@ -18,6 +18,7 @@ import NoMatch from './pages/NoMatch';
 import ContactUs from './components/ContactUs';
 import Authentication from './pages/Authentication';
 import Upload from './components/Upload';
+import Personal from './pages/Personal';
 import Nav from './components/Nav';
 import Footer from './components/Footer';
 import Success from './pages/Success';
@@ -64,6 +65,7 @@ function App() {
             <Route path="/success" element={<Success />} />
             <Route path="/orderHistory/:id" element={<OrderHistory />} />
             <Route path="/products/:id" element={<Detail />} />
+            <Route path="/personal" element={<Personal />} />
             <Route path="/ContactUs" element={<ContactUs />} />
             <Route path="*" element={<NoMatch />} />
           </Routes>
