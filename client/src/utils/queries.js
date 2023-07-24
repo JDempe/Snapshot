@@ -188,7 +188,6 @@ export const QUERY_USER_PHOTOS = gql`
       profilePicture
       savedPhotos {
         _id
-        url
       }
       likedPhotos {
         _id
