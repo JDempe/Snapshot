@@ -1,7 +1,35 @@
+.contentAlign {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding-top: 3.5rem;
+}
+
+.personal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 1rem;
+}
+
 .tabs {
   position: absolute;
-  top: 10;
+  bottom: 1;
   left: 0;
   width: 100%;
-  background-color: rgba(255, 0, 0, 0) !important;
+  background-color: #ff000000 !important;
+}
+
+.tabText {
+  color: #2e3547 !important;
+  font-size: 1rem !important;
+  font-weight: bold !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+.css-1aquho2-MuiTabs-indicator {
+  background-color: #549cf1 !important;
 }
