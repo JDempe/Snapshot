@@ -27,9 +27,9 @@
   color: var(--tertiary);
 }
 
-.cart .close:hover {
+/* .cart .close:hover {
   text-decoration: underline;
-}
+} */
 
 .cart-closed {
   position: fixed;
@@ -37,7 +37,7 @@
   right: 1%;
   font-size: 2rem;
   cursor: pointer;
-  background-color: var(--secondary);
+  /* background-color: var(--secondary); */
   border-radius: 50%;
   padding: 0.25rem;
   width: 50px;
@@ -58,6 +58,15 @@
   padding: 0;
   margin: 0 0.5rem 1rem 0;
 }
+
+.cart-closing {
+  opacity: 0;
+  transition: opacity 0.3s ease-out; /* You can adjust the duration and timing function as needed */
+}
+
+/* .cart-opening {
+  transition: opacity 5s ease-in;
+} */
 
 @media screen and (max-width: 768px) {
   .cart {

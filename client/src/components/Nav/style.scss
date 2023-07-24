@@ -1,11 +1,11 @@
 .flex-row {
   justify-content: space-between;
-  z-index: 1000;
+  z-index: 9990;
 }
 
 .websiteTitle {
   margin-right: 0.5rem;
-  padding: 1rem 0 0 1rem;
+  padding: 1rem 0 0 2rem;
   font-family: 'Timmana', sans-serif;
   font-weight: 300;
   font-size: 36px;
@@ -35,6 +35,7 @@
 .titleLinks {
   display: flex;
   align-items: center;
+  padding-right: 2rem;
 }
 
 .linkText {
@@ -117,4 +118,12 @@
 .active {
   pointer-events: none;
   color: #b6b6b6 !important;
+}
+
+.uploadButton .cartButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: auto;
 }

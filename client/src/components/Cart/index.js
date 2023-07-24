@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { useLazyQuery } from '@apollo/client';
 import { QUERY_CHECKOUT } from '../../utils/queries';
@@ -11,11 +11,41 @@ import './style.css';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faCartPlus } from '@fortawesome/free-solid-svg-icons';
+import { IconButton, Button } from '@mui/material';
+import { AddShoppingCartSharp } from '@mui/icons-material';
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
+  const [isClosing, setIsClosing] = useState(false); // track cart closing
+  const [isCartIconClicked, setIsCartIconClicked] = useState(false);
+
+  const toggleCart = useCallback(() => {
+    if (state.cartOpen) {
+      console.log('Closing the cart...');
+      setIsClosing(true);
+      setTimeout(() => {
+        dispatch({ type: TOGGLE_CART });
+        setIsClosing(false);
+      }, 300);
+    } else {
+      console.log('Opening the cart...');
+      dispatch({ type: TOGGLE_CART });
+    }
+  }, [state.cartOpen, dispatch]);
+
+  const handleCartIconClick = () => {
+    console.log('Cart icon clicked');
+    setIsCartIconClicked(true);
+  };
+
+  useEffect(() => {
+    if (isCartIconClicked) {
+      toggleCart();
+      setIsCartIconClicked(false);
+    }
+  }, [isCartIconClicked, toggleCart]);
 
   useEffect(() => {
     if (data) {
@@ -39,28 +69,46 @@ const Cart = () => {
   useEffect(() => {
     let cartCloseTimer = null;
 
-    function handleMouseMovement() {
+    function handleMouseMovement(event) {
       // Reset the timer whenever there is mouse movement inside the cart
       clearTimeout(cartCloseTimer);
-      cartCloseTimer = null;
+      cartCloseTimer = setTimeout(() => {
+        if (!isMouseInsideCart(event)) {
+          toggleCart();
+        }
+      }, 10000);
     }
 
     function handleMouseClickOutside(event) {
       const cartElement = document.querySelector('.cart');
+      const closeIconElement = event.target.closest('.close');
+
       if (state.cartOpen) {
-        if (cartElement?.contains(event.target)) {
-          // If the click is outside the cart, close it
-          return;
+        if (closeIconElement) {
+          toggleCart();
+        } else {
+          if (!cartElement?.contains(event.target)) {
+            // If the click is outside the cart and not on the close icon, close it
+            toggleCart();
+          }
         }
-        toggleCart();
       }
+    }
+
+    function isMouseInsideCart(event) {
+      const cartElement = document.querySelector('.cart');
+      return cartElement?.contains(event?.target);
     }
 
     if (state.cartOpen) {
       // Start the timer when the cart is open
       cartCloseTimer = setTimeout(() => {
-        toggleCart();
-      }, 15000);
+        if (!isMouseInsideCart()) {
+          toggleCart();
+        }
+      }, 10000);
+    } else {
+      return;
     }
 
     window.addEventListener('mousemove', handleMouseMovement);
@@ -75,24 +123,13 @@ const Cart = () => {
     };
   }, [state.cartOpen, toggleCart]);
 
-  function toggleCart() {
-    dispatch({ type: TOGGLE_CART });
-  }
-
-  // function calculateTotal() {
-  //   let sum = 0;
-  //   state.cart.forEach((item) => {
-  //     sum += item.price * item.purchaseQuantity;
-  //   });
-  //   return sum.toFixed(2);
-  // }
   function calculateTotal() {
     let sum = 0;
     state.cart.forEach((item) => {
-      console.log(item); 
+      console.log(item);
       let price = Number(item.price);
       let quantity = Number(item.purchaseQuantity);
-      console.log(typeof price, typeof quantity); 
+      console.log(typeof price, typeof quantity);
       if (isNaN(price) || isNaN(quantity)) {
         console.error('price or purchaseQuantity is not a valid number', item);
       } else {
@@ -100,7 +137,7 @@ const Cart = () => {
       }
     });
     return sum.toFixed(2);
-}
+  }
   function submitCheckout() {
     const productIds = [];
 
@@ -117,17 +154,16 @@ const Cart = () => {
 
   if (!state.cartOpen) {
     return (
-      <div className="cart-closed" onClick={toggleCart}>
-        <span role="img" aria-label="trash">
-          🛒
-        </span>
-      </div>
+      <IconButton className="cart-closed" onClick={handleCartIconClick}>
+        <AddShoppingCartSharp />
+      </IconButton>
     );
   }
 
   return (
-    <div className="cart">
-      <div className="close" onClick={toggleCart}>
+    <div className={`cart ${isClosing ? 'cart-closing' : ''}`}>
+      {/* close icon to close shopping cart */}
+      <div className="close" onClick={(e) => e.stopPropagation()}>
         <FontAwesomeIcon
           icon={faClose}
           color="#EFD81D"
@@ -137,16 +173,18 @@ const Cart = () => {
             position: 'relative',
             right: '-92%',
           }}
+          onClick={toggleCart}
         />
       </div>
+
       <h2>Shopping Cart</h2>
       {state.cart.length ? (
         <div>
-        {state.cart.map((item, index) => {
-      if (!item) {
-        console.error(`Item at index ${index} is undefined`);
-        } else {
-        return <CartItem key={item._id} item={item} />
+          {state.cart.map((item, index) => {
+            if (!item) {
+              console.error(`Item at index ${index} is undefined`);
+            } else {
+              return <CartItem key={item._id} item={item} />;
             }
           })}
           <div className="flex-row space-between">
