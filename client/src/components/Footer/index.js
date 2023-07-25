@@ -59,7 +59,7 @@ function Footer() {
                   className="footerText contact-us">
                   contact us
                 </a> */}
-                <Link to="/contactUs" className="footerText contact-us">
+                <Link to="/ContactUs" className="footerText contact-us">
                   <Button
                     // to="/contact"
                     // target="_blank"
