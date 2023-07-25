@@ -15,7 +15,7 @@
   }
 }
 
-// default styles
+// default styles for light mode
 
 // navbar
 $nav-bg: #fff;
@@ -25,11 +25,27 @@ $nav-login: #000000;
 $nav-signup: #549cf1;
 $nav-signup-text: #ffffff;
 
-// page text colors (display name, section titles, upload/likes, dark text, etc.)
-$title-text: #272f32;
+// page background for every page
+$page-bg: #e7eaed;
 
-// backdrop on photo pages
+// most text colors (display name, comment text, section titles, upload/likes, dark text, etc.)
+$text: #272f32;
+
+// photo pages
 $photo-backdrop: #2e3547;
+$photo-icons: #ffffffd0;
+$photo-icons-hover: #ffffff;
+$input-comment-bg: #ffffffe7;
+$input-comment-text: #393f50;
+$input-comment-border: #00000044;
+// might yeet
+$comment-date: #5c6271;
+
+// footer stuff
+$footer-bg: #eeeeee;
+$footer-titles: #5b77a1;
+$foot-text: #6a6a72;
+$footer-links: #526b91;
 
 // darkmode style
 .dark-mode {
