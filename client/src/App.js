@@ -72,6 +72,7 @@ function App() {
                 path="/signup"
                 element={<Authentication mode="signup" />}
               />
+              <Route path="/discover" element={<Discover />} />
               <Route path="/success" element={<Success />} />
               <Route path="/orderHistory/:id" element={<OrderHistory />} />
               <Route path="/photos/:id" element={<Detail />} />
