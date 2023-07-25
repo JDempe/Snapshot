@@ -45,6 +45,10 @@ function Detail() {
   });
 
   const { photos, cart } = state;
+
+  const photoIds = photos ? photos.map((photo) => photo._id) : [];
+  console.log('photoIds: ', photoIds);
+
   // save the single photo in data to state
   useEffect(() => {
     if (data) {
@@ -63,6 +67,8 @@ function Detail() {
   }, [data, loading, dispatch, id]);
 
   const { currentPhoto } = state;
+
+  console.log('currentPhoto: ', currentPhoto);
 
   // displaying other photos at bottom of page
   const otherPhotosLimit = 4;
@@ -97,14 +103,20 @@ function Detail() {
   // function to take all the comments and make them into a list using the PhotoComment component
   const commentList = (comments) => {
     if (comments) {
-      return comments.map((comment) => <PhotoComment comment={comment} />);
+      return comments.map((comment) => (
+        <PhotoComment comment={comment} key={comment._id} />
+      ));
     }
   };
 
   const sizeList = (sizes) => {
     if (sizes) {
       return sizes.map((size) => (
-        <ProductDropdownCard size={size.size} price={size.currentPrice} />
+        <ProductDropdownCard
+          size={size.size}
+          price={size.currentPrice}
+          key={size._id}
+        />
       ));
     }
   };
@@ -146,8 +158,8 @@ function Detail() {
   };
 
   // function to handle the button click on click
-
-  const handleCommentSubmit = () => {
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
     try {
       const { data } = addComment({
         variables: {
@@ -155,11 +167,18 @@ function Detail() {
           commentText: comment,
         },
       });
-
       setComment('');
+
+      // GET currentPhoto from state again to get the updated comments array
+      const { currentPhoto } = state;
+      console.log('currentPhoto: ', currentPhoto);
     } catch (e) {
       console.error(e);
     }
+  };
+
+  const handleCommentChange = (event) => {
+    setComment(event.target.value);
   };
 
   const showCommentInput = () => {
@@ -171,8 +190,13 @@ function Detail() {
               <textarea
                 className="commentInput"
                 placeholder="Enter your comment..."
+                onChange={handleCommentChange}
+                value={comment}
               />
-              <button onClick={handleCommentSubmit()} className="commentButton">
+              <button
+                onClick={handleCommentSubmit}
+                className="commentButton"
+                disabled={comment.length < 5}>
                 Comment
               </button>
             </form>
@@ -230,8 +254,6 @@ function Detail() {
   };
 
   // random photo navigation
-  const photoIds = photos ? photos.map((photo) => photo._id) : [];
-  console.log('photoIds: ', photoIds);
 
   const navigateToRandomPhoto = () => {
     if (photoIds.length === 0) {

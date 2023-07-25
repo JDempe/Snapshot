@@ -57,16 +57,12 @@ export const ADD_USER = gql`
 
 export const ADD_COMMENT = gql`
   mutation addComment($photoId: ID!, $commentText: String!) {
-    addComment(_id: $photoId, commentText: $commentText) {
+    addComment(photoId: $photoId, content: $commentText) {
       _id
-      comments {
-        _id
-        text
-        createdAt
-        createdBy {
-          _id
-          username
-        }
+      text
+      createdAt
+      createdBy {
+        username
       }
     }
   }
