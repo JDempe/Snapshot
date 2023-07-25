@@ -58,12 +58,6 @@ function Detail() {
   }, [data, loading, dispatch, id]);
 
   const { currentPhoto } = state;
-  console.log('id', id);
-  console.log('photos', photos);
-  console.log('state', state);
-  console.log('data', data);
-  console.log('currentPhoto', currentPhoto);
-  console.log(currentPhoto.sizes);
 
   // displaying other photos at bottom of page
   const otherPhotosLimit = 4;
@@ -103,9 +97,6 @@ function Detail() {
   };
 
   const sizeList = (sizes) => {
-    console.log('sizeList function called');
-    console.log(sizes);
-
     if (sizes) {
       return sizes.map((size) => (
         <ProductDropdownCard size={size.size} price={size.currentPrice} />
@@ -116,32 +107,64 @@ function Detail() {
   const addToCart = () => {
     console.log('addToCart function called');
 
-    const itemInCart = cart.find((cartItem) => cartItem._id === id);
-    if (itemInCart) {
-      dispatch({
-        type: UPDATE_CART_QUANTITY,
-        _id: id,
-        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-      });
-      idbPromise('cart', 'put', {
-        ...itemInCart,
-        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-      });
-    } else {
-      dispatch({
-        type: ADD_TO_CART,
-        photo: {
-          ...data,
-          purchaseQuantity: 1,
-          price: Number(data.price),
-        },
-      });
-      idbPromise('cart', 'put', {
-        ...data,
-        purchaseQuantity: 1,
-        price: Number(data.price),
-      });
+    // for each of the sizes, add to cart using the size and price and quantity from the dropdown cards (div's in the dropdownContainer class div, children are ProductDropdownCard's)
+    const dropdownContainer = document.querySelector('.dropdownContainer');
+    const dropdownCards = dropdownContainer.children;
+    for (let i = 0; i < dropdownCards.length; i++) {
+      const dropdownCard = dropdownCards[i];
+      const size = dropdownCard.dataset.size;
+      const price = dropdownCard.dataset.price;
+      // grab the quantity from the input that is a grandchild of the dropdownCard
+      const quantity = dropdownCard.querySelector('input').value;
+      console.log('size: ', size);
+      console.log('price: ', price);
+      console.log('quantity: ', quantity);
+      // add to cart if quantity is greater than 0
+      if (quantity > 0) {
+        dispatch({
+          type: ADD_TO_CART,
+          photo: {
+            ...currentPhoto,
+            size: size,
+            price: price,
+            quantity: quantity,
+          },
+        });
+        idbPromise('cart', 'put', {
+          ...currentPhoto,
+          size: size,
+          price: price,
+          quantity: quantity,
+        });
+      }
     }
+
+    // const itemInCart = cart.find((cartItem) => cartItem._id === id);
+    // if (itemInCart) {
+    //   dispatch({
+    //     type: UPDATE_CART_QUANTITY,
+    //     _id: id,
+    //     purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+    //   });
+    //   idbPromise('cart', 'put', {
+    //     ...itemInCart,
+    //     purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+    //   });
+    // } else {
+    //   dispatch({
+    //     type: ADD_TO_CART,
+    //     photo: {
+    //       ...data,
+    //       purchaseQuantity: 1,
+    //       price: Number(data.price),
+    //     },
+    //   });
+    //   idbPromise('cart', 'put', {
+    //     ...data,
+    //     purchaseQuantity: 1,
+    //     price: Number(data.price),
+    //   });
+    // }
   };
 
   // function commentBox() {
@@ -357,7 +380,7 @@ function Detail() {
                 src={
                   currentPhoto && currentPhoto.createdBy
                     ? currentPhoto.createdBy.profilePicture
-                    : './images/avatar/Blank-Avatar.png'
+                    : '../images/avatars/Blank-Avatar.png'
                 }
                 className="avatar"
                 alt="avatar"
