@@ -25,6 +25,7 @@ import Footer from './components/Footer';
 import Success from './pages/Success';
 import OrderHistory from './pages/OrderHistory';
 import { StoreProvider } from './utils/GlobalState';
+import { Box } from '@mui/material';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -65,7 +66,7 @@ function App() {
               overflowY: 'auto',
             }}>
             <Routes location={previousLocation || location}>
-              <Route path="/" element={<Home />} />
+              {/* <Route path="/" element={<Home />} /> */}
               <Route path="/login" element={<Authentication mode="login" />} />
               <Route
                 path="/signup"

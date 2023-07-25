@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import { GitHub } from '@mui/icons-material';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import './index.scss';
 
 function Footer() {
@@ -30,7 +30,7 @@ function Footer() {
       <Container maxWidth="lg">
         <Typography variant="body1">
           <Grid container spacing={6}>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={6} md={3}>
               <Typography
                 style={footerTitleText}
                 variant="h6"
@@ -44,16 +44,30 @@ function Footer() {
               </Typography>
               <div className="footerTextPadding">
                 <br />
-                <a
+                {/* <a
                   href=""
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="footerText">
+                  className="footerText contact-us">
                   contact us
-                </a>
+                </a> */}
+                <Button
+                  component={Link}
+                  to="/contact"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="outlined"
+                  className="footerText contact-us"
+                  style={{
+                    color: '#5b77a1',
+                    border: 'solid 1px #5b77a1',
+                    fontSize: '80%',
+                  }}>
+                  Contact Us
+                </Button>
               </div>
             </Grid>
-            <Grid item xs={12} sm={2}>
+            <Grid item xs={12} sm={6} md={3}>
               <Typography
                 style={footerTitleText}
                 variant="h6"
@@ -107,7 +121,7 @@ function Footer() {
                 </a>
               </div>
             </Grid>
-            <Grid item xs={12} sm={2}>
+            <Grid item xs={12} sm={6} md={3}>
               <Typography
                 style={footerTitleText}
                 variant="h6"
@@ -161,7 +175,7 @@ function Footer() {
                 </a>
               </div>
             </Grid>
-            {/* <Grid item xs={12} sm={2}>
+            {/* <Grid item xs={12} sm={6} md={2}>
               <Typography
                 style={footerTitleText}
                 variant="h6"
@@ -170,7 +184,7 @@ function Footer() {
                 CONTACT US
               </Typography>
             </Grid> */}
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={6} md={3}>
               <Typography
                 style={footerTitleText}
                 variant="h6"
