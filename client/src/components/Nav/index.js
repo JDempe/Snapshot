@@ -10,7 +10,11 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import Logo from '../../assets/logo.png';
 
 function Nav() {
-  const id = Auth.getProfile().data._id;
+  try {
+    var id = Auth.getProfile().data._id; // Get the user id from the Auth.getProfile() function
+  } catch (e) {
+    console.log(e);
+  }
 
   function showLoginOptions() {
     if (Auth.loggedIn()) {
