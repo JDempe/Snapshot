@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { useStoreContext } from '../utils/GlobalState';
 import {
   UPDATE_CART_QUANTITY,
@@ -8,6 +8,7 @@ import {
   UPDATE_CURRENT_PHOTO,
 } from '../utils/actions';
 import { QUERY_SINGLE_PHOTO } from '../utils/queries';
+import { ADD_COMMENT } from '../utils/mutations';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 import Rating from '@mui/material/Rating';
@@ -32,14 +33,18 @@ function Detail() {
   const [state, dispatch] = useStoreContext();
   const { id } = useParams();
 
-  // const [currentPhoto, setcurrentPhoto] = useState({});
+  const [comment, setComment] = useState('');
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [iconState, setIconState] = useState('down');
+
+  const [addComment, { error }] = useMutation(ADD_COMMENT);
 
   const { loading, data } = useQuery(QUERY_SINGLE_PHOTO, {
     variables: { id: id },
   });
 
   const { photos, cart } = state;
-
   // save the single photo in data to state
   useEffect(() => {
     if (data) {
@@ -120,93 +125,42 @@ function Detail() {
       console.log('price: ', price);
       console.log('quantity: ', quantity);
       // if quantity is greater than 0, add to cart
-      // if (quantity > 0) {
-      //   dispatch({
-      //     type: ADD_TO_CART,
-      //     photo: {
-      //       ...currentPhoto,
-      //       size: size,
-      //       price: price,
-      //       quantity: quantity,
-      //     },
-      //   });
-      //   idbPromise('cart', 'put', {
-      //     ...currentPhoto,
-      //     size: size,
-      //     price: price,
-      //     quantity: quantity,
-      //   });
-      // }
-      const itemInCart = cart.find(
-        (cartItem) => [cartItem._id, cartItem.size] === [id, size]
-      );
-      if (itemInCart) {
-        dispatch({
-          type: UPDATE_CART_QUANTITY,
-          _id: id,
-          size: size,
-          quantity: parseInt(itemInCart.quantity) + 1,
-        });
-        idbPromise('cart', 'put', {
-          ...itemInCart,
-          quantity: parseInt(itemInCart.quantity) + 1,
-        });
-      } else {
+      if (quantity > 0) {
         dispatch({
           type: ADD_TO_CART,
           photo: {
-            ...data,
-            quantity: 1,
-            price: Number(price),
+            ...currentPhoto,
+            size: size,
+            price: price,
+            quantity: quantity,
           },
         });
         idbPromise('cart', 'put', {
-          ...data,
-          quantity: 1,
-          price: Number(price),
+          ...currentPhoto,
+          size: size,
+          price: price,
+          quantity: quantity,
         });
       }
     }
   };
 
-  // function commentBox() {
-  //   const [comment, setComment] = useState('');
+  // function to handle the button click on click
 
-  //   const handleInputChange = (event) => {
-  //     setComment(event.target.value);
-  //   };
+  const handleCommentSubmit = () => {
+    try {
+      const { data } = addComment({
+        variables: {
+          photoId: id,
+          commentText: comment,
+        },
+      });
 
-  //   const handleSubmit = (event) => {
-  //     event.preventDefault();
-  //     console.log('Submitted comment:', comment);
-  //     setComment('');
-  //   };
-
-  // const showCommentInput = () => {
-  //   if (Auth.loggedIn()) {
-  //     return (
-  //       <>
-  //         <form onSubmit={handleSubmit}>
-  //           <textarea
-  //             rows="4"
-  //             cols="50"
-  //             placeholder="Enter your comment..."
-  //             value={comment}
-  //             onChange={handleInputChange}
-  //           />
-  //           <button type="submit">Submit</button>
-  //         </form>
-  //       </>
-  //     );
-  //   } else {
-  //     return (
-  //       <>
-  //         <div className="commentInput">Log in to comment</div>
-  //       </>
-  //     );
-  //   }
-
-  // };
+      setComment('');
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const showCommentInput = () => {
     if (Auth.loggedIn()) {
@@ -218,7 +172,9 @@ function Detail() {
                 className="commentInput"
                 placeholder="Enter your comment..."
               />
-              <button type="submit">Submit</button>
+              <button onClick={handleCommentSubmit()} className="commentButton">
+                Comment
+              </button>
             </form>
           </div>
         </>
@@ -286,8 +242,6 @@ function Detail() {
     navigate(`/photos/${randomPhotoId}`);
   };
 
-  const [isFullscreen, setIsFullscreen] = useState(false);
-
   useEffect(() => {
     const closeFullscreen = () => {
       setIsFullscreen(false);
@@ -315,9 +269,6 @@ function Detail() {
       }
     };
   }, [isFullscreen]);
-
-  const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [iconState, setIconState] = useState('down');
 
   const toggleDropdown = () => {
     setDropdownVisible((prevVisible) => !prevVisible);
