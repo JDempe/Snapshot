@@ -4,7 +4,6 @@ import spinner from '../../assets/spinner.gif';
 import { Box } from '@mui/material';
 import { Masonry } from '@mui/lab';
 import Spinner from '../Spinner';
-import './index.scss';
 
 function PhotoList({ photos }) {
   return (
