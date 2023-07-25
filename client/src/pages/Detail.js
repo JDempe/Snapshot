@@ -26,6 +26,8 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Quantity from '../components/Quantity/Quantity.js';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Auth from '../utils/auth';
+import Spinner from '../components/Spinner';
+
 import dayjs from 'dayjs';
 import './Detail.scss';
 
@@ -469,7 +471,8 @@ function Detail() {
           )}
         </div>
       ) : null}
-      {loading ? <img src={spinner} alt="loading" /> : null}
+      {loading ? <Spinner /> : null}
+      {/* {loading ? <img src={spinner} alt="loading" /> : null} */}
     </>
   );
 }
