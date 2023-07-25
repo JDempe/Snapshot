@@ -3,7 +3,10 @@ import Quantity from '../Quantity/Quantity.js';
 
 function ProductDropdownCard(size) {
   return (
-    <div className="dropdownItemContainer">
+    <div
+      className="dropdownItemContainer"
+      data-price={size.price}
+      data-size={size.size}>
       <div className="dropdownItem">
         {size.size} {size.price}
       </div>

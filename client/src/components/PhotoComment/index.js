@@ -6,9 +6,6 @@ import dayjs from 'dayjs';
 function PhotoComment(comment) {
   // foreach in comments, create a comment component
   // return the array of comment components
-  console.log('hello from PhotoComment');
-  console.log(comment);
-  console.log(comment.comment.createdBy.profilePicture);
 
   return (
     <div className="comment">
