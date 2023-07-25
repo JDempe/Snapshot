@@ -208,7 +208,9 @@ const Cart = () => {
                 }
               })}
               <div className="flex-row space-between">
-                <strong>Total: ${calculateTotal()}</strong>
+                <strong className="totalPrice">
+                  Total: ${calculateTotal()}
+                </strong>
 
                 <div>
                   <button
