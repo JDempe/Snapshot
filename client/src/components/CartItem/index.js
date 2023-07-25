@@ -30,7 +30,9 @@ const CartItem = ({ item }) => {
   };
 
   const onChange = (e) => {
+    console.log('onChange what is state.cart', state.cart);
     const value = e.target.value;
+    console.log('onChange what is value', value);
     if (value === '0') {
       dispatch({
         type: REMOVE_FROM_CART,
@@ -43,9 +45,12 @@ const CartItem = ({ item }) => {
         type: UPDATE_CART_QUANTITY,
         _id: item._id,
         size: item.size,
-        quantity: parseInt(value),
+        quantity: value,
       });
-      idbPromise('cart', 'put', { ...item, quantity: parseInt(value) });
+      idbPromise('cart', 'put', { ...item, quantity: value });
+      console.log('onChange what is state.cart at the end', state.cart);
+
+      // update the value of the item in the cart
     }
   };
 

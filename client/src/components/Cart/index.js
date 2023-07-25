@@ -132,20 +132,18 @@ const Cart = () => {
 
   function calculateTotal() {
     let sum = 0;
-    console.log('Cart items:', state.cart);
     state.cart.forEach((item) => {
-      console.log(item);
       if (item && item.price && item.quantity) {
         let price = Number(item.price);
         let quantity = Number(item.quantity);
-        console.log(
-          'price',
-          typeof price,
-          price,
-          'quantity',
-          typeof quantity,
-          quantity
-        );
+        // console.log(
+        //   'price',
+        //   typeof price,
+        //   price,
+        //   'quantity',
+        //   typeof quantity,
+        //   quantity
+        // );
         if (isNaN(price) || isNaN(quantity)) {
           console.error(
             'price or purchaseQuantity is not a valid number',
@@ -156,7 +154,7 @@ const Cart = () => {
         }
       }
     });
-    console.log(sum);
+    // console.log(sum);
     return sum.toFixed(2);
   }
 

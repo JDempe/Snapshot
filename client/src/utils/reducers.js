@@ -56,7 +56,7 @@ export const reducer = (state, action) => {
         ...state,
         cartOpen: true,
         cart: state.cart.map((product) => {
-          if ([action._id, action.size] === [product._id, product.size]) {
+          if (product._id === action._id && product.size === action.size) {
             product.quantity = action.quantity;
           }
           return product;
@@ -64,9 +64,10 @@ export const reducer = (state, action) => {
       };
 
     case REMOVE_FROM_CART:
-      let newState = state.cart.filter((product) => {
-        return [product._id, product.size] !== [action._id, action.size];
-      });
+      let newState = state.cart.filter(
+        (product) =>
+          !(product._id === action._id && product.size === action.size)
+      );
 
       return {
         ...state,
