@@ -22,6 +22,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Quantity from '../components/Quantity/Quantity.js';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Auth from '../utils/auth';
 
 import './Detail.scss';
@@ -365,32 +366,40 @@ function Detail() {
                 <div>{showPurchaseButton()}</div>
               </div>
               {dropdownVisible && (
-                <div className="dropdownContainer">
-                  <div className="dropdownItemContainer">
-                    <div className="dropdownItem">4 x 6</div>
-                    <hr
-                      style={{ margin: '2px', width: '85%', height: '1px' }}
-                    />
-                    <div className="quantityText">Quantity</div>
-                    <Quantity />
+                <>
+                  <div className="dropdownContainer">
+                    <div className="dropdownItemContainer">
+                      <div className="dropdownItem">4 x 6 $10</div>
+                      <hr
+                        style={{ margin: '2px', width: '85%', height: '1px' }}
+                      />
+                      <div className="quantityText">Quantity</div>
+                      <Quantity />
+                    </div>
+                    <div className="dropdownItemContainer">
+                      <div className="dropdownItem">5 x 7 $15</div>
+                      <hr
+                        style={{ margin: '2px', width: '85%', height: '1px' }}
+                      />
+                      <div className="quantityText">Quantity</div>
+                      <Quantity />
+                    </div>
+                    <div className="dropdownItemContainer">
+                      <div className="dropdownItem">8 x 10 $30</div>
+                      <hr
+                        style={{ margin: '2px', width: '85%', height: '1px' }}
+                      />
+                      <div className="quantityText">Quantity</div>
+                      <Quantity />
+                    </div>
                   </div>
-                  <div className="dropdownItemContainer">
-                    <div className="dropdownItem">5 x 7</div>
-                    <hr
-                      style={{ margin: '2px', width: '85%', height: '1px' }}
-                    />
-                    <div className="quantityText">Quantity</div>
-                    <Quantity />
+                  <div className="addCartContainer">
+                    <Button className="addCart" onClick={toggleDropdown}>
+                      Add all to Cart
+                      <ShoppingCartIcon />
+                    </Button>
                   </div>
-                  <div className="dropdownItemContainer">
-                    <div className="dropdownItem">8 x 10</div>
-                    <hr
-                      style={{ margin: '2px', width: '85%', height: '1px' }}
-                    />
-                    <div className="quantityText">Quantity</div>
-                    <Quantity />
-                  </div>
-                </div>
+                </>
               )}
             </div>
             <div className="commentSection">
