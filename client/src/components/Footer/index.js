@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import { GitHub } from '@mui/icons-material';
 import { Box } from '@mui/material';
-import './index.scss';
+import './style.scss';
 
 function Footer() {
   const footerTitleText = {

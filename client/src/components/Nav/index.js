@@ -6,7 +6,6 @@ import { Link, useLocation, Outlet, NavLink } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import './style.scss';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import './style.scss';
 
 function Nav() {
   const location = useLocation();

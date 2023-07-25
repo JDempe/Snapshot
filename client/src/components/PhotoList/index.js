@@ -3,7 +3,6 @@ import ProductItem from '../ProductItem';
 import spinner from '../../assets/spinner.gif';
 import { Box } from '@mui/material';
 import { Masonry } from '@mui/lab';
-import './index.scss';
 
 function PhotoList({ photos }) {
   return (
