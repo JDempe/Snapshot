@@ -25,6 +25,7 @@ import Footer from './components/Footer';
 import Success from './pages/Success';
 import OrderHistory from './pages/OrderHistory';
 import { StoreProvider } from './utils/GlobalState';
+import { Box } from '@mui/material';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -53,29 +54,37 @@ function App() {
     <ApolloProvider client={client}>
       <div
         style={{
-          display: 'grid',
-          gridTemplateRows: 'auto 1fr auto',
+          display: 'flex',
+          flexDirection: 'column',
           minHeight: '100vh',
         }}>
         <StoreProvider>
           <Nav />
-          <Routes location={previousLocation || location}>
-            <Route path="/" element={<Discover />} />
-            <Route path="/discover" element={<Discover />} />
-            <Route path="/login" element={<Authentication mode="login" />} />
-            <Route path="/signup" element={<Authentication mode="signup" />} />
-            <Route path="/success" element={<Success />} />
-            <Route path="/orderHistory/:id" element={<OrderHistory />} />
-            <Route path="/photos/:id" element={<Detail />} />
-            <Route path="/personal" element={<Personal />} />
-            <Route path="/ContactUs" element={<ContactUs />} />
-            <Route path="*" element={<NoMatch />} />
-          </Routes>
-          {previousLocation && (
-            <Routes>
-              <Route path="/upload" element={<Upload />} />
+          <Box
+            sx={{
+              flex: 1,
+              overflowY: 'auto',
+            }}>
+            <Routes location={previousLocation || location}>
+              {/* <Route path="/" element={<Home />} /> */}
+              <Route path="/login" element={<Authentication mode="login" />} />
+              <Route
+                path="/signup"
+                element={<Authentication mode="signup" />}
+              />
+              <Route path="/success" element={<Success />} />
+              <Route path="/orderHistory/:id" element={<OrderHistory />} />
+              <Route path="/photos/:id" element={<Detail />} />
+              <Route path="/personal" element={<Personal />} />
+              <Route path="/ContactUs" element={<ContactUs />} />
+              <Route path="*" element={<NoMatch />} />
             </Routes>
-          )}
+            {previousLocation && (
+              <Routes>
+                <Route path="/upload" element={<Upload />} />
+              </Routes>
+            )}
+          </Box>
           <Footer />
         </StoreProvider>
       </div>
