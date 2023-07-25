@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import {
   ApolloClient,
@@ -6,11 +7,12 @@ import {
   ApolloProvider,
   createHttpLink,
 } from '@apollo/client';
+import './App.css';
+
 import { setContext } from '@apollo/client/link/context';
 
 import Home from './pages/Home';
 import Detail from './pages/Detail';
-import NoMatch from './pages/NoMatch';
 import ContactUs from './components/ContactUs';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
