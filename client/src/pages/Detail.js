@@ -314,7 +314,7 @@ function Detail() {
   return (
     <>
       {currentPhoto && cart ? (
-        <div className="my-1">
+        <div>
           <div className="backdrop">
             <div className="backdropContainer">
               <div className="iconColumn">
