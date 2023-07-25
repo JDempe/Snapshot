@@ -1,4 +1,6 @@
 export const UPDATE_PHOTOS = 'UPDATE_PHOTOS';
+export const UPDATE_USER_PHOTOS = 'UPDATE_USER_PHOTOS';
+export const UPDATE_USER = 'UPDATE_USER';
 
 export const ADD_TO_CART = 'ADD_TO_CART';
 export const ADD_MULTIPLE_TO_CART = 'ADD_MULTIPLE_TO_CART';

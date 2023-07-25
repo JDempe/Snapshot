@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {
@@ -10,7 +9,6 @@ import {
   IconButton,
   Avatar,
   ListItemIcon,
-  Typography,
   Box,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -18,22 +16,29 @@ import Auth from '../../utils/auth';
 import './style.scss';
 import { useQuery } from '@apollo/client';
 import { QUERY_USER } from '../../utils/queries';
+import { useStoreContext } from '../../utils/GlobalState';
+import { UPDATE_USER } from '../../utils/actions';
 
 export default function AccountMenu() {
-  Auth.loggedIn() ? console.log('logged in') : console.log('not logged in');
-
+  // TODO Figure out which of these Auth calls is bad
   const userId = Auth.getProfile().data._id; // Get the user id from the Auth.getProfile() function
 
-  console.log('id:', userId); // Log the id
+  const [state, dispatch] = useStoreContext();
 
   // use the QUERY_USER GetUser query to get the user data for the logged in user
-  const { loading, data } = useQuery(QUERY_USER, {
+  const { data } = useQuery(QUERY_USER, {
     variables: { _id: userId },
   });
 
-  console.log(data);
-
-  const user = data?.user || {};
+  // user the UPDATE_USER action to update the global state.user object with the user data
+  React.useEffect(() => {
+    if (data) {
+      dispatch({
+        type: UPDATE_USER,
+        user: data.user,
+      });
+    }
+  }, [data, dispatch]);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -62,7 +67,7 @@ export default function AccountMenu() {
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}>
             <Avatar sx={{ width: 32, height: 32 }}>
-              <img src={user.profilePicture} alt="profilePicture"></img>
+              <img src={state.user.profilePicture} alt="profilePicture"></img>
             </Avatar>
           </IconButton>
         </Tooltip>
@@ -106,10 +111,10 @@ export default function AccountMenu() {
         <div id="dropdownUsername">
           <Avatar sx={{ width: 50, height: 50 }}>
             {' '}
-            <img src={user.profilePicture} alt="profilePicture"></img>
+            <img src={state.user.profilePicture} alt="profilePicture"></img>
           </Avatar>
           <p fontSize="1rem">
-            {user.firstName} {user.lastName}
+            {state.user.firstName} {state.user.lastName}
           </p>
         </div>
 

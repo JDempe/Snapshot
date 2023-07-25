@@ -1,6 +1,8 @@
 import { useReducer } from 'react';
 import {
+  UPDATE_USER,
   UPDATE_PHOTOS,
+  UPDATE_USER_PHOTOS,
   ADD_TO_CART,
   UPDATE_CART_QUANTITY,
   REMOVE_FROM_CART,
@@ -11,10 +13,22 @@ import {
 
 export const reducer = (state, action) => {
   switch (action.type) {
+    case UPDATE_USER:
+      return {
+        ...state,
+        user: action.user,
+      };
+
     case UPDATE_PHOTOS:
       return {
         ...state,
         photos: [...action.photos],
+      };
+
+    case UPDATE_USER_PHOTOS:
+      return {
+        ...state,
+        userPhotos: [...action.photos],
       };
 
     case ADD_TO_CART:

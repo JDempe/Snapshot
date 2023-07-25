@@ -7,23 +7,50 @@ import Avatar from '@mui/material/Avatar';
 import Auth from '../utils/auth';
 import { useQuery } from '@apollo/client';
 import { QUERY_USER } from '../utils/queries';
+import { idbPromise } from '../utils/helpers';
+import { useStoreContext } from '../utils/GlobalState';
+import { UPDATE_USER_PHOTOS } from '../utils/actions';
+import { useEffect } from 'react';
 import './Personal.scss';
 
 const Personal = () => {
-  Auth.loggedIn() ? console.log('logged in') : console.log('not logged in');
-
   const userId = Auth.getProfile().data._id; // Get the user id from the Auth.getProfile() function
 
-  console.log('id:', userId); // Log the id
+  console.log('userId from personal page');
+  console.log(userId);
 
-  // use the QUERY_USER GetUser query to get the user data for the logged in user
+  const [state, dispatch] = useStoreContext();
   const { loading, data } = useQuery(QUERY_USER, {
     variables: { _id: userId },
   });
 
-  console.log(data);
+  console.log('data savedPhotos from personal page');
+  // console.log(data)
+  // console.log(data.user.savedPhotos)
 
-  const user = data?.user || {};
+  useEffect(() => {
+    if (data) {
+      dispatch({
+        type: UPDATE_USER_PHOTOS,
+        photos: data.user.savedPhotos,
+      });
+      data.user.savedPhotos.forEach((photo) => {
+        idbPromise('userPhotos', 'put', photo);
+      });
+    } else if (!loading) {
+      idbPromise('userPhotos', 'get').then((photos) => {
+        dispatch({
+          type: UPDATE_USER_PHOTOS,
+          photos: photos,
+        });
+      });
+    }
+  }, [data, loading, dispatch]);
+
+  console.log('state userPhotos from personal page');
+  console.log(state.userPhotos);
+
+  // await the loading then display data
 
   const [value, setValue] = React.useState(0);
 
@@ -36,11 +63,11 @@ const Personal = () => {
       <div className="contentAlign">
         <div className="personal">
           <Avatar sx={{ width: 96, height: 96 }}>
-            <img src={user.profilePicture} alt="profilePicture"></img>
+            <img src={state.user.profilePicture} alt="profilePicture"></img>
           </Avatar>
-          <h3>{user.username}</h3>
+          <h3>{state.user.username}</h3>
           <p>
-            {user.firstName} {user.lastName}
+            {state.user.firstName} {state.user.lastName}
           </p>
         </div>
         <hr style={{ width: '75vw', margin: '0px 0px 5px 0px' }} />
@@ -56,8 +83,8 @@ const Personal = () => {
               <Tab label="Likes" className="tabText" />
             </Tabs>
           </Box>
-          {value === 0 && <PhotoList />}
-          {value === 1 && <PhotoList />}
+          {value === 0 && <PhotoList photos={state.user.savedPhotos} />}
+          {value === 1 && <PhotoList photos={state.user.likedPhotos} />}
         </div>
       </div>
     </>

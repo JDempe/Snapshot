@@ -9,6 +9,8 @@ const typeDefs = gql`
     email: String
     profilePicture: String
     orders: [Order]
+    savedPhotos: [Photo]
+    likedPhotos: [Photo]
   }
 
   type Size {
