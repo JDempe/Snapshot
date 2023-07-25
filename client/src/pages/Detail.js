@@ -412,10 +412,12 @@ function Detail() {
                 </Link>
               </p>
               <div className="imageDescription">
-                <p>{currentPhoto.description}</p>
+                <p style={{ marginBottom: '5px' }}>
+                  {currentPhoto.description}
+                </p>
               </div>
 
-              <div>
+              <div className="imageDate">
                 Uploaded:{' '}
                 <span>
                   {dayjs
