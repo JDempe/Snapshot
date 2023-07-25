@@ -22,6 +22,12 @@ const photoSchema = new Schema({
     type: Number,
     default: 0,
   },
+  sizes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Size'
+    }
+  ],
 });
 
 const Photo = mongoose.model('Photo', photoSchema);
