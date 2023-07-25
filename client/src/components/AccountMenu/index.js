@@ -10,7 +10,6 @@ import {
   IconButton,
   Avatar,
   ListItemIcon,
-  Typography,
   Box,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -20,18 +19,12 @@ import { useQuery } from '@apollo/client';
 import { QUERY_USER } from '../../utils/queries';
 
 export default function AccountMenu() {
-  Auth.loggedIn() ? console.log('logged in') : console.log('not logged in');
-
   const userId = Auth.getProfile().data._id; // Get the user id from the Auth.getProfile() function
-
-  console.log('id:', userId); // Log the id
 
   // use the QUERY_USER GetUser query to get the user data for the logged in user
   const { loading, data } = useQuery(QUERY_USER, {
     variables: { _id: userId },
   });
-
-  console.log(data);
 
   const user = data?.user || {};
 
