@@ -55,6 +55,21 @@ export const ADD_USER = gql`
   }
 `;
 
+export const ADD_COMMENT = gql`
+  mutation addComment($photoId: ID!, $commentText: String!) {
+    addComment(photoId: $photoId, content: $commentText) {
+      _id
+      text
+      createdAt
+      createdBy {
+        _id
+        profilePicture
+        username
+      }
+    }
+  }
+`;
+
 export const UPLOAD_PHOTO = gql`
   mutation addPhoto($url: String!, $title: String!, $description: String!) {
     addPhoto(url: $url, title: $title, description: $description) {
