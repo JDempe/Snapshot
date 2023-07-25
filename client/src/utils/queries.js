@@ -194,38 +194,3 @@ export const QUERY_USER = gql`
     }
   }
 `;
-
-export const QUERY_USER_PHOTOS = gql`
-  query User($_id: ID!) {
-    user(_id: $_id) {
-      _id
-      username
-      email
-      firstName
-      lastName
-      profilePicture
-      savedPhotos {
-        _id
-        url
-        username
-        title
-        description
-        likes
-        createdBy {
-          username
-        }
-      }
-      likedPhotos {
-        _id
-        url
-        username
-        title
-        description
-        likes
-        createdBy {
-          username
-        }
-      }
-    }
-  }
-`;
