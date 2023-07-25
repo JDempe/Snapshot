@@ -45,6 +45,13 @@ db.once('open', async () => {
   // Users creation
   const users = await User.create([
     {
+      username: 'JDempe93',
+      firstName: 'Joshua',
+      lastName: 'Dempe',
+      email: 'handsome@youngman.com',
+      password: 'testtest',
+    },
+    {
       username: 'JacobWilliams',
       firstName: 'Jacob',
       lastName: 'Williams',
@@ -52,28 +59,28 @@ db.once('open', async () => {
       password: 'securePassword1',
     },
     {
-      username: 'SaraSmith',
+      username: 'SurelyYouCantBeSerious',
       firstName: 'Sara',
       lastName: 'Smith',
       email: 'sara.smith@test.com',
       password: 'securePassword2',
     },
     {
-      username: 'JohnDoe',
-      firstName: 'John',
-      lastName: 'Doe',
+      username: 'JuliusCaesar',
+      firstName: 'Jules',
+      lastName: 'Spencer',
       email: 'john.doe@test.com',
       password: 'securePassword3',
     },
     {
-      username: 'JaneDoe',
+      username: 'ItsATrap',
       firstName: 'Jane',
-      lastName: 'Doe',
+      lastName: 'Skellington',
       email: 'jadoe@test.com',
       password: 'securePassword4',
     },
     {
-      username: 'BobSmith',
+      username: 'BobTheDeconstructor',
       firstName: 'Bob',
       lastName: 'Smith',
       email: 'bobby@test.com',
@@ -86,9 +93,9 @@ db.once('open', async () => {
   // Photos creation
   const photos = await Photo.create([
     {
-      url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1689699075/your_folder_name/s9zaio0qr6pamkbm3pyk.jpg',
+      url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1689657760/your_folder_name/igbbihstllvestbstame.jpg',
       title: 'Mae the Dog',
-      description: 'It is a dog with a cute outfit.',
+      description: 'It is a dog that is booping the snoot.',
       createdBy: users[Math.floor(Math.random() * users.length)]._id,
       likes: 0,
     },
@@ -137,8 +144,52 @@ db.once('open', async () => {
     },
     {
       url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1689655762/samples/animals/three-dogs.jpg',
-      title: 'Dogs',
+      title: 'Just Three Dogs',
       description: 'Three cute dogs.',
+      createdBy: users[Math.floor(Math.random() * users.length)]._id,
+      likes: 0,
+    },
+    {
+      url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1690316970/IMG_6610_kmic30.jpg',
+      title: 'PSSPSSPSSPSS',
+      description: 'A glorious and majestic kitty cat.',
+      createdBy: users[Math.floor(Math.random() * users.length)]._id,
+      likes: 0,
+    },
+    {
+      url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1690316968/DSC_2131_ypx3ds.jpg',
+      title: 'Stick out of Water',
+      description: 'There is no joke here.  It is a stick, in water.',
+      createdBy: users[Math.floor(Math.random() * users.length)]._id,
+      likes: 0,
+    },
+    {
+      url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1690316969/DSC_1035_os5z0s.jpg',
+      title: "Where I'd Rather Be",
+      description: 'Let me out! Im trapped in this computer!',
+      createdBy: users[Math.floor(Math.random() * users.length)]._id,
+      likes: 0,
+    },
+    {
+      url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1689977715/kaahsdvaqpyf3nrmlv14.jpg',
+      title: 'Rope, I Think?',
+      description:
+        'A deep look at what we are truly made of, brought to you by yarn.',
+      createdBy: users[Math.floor(Math.random() * users.length)]._id,
+      likes: 0,
+    },
+    {
+      url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1689655759/samples/sheep.jpg',
+      title: 'BAAAAAAAAAAAAAAAAAH',
+      description:
+        'A picture of the 1980 protest of the inhumane conditions of wool farming, where roads were blocked for hours.',
+      createdBy: users[Math.floor(Math.random() * users.length)]._id,
+      likes: 0,
+    },
+    {
+      url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1690317517/Miso-Soup-8297-I_tynw6g.jpg',
+      title: 'Miso Hungry',
+      description: 'A bowl of miso soup, with a side of chopsticks.',
       createdBy: users[Math.floor(Math.random() * users.length)]._id,
       likes: 0,
     },
@@ -146,30 +197,30 @@ db.once('open', async () => {
 
   console.log('Photos seeded');
 
-  // Orders creation
-  const orders = await Order.create([
-    {
-      orderNumber: Math.floor(100000 + Math.random() * 900000),
-      purchaseDate: new Date(),
-      products: [
-        {
-          photo: photos[0]._id,
-          size: '5x7',
-          price: 10.0,
-          quantity: 1,
-        },
-        {
-          photo: photos[1]._id,
-          size: '8x10',
-          price: 15.0,
-          quantity: 3,
-        },
-      ],
-      total: 0,
-    },
-  ]);
+  // // Orders creation
+  // const orders = await Order.create([
+  //   {
+  //     orderNumber: Math.floor(100000 + Math.random() * 900000),
+  //     purchaseDate: new Date(),
+  //     products: [
+  //       {
+  //         photo: photos[0]._id,
+  //         size: '5x7',
+  //         price: 10.0,
+  //         quantity: 1,
+  //       },
+  //       {
+  //         photo: photos[1]._id,
+  //         size: '8x10',
+  //         price: 15.0,
+  //         quantity: 3,
+  //       },
+  //     ],
+  //     total: 0,
+  //   },
+  // ]);
 
-  console.log('Orders seeded');
+  // console.log('Orders seeded');
 
   // Comments creation
   await Comment.create([
@@ -177,19 +228,55 @@ db.once('open', async () => {
       text: 'The night sky in this photo looks mesmerizing.',
       createdAt: new Date(),
       createdBy: users[Math.floor(Math.random() * users.length)]._id,
-      photo: photos[0]._id,
+      photo: photos[Math.floor(Math.random() * photos.length)]._id,
     },
     {
       text: 'The mountains in this photo look so majestic.',
       createdAt: new Date(),
       createdBy: users[Math.floor(Math.random() * users.length)]._id,
-      photo: photos[1]._id,
+      photo: photos[Math.floor(Math.random() * photos.length)]._id,
     },
     {
-      text: 'Nice click!',
+      text: 'Look at this photograph!  Every time I do it makes me laugh!',
       createdAt: new Date(),
       createdBy: users[Math.floor(Math.random() * users.length)]._id,
-      photo: photos[1]._id,
+      photo: photos[Math.floor(Math.random() * photos.length)]._id,
+    },
+    {
+      text: 'I love the colors in this photo.',
+      createdAt: new Date(),
+      createdBy: users[Math.floor(Math.random() * users.length)]._id,
+      photo: photos[Math.floor(Math.random() * photos.length)]._id,
+    },
+    {
+      text: 'This photo is so cute!',
+      createdAt: new Date(),
+      createdBy: users[Math.floor(Math.random() * users.length)]._id,
+      photo: photos[Math.floor(Math.random() * photos.length)]._id,
+    },
+    {
+      text: 'This photo is so cool!',
+      createdAt: new Date(),
+      createdBy: users[Math.floor(Math.random() * users.length)]._id,
+      photo: photos[Math.floor(Math.random() * photos.length)]._id,
+    },
+    {
+      text: 'This photo is so beautiful!',
+      createdAt: new Date(),
+      createdBy: users[Math.floor(Math.random() * users.length)]._id,
+      photo: photos[Math.floor(Math.random() * photos.length)]._id,
+    },
+    {
+      text: 'This photo is so funny!',
+      createdAt: new Date(),
+      createdBy: users[Math.floor(Math.random() * users.length)]._id,
+      photo: photos[Math.floor(Math.random() * photos.length)]._id,
+    },
+    {
+      text: 'This photo is so majestic!',
+      createdAt: new Date(),
+      createdBy: users[Math.floor(Math.random() * users.length)]._id,
+      photo: photos[Math.floor(Math.random() * photos.length)]._id,
     },
   ]);
 
@@ -261,6 +348,57 @@ db.once('open', async () => {
   }
 
   console.log('Likes seeded');
+
+  // Create Orders by randomly selecting a photo, size, and quantity and adding it to the order
+  for (let i = 0; i < users.length; i++) {
+    const user = users[i];
+
+    // create a random number of orders for each user
+    const numberOfOrders = Math.floor(Math.random() * 5) + 1;
+
+    for (let j = 0; j < numberOfOrders; j++) {
+      // create a random number of products for each order
+      const numberOfProducts = Math.floor(Math.random() * 5) + 1;
+
+      // create an array to hold the products
+      const products = [];
+
+      // create the products
+      for (let k = 0; k < numberOfProducts; k++) {
+        // get a random photo
+        const photo = photos[Math.floor(Math.random() * photos.length)];
+
+        // get a random size
+        const size = sizes[Math.floor(Math.random() * sizes.length)];
+
+        // get a random quantity
+        // get a random number between 1 and 5
+        const quantity = Math.floor(Math.random() * 5) + 1;
+
+        // create the product object
+        const product = {
+          photo: photo._id,
+          size: size.size,
+          price: size.currentPrice,
+          quantity,
+        };
+
+        // add the product to the products array
+        products.push(product);
+      }
+
+      // create the order
+      await Order.create({
+        orderNumber: Math.floor(100000 + Math.random() * 900000),
+        purchaseDate: new Date(),
+        products,
+        total: 0,
+        createdBy: user._id,
+      });
+    }
+  }
+
+  console.log('Orders seeded');
 
   process.exit();
 });
