@@ -80,7 +80,7 @@ const LoginOrSignupSwitch = (props) => {
               {/* links to /login if the mode is login and /signup if the mode is signup */}
               <Link to={mode === 'login' ? '/login' : '/signup'}>
                 <AntSwitch
-                  checked={mode === 'login'}
+                  checked={props.mode === 'login'}
                   onClick={handleModeChange}
                   color="primary"
                   inputProps={{ 'aria-label': 'auth toggle' }}
