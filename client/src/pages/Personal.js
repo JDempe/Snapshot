@@ -52,7 +52,7 @@ const Personal = () => {
       <>
         <div className="contentAlign">
           <div className="personal">
-            <Avatar sx={{ width: 96, height: 96 }}>
+            <Avatar sx={{ width: 120, height: 120 }}>
               <img src={state.user.profilePicture} alt="profilePicture"></img>
             </Avatar>
             <h3>{state.user.username}</h3>
