@@ -9,6 +9,13 @@
   align-items: center;
   height: 100%;
   width: 100%;
+  transform: translateY(-100%);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.blurbContainer.slide-in {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .blurb {
@@ -28,10 +35,25 @@
   font-weight: bold;
   margin-bottom: 0px;
   line-height: 50px;
+  filter: drop-shadow(0 0 15px rgba(0, 0, 0, 0.538));
 }
 
 .blurbText {
   font-family: 'Arial', sans-serif;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 1));
+}
+
+.rainbowSlideContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto;
+  width: 550px;
+}
+
+.rainbowSlideDiv {
+  width: 100%;
+  height: 40px;
 }
 
 .banner {
@@ -85,13 +107,16 @@
 .homeContainer {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
   width: 70%;
   margin: 0 auto;
+  padding-bottom: 5rem;
 }
 
 .pitchContainer {
+  width: 300px;
+  padding: 0 15px 0 15px;
 }
 
 .pitchIcon {
@@ -113,4 +138,5 @@
 
 .pitchText {
   color: #2e3547;
+  font-family: 'Fira Sans', sans-serif;
 }
