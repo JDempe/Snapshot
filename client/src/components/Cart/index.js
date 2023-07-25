@@ -11,7 +11,7 @@ import './style.css';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faCartPlus } from '@fortawesome/free-solid-svg-icons';
-import { IconButton, Button } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
 
@@ -169,11 +169,13 @@ const Cart = () => {
   if (state.cartOpen) {
     return (
       <div>
-        <IconButton className="linkText" onClick={handleCartIconClick}>
-          <Badge badgeContent={state.cart.length} color="error">
-            <ShoppingCartIcon style={{ fontSize: 26 }} />
-          </Badge>
-        </IconButton>
+        <Tooltip title="Shopping Cart">
+          <IconButton className="linkText" onClick={handleCartIconClick}>
+            <Badge badgeContent={state.cart.length} color="error">
+              <ShoppingCartIcon style={{ fontSize: 26 }} />
+            </Badge>
+          </IconButton>
+        </Tooltip>
         <div className={`cart ${isClosing ? 'cart-closing' : ''}`}>
           <div className="close" onClick={(e) => e.stopPropagation()}>
             <FontAwesomeIcon
@@ -262,11 +264,15 @@ const Cart = () => {
   }
 
   return (
-    <IconButton className="cart-closed linkText" onClick={handleCartIconClick}>
-      <Badge badgeContent={state.cart.length} color="error">
-        <ShoppingCartIcon style={{ fontSize: 26 }} />
-      </Badge>
-    </IconButton>
+    <Tooltip title="Shopping Cart">
+      <IconButton
+        className="cart-closed linkText"
+        onClick={handleCartIconClick}>
+        <Badge badgeContent={state.cart.length} color="error">
+          <ShoppingCartIcon style={{ fontSize: 26 }} />
+        </Badge>
+      </IconButton>
+    </Tooltip>
   );
 };
 
