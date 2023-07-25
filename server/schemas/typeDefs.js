@@ -24,6 +24,7 @@ const typeDefs = gql`
     title: String
     description: String
     createdBy: User
+    createdAt: String
     likes: Int
     comments: [Comment]
   }
