@@ -14,9 +14,10 @@
 
 .cart h2 {
   font-size: 1.5rem;
+  font-family: 'Montserrat';
   border-bottom: 1px solid var(--dark);
   padding-bottom: 0.5rem;
-  margin: 1rem 0;
+  /* margin: 1rem 0; */
 }
 
 .cart .close {
@@ -64,6 +65,10 @@
   transition: opacity 0.3s ease-out; /* You can adjust the duration and timing function as needed */
 }
 
+.totalPrice {
+  font-family: 'Montserrat';
+  font-weight: 400;
+}
 /* .cart-opening {
   transition: opacity 5s ease-in;
 } */

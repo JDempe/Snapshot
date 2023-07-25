@@ -17,11 +17,11 @@ input[type='number']:active {
 
 .itemImgBox {
   height: 90%;
+  width: 32%;
   overflow: hidden;
-}
-
-.itemImgBox img {
-  height: 100%;
-  width: 100%;
-  object-fit: cover;
+  background-color: #cdd5e2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
 }
