@@ -53,6 +53,21 @@ userSchema.pre('save', async function (next) {
   }
 });
 
+// when something is added to the likedPhotos array, increment that photos Likes by 1, similarly, when something is removed from the likedPhotos array, decrement that photos Likes by 1
+userSchema.pre('save', async function (next) {
+  if (this.isNew || this.isModified('likedPhotos')) {
+    const photo = await this.model('Photo').findOneAndUpdate(
+      { _id: this.likedPhotos[this.likedPhotos.length - 1] },
+      { $inc: { likes: 1 } }
+    );
+  } else if (this.isModified('likedPhotos')) {
+    const photo = await this.model('Photo').findOneAndUpdate(
+      { _id: this.likedPhotos[this.likedPhotos.length - 1] },
+      { $inc: { likes: -1 } }
+    );
+  }
+});
+
 // set up pre-save middleware to create password
 userSchema.pre('save', async function (next) {
   if (this.isNew || this.isModified('password')) {
