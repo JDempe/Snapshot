@@ -6,8 +6,6 @@ import { QUERY_USER } from '../utils/queries';
 function OrderHistory() {
   const { id } = useParams();
 
-  console.log('id:', id); // Log the id
-
   const { loading, error, data } = useQuery(QUERY_USER, {
     variables: { _id: id },
   });

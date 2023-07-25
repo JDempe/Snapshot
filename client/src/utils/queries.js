@@ -164,3 +164,51 @@ export const QUERY_USER = gql`
     }
   }
 `;
+
+export const QUERY_USER_ORDERS = gql`
+  query User($_id: ID!) {
+    user(_id: $_id) {
+      _id
+      username
+      firstName
+      lastName
+      email
+      profilePicture
+      orders {
+        _id
+        purchaseDate
+        products {
+          photo {
+            _id
+            url
+            title
+          }
+          size
+          quantity
+          price
+        }
+        total
+      }
+      savedPhotos {
+        _id
+        url
+        title
+        description
+        createdBy {
+          username
+        }
+        likes
+      }
+      likedPhotos {
+        _id
+        url
+        title
+        description
+        createdBy {
+          username
+        }
+        likes
+      }
+    }
+  }
+`;

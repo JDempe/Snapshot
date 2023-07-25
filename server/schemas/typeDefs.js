@@ -39,6 +39,7 @@ const typeDefs = gql`
   }
 
   type OrderProduct {
+    _id: ID
     photo: Photo
     size: String
     quantity: Int
@@ -81,6 +82,7 @@ const typeDefs = gql`
     photo(_id: ID!): Photo
     orders: [Order]
     order(_id: ID!): Order
+    products: [OrderProduct]
     comments: [Comment]
     comment(_id: ID!): Comment
   }
