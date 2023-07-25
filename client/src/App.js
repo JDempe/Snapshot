@@ -12,7 +12,8 @@ import {
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-import Home from './pages/Home';
+// import Home from './pages/Home';
+import Discover from './pages/Discover';
 import Detail from './pages/Detail';
 import NoMatch from './pages/NoMatch';
 import ContactUs from './components/ContactUs';
@@ -59,7 +60,8 @@ function App() {
         <StoreProvider>
           <Nav />
           <Routes location={previousLocation || location}>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Discover />} />
+            <Route path="/discover" element={<Discover />} />
             <Route path="/login" element={<Authentication mode="login" />} />
             <Route path="/signup" element={<Authentication mode="signup" />} />
             <Route path="/success" element={<Success />} />
