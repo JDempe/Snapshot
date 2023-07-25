@@ -1,5 +1,5 @@
-const { gql } = require('apollo-server-express');
 
+const { gql } = require('apollo-server-express');
 const typeDefs = gql`
   type User {
     _id: ID!
@@ -14,9 +14,10 @@ const typeDefs = gql`
   }
 
   type Size {
-    name: String
-    price: Float
-  }
+  _id: ID!
+  size: String!
+  currentPrice: Float!
+}
 
   type Photo {
     _id: ID
@@ -26,10 +27,12 @@ const typeDefs = gql`
     createdBy: User
     likes: Int
     comments: [Comment]
+    sizes: [Size]
   }
 
   type Order {
     _id: ID
+    orderNumber: Int
     purchaseDate: String
     products: [OrderProduct]
     total: Float

@@ -1,5 +1,5 @@
 const db = require('./connection');
-const { User, Order, Photo, Comment, Size } = require('../models');
+const { User, Order, Photo, Comment, Size} = require('../models');
 
 db.once('open', async () => {
   await Size.deleteMany();
@@ -9,7 +9,7 @@ db.once('open', async () => {
   await User.deleteMany();
 
   // Sizes creation
-  await Size.create([
+  const sizes = await Size.create([
     {
       size: '4x6',
       currentPrice: 5.0,
@@ -91,6 +91,8 @@ db.once('open', async () => {
       description: 'It is a dog with a cute outfit.',
       createdBy: users[Math.floor(Math.random() * users.length)]._id,
       likes: 0,
+      sizes: [sizes[0]._id, sizes[1]._id]
+
     },
     {
       url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1689922435/istockphoto-1138389252-612x612_ivufb8.jpg',
@@ -98,6 +100,8 @@ db.once('open', async () => {
       description: 'Night view of a bustling city from the top.',
       createdBy: users[Math.floor(Math.random() * users.length)]._id,
       likes: 0,
+      sizes: [sizes[1]._id, sizes[2]._id]
+
     },
     {
       url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1689655785/cld-sample-4.jpg',
@@ -106,6 +110,7 @@ db.once('open', async () => {
       // randomly select a user
       createdBy: users[Math.floor(Math.random() * users.length)]._id,
       likes: 0,
+      sizes: [sizes[2]._id, sizes[1]._id]
     },
     {
       url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1689655784/cld-sample-2.jpg',
@@ -113,6 +118,8 @@ db.once('open', async () => {
       description: 'A beautiful view of the mountains.',
       createdBy: users[Math.floor(Math.random() * users.length)]._id,
       likes: 0,
+      sizes: [sizes[3]._id, sizes[1]._id]
+
     },
     {
       url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1689655782/samples/balloons.jpg',
@@ -120,6 +127,8 @@ db.once('open', async () => {
       description: 'A bunch of balloons in the sky.',
       createdBy: users[Math.floor(Math.random() * users.length)]._id,
       likes: 0,
+      sizes: [sizes[4]._id, sizes[1]._id]
+
     },
     {
       url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1689655767/samples/food/spices.jpg',
@@ -127,6 +136,7 @@ db.once('open', async () => {
       description: 'A bunch of spices.',
       createdBy: users[Math.floor(Math.random() * users.length)]._id,
       likes: 0,
+      sizes: [sizes[5]._id, sizes[1]._id] 
     },
     {
       url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1689655764/samples/landscapes/beach-boat.jpg',
@@ -134,6 +144,7 @@ db.once('open', async () => {
       description: 'A beautiful beach.',
       createdBy: users[Math.floor(Math.random() * users.length)]._id,
       likes: 0,
+      sizes: [sizes[6]._id, sizes[1]._id]
     },
     {
       url: 'https://res.cloudinary.com/dvifr0ga6/image/upload/v1689655762/samples/animals/three-dogs.jpg',
@@ -141,6 +152,7 @@ db.once('open', async () => {
       description: 'Three cute dogs.',
       createdBy: users[Math.floor(Math.random() * users.length)]._id,
       likes: 0,
+      sizes: [sizes[0]._id, sizes[1]._id]
     },
   ]);
 
@@ -149,6 +161,7 @@ db.once('open', async () => {
   // Orders creation
   const orders = await Order.create([
     {
+      orderNumber: Math.floor(100000 + Math.random() * 900000),
       purchaseDate: new Date(),
       products: [
         {
