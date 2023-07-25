@@ -1,0 +1,27 @@
+/* Remove default focus and active styles for the input field */
+input[type='number']:focus,
+input[type='number']:active {
+  outline: none; /* Remove the outline */
+  box-shadow: none; /* Remove any box shadow */
+  /* Add any other custom styles as needed */
+}
+
+.qtyField {
+  height: 1.5em;
+}
+
+.perItem {
+  padding-bottom: 5%;
+  height: 5em;
+}
+
+.itemImgBox {
+  height: 90%;
+  width: 32%;
+  overflow: hidden;
+  background-color: #cdd5e2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-start;
+}
