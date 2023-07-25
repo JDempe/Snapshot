@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { styled, alpha } from '@mui/material/styles';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LogoutIcon from '@mui/icons-material/Logout';
 import {
@@ -17,11 +16,11 @@ import Auth from '../../utils/auth';
 import './style.scss';
 import { useQuery } from '@apollo/client';
 import { QUERY_USER } from '../../utils/queries';
-import { idbPromise } from '../../utils/helpers';
 import { useStoreContext } from '../../utils/GlobalState';
 import { UPDATE_USER } from '../../utils/actions';
 
 export default function AccountMenu() {
+  // TODO Figure out which of these Auth calls is bad
   const userId = Auth.getProfile().data._id; // Get the user id from the Auth.getProfile() function
 
   const [state, dispatch] = useStoreContext();
@@ -40,9 +39,6 @@ export default function AccountMenu() {
       });
     }
   }, [data, dispatch]);
-
-  console.log('state.user from AccountMenu');
-  console.log(state.user);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
