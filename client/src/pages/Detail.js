@@ -13,6 +13,7 @@ import spinner from '../assets/spinner.gif';
 import Rating from '@mui/material/Rating';
 import Button from '@mui/material/Button';
 import PhotoComment from '../components/PhotoComment';
+import ProductDropdownCard from '../components/ProductDropdownCard';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
@@ -62,6 +63,7 @@ function Detail() {
   console.log('state', state);
   console.log('data', data);
   console.log('currentPhoto', currentPhoto);
+  console.log(currentPhoto.sizes);
 
   // displaying other photos at bottom of page
   const otherPhotosLimit = 4;
@@ -97,6 +99,17 @@ function Detail() {
   const commentList = (comments) => {
     if (comments) {
       return comments.map((comment) => <PhotoComment comment={comment} />);
+    }
+  };
+
+  const sizeList = (sizes) => {
+    console.log('sizeList function called');
+    console.log(sizes);
+
+    if (sizes) {
+      return sizes.map((size) => (
+        <ProductDropdownCard size={size.size} price={size.currentPrice} />
+      ));
     }
   };
 
@@ -396,30 +409,10 @@ function Detail() {
               {dropdownVisible && (
                 <>
                   <div className="dropdownContainer">
-                    <div className="dropdownItemContainer">
-                      <div className="dropdownItem">4 x 6 $10</div>
-                      <hr
-                        style={{ margin: '2px', width: '85%', height: '1px' }}
-                      />
-                      <div className="quantityText">Quantity</div>
-                      <Quantity />
-                    </div>
-                    <div className="dropdownItemContainer">
-                      <div className="dropdownItem">5 x 7 $15</div>
-                      <hr
-                        style={{ margin: '2px', width: '85%', height: '1px' }}
-                      />
-                      <div className="quantityText">Quantity</div>
-                      <Quantity />
-                    </div>
-                    <div className="dropdownItemContainer">
-                      <div className="dropdownItem">8 x 10 $30</div>
-                      <hr
-                        style={{ margin: '2px', width: '85%', height: '1px' }}
-                      />
-                      <div className="quantityText">Quantity</div>
-                      <Quantity />
-                    </div>
+                    {/*when the size array from currentPhoto is loaded, cycle through each and create a ProductDropdownCard */}
+                    {currentPhoto && currentPhoto.sizes
+                      ? sizeList(currentPhoto.sizes)
+                      : 'Loading...'}
                   </div>
                   <div className="addCartContainer">
                     <Button className="addCart" onClick={addToCart}>
