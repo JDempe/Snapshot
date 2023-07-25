@@ -47,8 +47,10 @@ function Footer() {
                 &nbsp;ABOUT US
               </Typography>
               <Typography className="footerDefText">
-                We are XYZ company, dedicated to providing the best service to
-                our customers.
+                Welcome to Snapshot - your virtual gallery at home. Explore
+                diverse, high-quality photos, and share your collection with
+                fellow art enthusiasts through an easy sign-up. Join now and
+                cherish life's moments with us.{' '}
               </Typography>
               <div className="footerTextPadding">
                 <br />
@@ -152,47 +154,47 @@ function Footer() {
               </Typography>
               <div className="footerTextPadding">
                 <a
-                  href="https://react.dev/"
+                  href="https://cloudinary.com/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footerText">
-                  React
+                  Cloudinary
                 </a>
               </div>
               <div className="footerTextPadding">
                 <a
-                  href="https://mui.com/"
+                  href="https://fontawesome.com"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footerText">
-                  Material UI
+                  Font Awesome
                 </a>
               </div>
               <div className="footerTextPadding">
                 <a
-                  href="https://www.apollographql.com/"
+                  href="https://day.js.org"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footerText">
-                  Apollo GraphQL
+                  Day.js
                 </a>
               </div>
               <div className="footerTextPadding">
                 <a
-                  href="https://stripe.com/"
+                  href="https://animate.style"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footerText">
-                  Stripe
+                  Animate.css
                 </a>
               </div>
               <div className="footerTextPadding">
                 <a
-                  href="https://www.mongodb.com/"
+                  href="https://jwt.io"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="footerText">
-                  MongoDB
+                  JSON Web Tokens
                 </a>
               </div>
             </Grid>
@@ -278,9 +280,10 @@ function Footer() {
               {'Copyright © '}
               <Link
                 color="inherit"
-                href="https://your-website.com/"
+                // href=""
+                to="/"
                 className="copyright">
-                Your Website
+                Snapshot{' '}
               </Link>{' '}
               {new Date().getFullYear()}
               {'.'}
