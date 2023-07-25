@@ -27,7 +27,6 @@ import Quantity from '../components/Quantity/Quantity.js';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Auth from '../utils/auth';
 import Spinner from '../components/Spinner';
-
 import dayjs from 'dayjs';
 import './Detail.scss';
 
@@ -170,8 +169,7 @@ function Detail() {
         },
       });
       setComment('');
-      console.log('DATA DATA DATA');
-      console.log(data);
+
       // PUT Comment in idb and update state to re-render the commentslist
       dispatch({
         type: UPDATE_CURRENT_PHOTO,

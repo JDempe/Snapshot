@@ -1,32 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { UPLOAD_PHOTO } from '../../utils/mutations';
 import {
   Container,
   CssBaseline,
   TextField,
-  Link,
-  Grid,
   Box,
   Button,
   Alert,
   Collapse,
   IconButton,
   FormControl,
-  collapseClasses,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useNavigate } from 'react-router-dom';
-import { useLockBodyScroll } from '@uidotdev/usehooks';
 import { useStoreContext } from '../../utils/GlobalState';
-import './style.scss';
 import { UPDATE_USER } from '../../utils/actions';
+import './style.scss';
 
 function Upload() {
-  useLockBodyScroll();
-
   const [state, dispatch] = useStoreContext();
-  const navigate = useNavigate();
 
   const [formState, setFormState] = useState({
     photoName: '',

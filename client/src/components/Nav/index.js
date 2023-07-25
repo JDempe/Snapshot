@@ -4,6 +4,7 @@ import Cart from '../Cart';
 import AccountMenu from '../AccountMenu';
 import { Link, useLocation, Outlet, NavLink } from 'react-router-dom';
 import Button from '@mui/material/Button';
+import Tooltip from '@mui/material/Tooltip';
 import './style.scss';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import Logo from '../../assets/logo.png';
@@ -49,14 +50,16 @@ function Nav() {
     // if logged in, show the Upload tab
     if (Auth.loggedIn()) {
       return (
-        <NavLink
-          // make the link go to /upload if it isnt, and navigate -1 if it isnt
-          to="/upload">
-          <div className="linkText">
-            {/* upload icon */}
-            <FileUploadIcon style={{ fontSize: 32 }} />
-          </div>
-        </NavLink>
+        <Tooltip title="Upload">
+          <NavLink
+            // make the link go to /upload if it isnt, and navigate -1 if it isnt
+            to="/upload">
+            <div className="linkText">
+              {/* upload icon */}
+              <FileUploadIcon style={{ fontSize: 32 }} />
+            </div>
+          </NavLink>
+        </Tooltip>
       );
     }
   }

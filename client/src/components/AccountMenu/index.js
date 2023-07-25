@@ -68,7 +68,7 @@ export default function AccountMenu() {
             aria-controls={open ? 'account-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}>
-            <Avatar sx={{ width: 32, height: 32 }}>
+            <Avatar sx={{ width: 40, height: 40 }}>
               <img src={state.user.profilePicture} alt="profilePicture"></img>
             </Avatar>
           </IconButton>
@@ -111,7 +111,7 @@ export default function AccountMenu() {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}>
         {/* display the user first and last name, not clickable menu item just avatar and text */}
         <div id="dropdownUsername">
-          <Avatar sx={{ width: 50, height: 50 }}>
+          <Avatar sx={{ width: 30, height: 30 }}>
             {' '}
             <img src={state.user.profilePicture} alt="profilePicture"></img>
           </Avatar>
@@ -141,7 +141,6 @@ export default function AccountMenu() {
           </ListItemIcon>
           Logout
         </MenuItem>
-        <MenuItem></MenuItem>
       </Menu>
     </React.Fragment>
   );

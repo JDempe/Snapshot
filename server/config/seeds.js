@@ -388,13 +388,19 @@ db.once('open', async () => {
       }
 
       // create the order
-      await Order.create({
+      let order = await Order.create({
         orderNumber: Math.floor(100000 + Math.random() * 900000),
         purchaseDate: new Date(),
         products,
         total: 0,
         createdBy: user._id,
       });
+
+      // assign the order to the user that created it in the orders array
+      await User.findOneAndUpdate(
+        { _id: user._id },
+        { $addToSet: { orders: order._id } }
+      );
     }
   }
 
