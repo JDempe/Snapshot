@@ -98,12 +98,12 @@ export const QUERY_SINGLE_PHOTO = gql`
       _id
       comments {
         _id
+        text
         createdAt
         createdBy {
           username
           profilePicture
         }
-        text
       }
       createdAt
       createdBy {
