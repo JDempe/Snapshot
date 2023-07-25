@@ -105,8 +105,13 @@ function Home() {
         <div className="pitchContainer">
           <SellIcon className="pitchIcon" />
           <MonetizationOnIcon className="pitchIconSecond" />
-          <div className="pitchTitle">This is the title</div>
-          <div className="pitchText">This is the text</div>
+          <div className="pitchTitle">Sell your work</div>
+          <div className="pitchText">
+            Any photo you upload can be sold as prints. Don't worry about the
+            details when it comes to printing, we got it covered on our end.
+            We'll handle the order processing and ship out the prints when
+            they're ready to go.
+          </div>
         </div>
       </div>
     </div>
