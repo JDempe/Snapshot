@@ -1,20 +1,5 @@
 import { gql } from '@apollo/client';
 
-// export const QUERY_PHOTOS = gql`
-//   query getProducts($category: ID) {
-//     products(category: $category) {
-//       _id
-//       name
-//       description
-//       price
-//       quantity
-//       image
-//       category {
-//         _id
-//       }
-//     }
-//   }
-// `;
 export const QUERY_PHOTOS = gql`
   query getPhotos {
     photos {
@@ -77,16 +62,48 @@ export const QUERY_ALL_PHOTOS = gql`
       createdBy {
         username
       }
+      createdAt
       likes
-      #   comments {
-      #     _id
-      #     text
-      #     createdAt
-      #     createdBy {
-      #       _id
-      #       username
-      #     }
-      # }
+      comments {
+        _id
+        text
+        createdAt
+        createdBy {
+          _id
+          username
+        }
+      }
+    }
+  }
+`;
+
+export const QUERY_SINGLE_PHOTO = gql`
+  query getSinglePhoto($id: ID!) {
+    photo(_id: $id) {
+      _id
+      comments {
+        _id
+        text
+        createdAt
+        createdBy {
+          username
+          profilePicture
+        }
+      }
+      createdAt
+      createdBy {
+        username
+        profilePicture
+      }
+      description
+      likes
+      title
+      url
+      sizes {
+        _id
+        size
+        currentPrice
+      }
     }
   }
 `;
@@ -99,53 +116,6 @@ export const QUERY_CATEGORIES = gql`
     }
   }
 `;
-
-// export const QUERY_USER = gql`
-//   query GetUser($id: ID!) {
-//     user(_id: $id) {
-//       _id
-//       username
-//       email
-//       firstName
-//       lastName
-//       # orders {
-//       #   _id
-//       #   purchaseDate
-//       #   products {
-//       #     _id
-//       #     name
-//       #     description
-//       #     price
-//       #     quantity
-//       #     image
-//       #   }
-//       # }
-//     }
-//   }
-// `;
-// export const QUERY_USER = gql`
-//   query getUser($id: ID!) {
-//     user(_id: $id) {
-//       _id
-//       username
-//       email
-//       firstName
-//       lastName
-//       orders {
-//         _id
-//         purchaseDate
-//         products {
-//           photo {
-//             _id
-//             title
-//           }
-//           size
-//           quantity
-//         }
-//       }
-//     }
-//   }
-// `;
 
 export const QUERY_USER = gql`
   query User($_id: ID!) {

@@ -9,7 +9,7 @@ db.once('open', async () => {
   await User.deleteMany();
 
   // Sizes creation
-  await Size.create([
+  const sizes = await Size.create([
     {
       size: '4x6',
       currentPrice: 5.0,
@@ -149,6 +149,7 @@ db.once('open', async () => {
   // Orders creation
   const orders = await Order.create([
     {
+      orderNumber: Math.floor(100000 + Math.random() * 900000),
       purchaseDate: new Date(),
       products: [
         {
@@ -243,6 +244,20 @@ db.once('open', async () => {
       // increment the likes by 1
       await Photo.findOneAndUpdate({ _id: photo._id }, { $inc: { likes: 1 } });
     }
+  }
+
+  // for each photo, choose 3 random sizes and add them to the photo
+  for (let i = 0; i < photos.length; i++) {
+    const photo = photos[i];
+
+    // get 3 random sizes
+    const randomSizes = sizes.sort(() => 0.5 - Math.random()).slice(0, 3);
+
+    // add the sizes to the photo
+    await Photo.findOneAndUpdate(
+      { _id: photo._id },
+      { $addToSet: { sizes: randomSizes } }
+    );
   }
 
   console.log('Likes seeded');

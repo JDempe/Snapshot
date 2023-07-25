@@ -13,7 +13,7 @@ export function idbPromise(storeName, method, object) {
       const db = request.result;
       db.createObjectStore('photos', { keyPath: '_id' });
       db.createObjectStore('userPhotos', { keyPath: '_id' });
-      db.createObjectStore('cart', { keyPath: '_id' });
+      db.createObjectStore('cart', { keyPath: ['_id', 'size'] });
     };
 
     request.onerror = function (e) {

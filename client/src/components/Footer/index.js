@@ -4,8 +4,11 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import { GitHub } from '@mui/icons-material';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import './style.scss';
+import { LinkRounded } from '@mui/icons-material/';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faKiwiBird, faOtter } from '@fortawesome/free-solid-svg-icons';
 
 function Footer() {
   const footerTitleText = {
@@ -23,20 +26,25 @@ function Footer() {
           theme.palette.mode === 'light'
             ? theme.palette.grey[200]
             : theme.palette.grey[800],
-        p: 6,
+        p: '2% 5%',
         // position: 'sticky',
-        bottom: '0vh',
+        // bottom: '0vh',
       }}>
       <Container maxWidth="lg">
         <Typography variant="body1">
           <Grid container spacing={6}>
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={6} md={3}>
               <Typography
-                style={footerTitleText}
+                style={{
+                  ...footerTitleText,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
                 variant="h6"
                 color="text.primary"
                 gutterBottom>
-                ABOUT US
+                <FontAwesomeIcon icon={faOtter} />
+                &nbsp;ABOUT US
               </Typography>
               <Typography className="footerDefText">
                 We are XYZ company, dedicated to providing the best service to
@@ -44,21 +52,43 @@ function Footer() {
               </Typography>
               <div className="footerTextPadding">
                 <br />
-                <a
+                {/* <a
                   href=""
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="footerText">
+                  className="footerText contact-us">
                   contact us
-                </a>
+                </a> */}
+                <Link to="/ContactUs" className="footerText contact-us">
+                  <Button
+                    // to="/contact"
+                    // target="_blank"
+                    // rel="noopener noreferrer"
+                    variant="outlined"
+                    // className="footerText contact-us"
+                    style={{
+                      fontFamily: 'Montserrat',
+                      fontWeight: 600,
+                      color: '#5b77a1',
+                      border: 'solid 1px #5b77a1',
+                      fontSize: '80%',
+                    }}>
+                    Contact Us
+                  </Button>
+                </Link>
               </div>
             </Grid>
-            <Grid item xs={12} sm={2}>
+            <Grid item xs={12} sm={6} md={3}>
               <Typography
-                style={footerTitleText}
+                style={{
+                  ...footerTitleText,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
                 variant="h6"
                 color="text.primary"
                 gutterBottom>
+                <LinkRounded style={{ transform: 'rotate(135deg)' }} />
                 TECHNOLOGY
               </Typography>
               <div className="footerTextPadding">
@@ -107,12 +137,17 @@ function Footer() {
                 </a>
               </div>
             </Grid>
-            <Grid item xs={12} sm={2}>
+            <Grid item xs={12} sm={6} md={3}>
               <Typography
-                style={footerTitleText}
+                style={{
+                  ...footerTitleText,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
                 variant="h6"
                 color="text.primary"
                 gutterBottom>
+                <LinkRounded style={{ transform: 'rotate(135deg)' }} />
                 (CONT.)
               </Typography>
               <div className="footerTextPadding">
@@ -161,7 +196,7 @@ function Footer() {
                 </a>
               </div>
             </Grid>
-            {/* <Grid item xs={12} sm={2}>
+            {/* <Grid item xs={12} sm={6} md={2}>
               <Typography
                 style={footerTitleText}
                 variant="h6"
@@ -170,9 +205,13 @@ function Footer() {
                 CONTACT US
               </Typography>
             </Grid> */}
-            <Grid item xs={12} sm={3}>
+            <Grid item xs={12} sm={6} md={3}>
               <Typography
-                style={footerTitleText}
+                style={{
+                  ...footerTitleText,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
                 variant="h6"
                 color="text.primary"
                 gutterBottom>

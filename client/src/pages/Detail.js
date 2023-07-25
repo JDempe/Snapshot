@@ -1,112 +1,171 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { useStoreContext } from '../utils/GlobalState';
 import {
-  REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
   ADD_TO_CART,
-  UPDATE_PHOTOS,
+  UPDATE_CURRENT_PHOTO,
 } from '../utils/actions';
-import { QUERY_ALL_PHOTOS, QUERY_USER } from '../utils/queries';
+import { QUERY_SINGLE_PHOTO } from '../utils/queries';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 import Rating from '@mui/material/Rating';
+import Button from '@mui/material/Button';
+import PhotoComment from '../components/PhotoComment';
+import ProductDropdownCard from '../components/ProductDropdownCard';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import OpenInFullIcon from '@mui/icons-material/OpenInFull';
 import WestIcon from '@mui/icons-material/West';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import Quantity from '../components/Quantity/Quantity.js';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Auth from '../utils/auth';
+import dayjs from 'dayjs';
 import './Detail.scss';
 
 function Detail() {
   const [state, dispatch] = useStoreContext();
   const { id } = useParams();
 
-  const [currentPhoto, setCurrentPhoto] = useState({});
+  // const [currentPhoto, setcurrentPhoto] = useState({});
 
-  const { loading, data } = useQuery(QUERY_ALL_PHOTOS);
+  const { loading, data } = useQuery(QUERY_SINGLE_PHOTO, {
+    variables: { id: id },
+  });
 
   const { photos, cart } = state;
 
+  // save the single photo in data to state
+  useEffect(() => {
+    if (data) {
+      dispatch({
+        type: UPDATE_CURRENT_PHOTO,
+        photo: data.photo,
+      });
+    } else if (!loading) {
+      idbPromise('photos', 'get').then((photos) => {
+        dispatch({
+          type: UPDATE_CURRENT_PHOTO,
+          photo: photos.find((photo) => photo._id === id),
+        });
+      });
+    }
+  }, [data, loading, dispatch, id]);
+
+  const { currentPhoto } = state;
+
   // displaying other photos at bottom of page
   const otherPhotosLimit = 4;
-  const otherPhotos = data
-    ? data.photos.filter((photo) => photo._id !== id).slice(0, otherPhotosLimit)
-    : [];
+  const otherPhotos = [];
 
   const navigateOtherPhoto = (photoId) => {
     navigate(`/photos/${photoId}`);
   };
 
-  useEffect(() => {
-    // already in global store
-    if (photos.length) {
-      setCurrentPhoto(photos.find((photos) => photos._id === id));
-    }
-    // retrieved from server
-    else if (data) {
-      dispatch({
-        type: UPDATE_PHOTOS,
-        photos: data.photos,
-      });
+  //   useEffect(() => {
+  //  if (data) {
+  //       dispatch({
+  //         type: UPDATE_PHOTOS,
+  //         photos: data.photos,
+  //       });
 
-      data.photos.forEach((photo) => {
-        idbPromise('photos', 'put', photo);
-      });
+  //       data.photos.forEach((photo) => {
+  //         idbPromise('photos', 'put', photo);
+  //       });
+  //     }
+  //     // get cache from idb
+  //     else if (!loading) {
+  //       idbPromise('photos', 'get').then((indexedPhotos) => {
+  //         dispatch({
+  //           type: UPDATE_PHOTOS,
+  //           photos: indexedPhotos,
+  //         });
+  //       });
+  //     }
+  //   }, [photos, data, loading, dispatch, id]);
+
+  // function to take all the comments and make them into a list using the PhotoComment component
+  const commentList = (comments) => {
+    if (comments) {
+      return comments.map((comment) => <PhotoComment comment={comment} />);
     }
-    // get cache from idb
-    else if (!loading) {
-      idbPromise('photos', 'get').then((indexedPhotos) => {
-        dispatch({
-          type: UPDATE_PHOTOS,
-          photos: indexedPhotos,
-        });
-      });
+  };
+
+  const sizeList = (sizes) => {
+    if (sizes) {
+      return sizes.map((size) => (
+        <ProductDropdownCard size={size.size} price={size.currentPrice} />
+      ));
     }
-  }, [photos, data, loading, dispatch, id]);
+  };
 
   const addToCart = () => {
     console.log('addToCart function called');
 
-    const itemInCart = cart.find((cartItem) => cartItem._id === id);
-    if (itemInCart) {
-      dispatch({
-        type: UPDATE_CART_QUANTITY,
-        _id: id,
-        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-      });
-      idbPromise('cart', 'put', {
-        ...itemInCart,
-        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-      });
-    } else {
-      dispatch({
-        type: ADD_TO_CART,
-        photo: {
+    // for each of the sizes, add to cart using the size and price and quantity from the dropdown cards (div's in the dropdownContainer class div, children are ProductDropdownCard's)
+    const dropdownContainer = document.querySelector('.dropdownContainer');
+    const dropdownCards = dropdownContainer.children;
+    for (let i = 0; i < dropdownCards.length; i++) {
+      const dropdownCard = dropdownCards[i];
+      const size = dropdownCard.dataset.size;
+      const price = dropdownCard.dataset.price;
+      // grab the quantity from the input that is a grandchild of the dropdownCard
+      const quantity = dropdownCard.querySelector('input').value;
+      console.log('size: ', size);
+      console.log('price: ', price);
+      console.log('quantity: ', quantity);
+      // if quantity is greater than 0, add to cart
+      if (quantity > 0) {
+        dispatch({
+          type: ADD_TO_CART,
+          photo: {
+            ...currentPhoto,
+            size: size,
+            price: price,
+            quantity: quantity,
+          },
+        });
+        idbPromise('cart', 'put', {
           ...currentPhoto,
-          purchaseQuantity: 1,
-          price: Number(currentPhoto.price),
-        },
-      });
-      idbPromise('cart', 'put', {
-        ...currentPhoto,
-        purchaseQuantity: 1,
-        price: Number(currentPhoto.price),
-      });
+          size: size,
+          price: price,
+          quantity: quantity,
+        });
+      }
     }
   };
 
-  const removeFromCart = () => {
-    dispatch({
-      type: REMOVE_FROM_CART,
-      _id: currentPhoto._id,
-    });
-
-    idbPromise('cart', 'delete', { ...currentPhoto });
-  };
+  // const itemInCart = cart.find((cartItem) => cartItem._id === id);
+  // if (itemInCart) {
+  //   dispatch({
+  //     type: UPDATE_CART_QUANTITY,
+  //     _id: id,
+  //     purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+  //   });
+  //   idbPromise('cart', 'put', {
+  //     ...itemInCart,
+  //     purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+  //   });
+  // } else {
+  //   dispatch({
+  //     type: ADD_TO_CART,
+  //     photo: {
+  //       ...data,
+  //       purchaseQuantity: 1,
+  //       price: Number(data.price),
+  //     },
+  //   });
+  //   idbPromise('cart', 'put', {
+  //     ...data,
+  //     purchaseQuantity: 1,
+  //     price: Number(data.price),
+  //   });
+  // }
 
   // function commentBox() {
   //   const [comment, setComment] = useState('');
@@ -171,6 +230,41 @@ function Detail() {
     }
   };
 
+  const navigateTo = (path) => {
+    navigate(path);
+  };
+
+  const showPurchaseButton = () => {
+    if (Auth.loggedIn()) {
+      return (
+        <>
+          <Button
+            className={`purchaseButton ${
+              dropdownVisible ? 'purchaseInactive' : ''
+            }`}
+            onClick={toggleDropdown}>
+            Purchase a print
+            {iconState === 'down' ? (
+              <KeyboardArrowDownIcon />
+            ) : (
+              <KeyboardArrowUpIcon />
+            )}
+          </Button>
+        </>
+      );
+    } else {
+      return (
+        <>
+          <Button
+            className="purchaseButton"
+            onClick={() => navigateTo('/login')}>
+            Log In to Purchase
+          </Button>
+        </>
+      );
+    }
+  };
+
   const navigate = useNavigate();
 
   const toggleFullscreen = () => {
@@ -178,16 +272,16 @@ function Detail() {
   };
 
   // random photo navigation
-  const photoIds = data ? data.photos.map((photo) => photo._id) : [];
+  // const photoIds = data ? data.photos.map((photo) => photo._id) : [];
 
-  const navigateToRandomPhoto = () => {
-    if (photoIds.length === 0) {
-      return;
-    }
-    const randomPhotoId = photoIds[Math.floor(Math.random() * photoIds.length)];
+  // const navigateToRandomPhoto = () => {
+  //   if (photoIds.length === 0) {
+  //     return;
+  //   }
+  //   const randomPhotoId = photoIds[Math.floor(Math.random() * photoIds.length)];
 
-    navigate(`/photos/${randomPhotoId}`);
-  };
+  //   navigate(`/photos/${randomPhotoId}`);
+  // };
 
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -219,6 +313,20 @@ function Detail() {
     };
   }, [isFullscreen]);
 
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [iconState, setIconState] = useState('down');
+
+  const toggleDropdown = () => {
+    setDropdownVisible((prevVisible) => !prevVisible);
+    setIconState((prevIconState) => (prevIconState === 'down' ? 'up' : 'down'));
+  };
+
+  const location = useLocation();
+  useEffect(() => {
+    setDropdownVisible(false);
+    setIconState('down');
+  }, [location]);
+
   return (
     <>
       {currentPhoto && cart ? (
@@ -236,7 +344,7 @@ function Detail() {
                   <ArrowBackIosNewIcon
                     fontSize="inherit"
                     color="inherit"
-                    onClick={() => navigateToRandomPhoto()}
+                    // onClick={() => navigateToRandomPhoto()}
                   />
                 </div>
               </div>
@@ -260,7 +368,7 @@ function Detail() {
                   <ArrowForwardIosIcon
                     fontSize="inherit"
                     color="inherit"
-                    onClick={() => navigateToRandomPhoto()}
+                    // onClick={() => navigateToRandomPhoto()}
                   />
                 </div>
               </div>
@@ -269,8 +377,13 @@ function Detail() {
           <div className="contentContainer">
             <div className="imageInfo">
               <img
-                src="https://www.seekpng.com/png/full/110-1100707_person-avatar-placeholder.png"
+                src={
+                  currentPhoto && currentPhoto.createdBy
+                    ? currentPhoto.createdBy.profilePicture
+                    : '../images/avatars/Blank-Avatar.png'
+                }
                 className="avatar"
+                alt="avatar"
               />
               <div className="imageTitleWrap">
                 <h2 className="imageName">{currentPhoto.title}</h2>
@@ -298,49 +411,52 @@ function Detail() {
               <div className="imageDescription">
                 <p>{currentPhoto.description}</p>
               </div>
+
+              <div>
+                Uploaded:{' '}
+                <span>
+                  {dayjs
+                    .unix(currentPhoto.createdAt / 1000)
+                    .format('MMM DD YYYY h:mm A')}
+                </span>
+              </div>
               <div className="bottomRow">
-                <div>Uploaded: DATE</div>
-                <div className=" my-1 purchaseContainer">
-                  <strong>Price:</strong>${currentPhoto.price}{' '}
-                  <button onClick={addToCart}>Add to Cart</button>
+                {/* <button onClick={addToCart}>Add to Cart</button>
                   <button
-                    disabled={!cart.find((p) => p._id === currentPhoto._id)}
+                    disabled={!cart.find((p) => p._id === data._id)}
                     onClick={removeFromCart}>
                     Remove from Cart
-                  </button>
-                </div>
+                  </button> */}
+                <div>{showPurchaseButton()}</div>
               </div>
+              {dropdownVisible && (
+                <>
+                  <div className="dropdownContainer">
+                    {/*when the size array from currentPhoto is loaded, cycle through each and create a ProductDropdownCard */}
+                    {currentPhoto && currentPhoto.sizes
+                      ? sizeList(currentPhoto.sizes)
+                      : 'Loading...'}
+                  </div>
+                  <div className="addCartContainer">
+                    <Button className="addCart" onClick={addToCart}>
+                      Add all to Cart
+                      <ShoppingCartIcon />
+                    </Button>
+                  </div>
+                </>
+              )}
             </div>
             <div className="commentSection">
               <hr />
               <div>{showCommentInput()}</div>
-              <h5 style={{ marginBottom: '1.2rem' }}>#VALUE comments</h5>
-              <div className="comment">
-                <div className="commentOrientation">
-                  <img
-                    src="https://www.seekpng.com/png/full/110-1100707_person-avatar-placeholder.png"
-                    className="avatarCommentor"
-                  />
-                  <div className="commentContent">
-                    <div className="nameRating">
-                      <p className="commentAuthor">
-                        <Link style={{ color: '#2e3547', fontWeight: 'bold' }}>
-                          Commentor
-                        </Link>
-                      </p>
-                      <Rating name="read-only" value={0} readOnly />
-                    </div>
-                    {/* <div className="imageDescription">
-                        <p>Insert the comment</p>
-                      </div> */}
-                  </div>
-                </div>
-                <div className="commentText">
-                  <p style={{ marginBottom: '0.3rem' }}>Insert the comment</p>
-                </div>
-                <div className="commentDate">
-                  <p>Posted: </p>
-                </div>
+              <h5 style={{ marginBottom: '1.2rem' }}>
+                {currentPhoto && currentPhoto.comments
+                  ? currentPhoto.comments.length
+                  : 'Loading...'}{' '}
+                comments
+              </h5>
+              <div className="commentList">
+                {commentList(currentPhoto.comments)}
               </div>
             </div>
           </div>
