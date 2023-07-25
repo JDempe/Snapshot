@@ -49,19 +49,19 @@ const resolvers = {
           description: products[i].description,
           images: [`${url}/images/${products[i].image}`],
         });
-      
+
         const price = await stripe.prices.create({
           product: product.id,
-          unit_amount: products[i].price * 100, 
+          unit_amount: products[i].price * 100,
           currency: 'usd',
         });
-      
+
         line_items.push({
           price: price.id,
           quantity: 1,
         });
       }
-      
+
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items,
@@ -114,7 +114,9 @@ const resolvers = {
     },
     addOrder: async (parent, { products }, context) => {
       if (context.user) {
-        const orderNumber = Math.floor(Math.random() * (10000000 - 100000) + 100000);
+        const orderNumber = Math.floor(
+          Math.random() * (10000000 - 100000) + 100000
+        );
         const order = new Order({ products, orderNumber });
         await User.findByIdAndUpdate(context.user._id, {
           $push: { orders: order },
@@ -127,26 +129,26 @@ const resolvers = {
     addPhoto: async (parent, args, context) => {
       if (context.user) {
         const { url, title, description, sizes } = args;
-    
+
         const photo = new Photo({
           url,
           title,
           description,
           createdBy: context.user._id,
         });
-    
+
         if (sizes) {
-          const sizeDocuments = sizes.map(size => new Size(size));
+          const sizeDocuments = sizes.map((size) => new Size(size));
           photo.sizes = sizeDocuments;
         }
-    
+
         await photo.save();
-    
+
         return photo;
       }
       throw new AuthenticationError('Not logged in');
     },
-    
+
     updateUser: async (parent, args, context) => {
       if (context.user) {
         return await User.findByIdAndUpdate(context.user._id, args, {
@@ -195,10 +197,10 @@ const resolvers = {
       if (context.user) {
         // If sizes are provided, convert them to size documents
         if (sizes) {
-          const sizeDocuments = sizes.map(size => new Size(size));
+          const sizeDocuments = sizes.map((size) => new Size(size));
           args.sizes = sizeDocuments;
         }
-    
+
         const photo = await Photo.findByIdAndUpdate(
           _id,
           { ...args },
@@ -206,7 +208,7 @@ const resolvers = {
         );
         return photo;
       }
-    
+
       throw new AuthenticationError('Not logged in');
     },
     updateComment: async (parent, { _id, ...args }, context) => {
@@ -230,8 +232,6 @@ const resolvers = {
       throw new AuthenticationError('Not logged in');
     },
   },
-
 };
-
 
 module.exports = resolvers;

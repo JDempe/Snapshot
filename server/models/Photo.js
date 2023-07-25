@@ -22,11 +22,21 @@ const photoSchema = new Schema({
     type: Number,
     default: 0,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  comments: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Comment',
+    },
+  ],
   sizes: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Size'
-    }
+      ref: 'Size',
+    },
   ],
 });
 

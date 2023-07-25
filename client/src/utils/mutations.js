@@ -67,4 +67,3 @@ export const UPLOAD_PHOTO = gql`
     }
   }
 `;
-

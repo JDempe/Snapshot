@@ -38,9 +38,10 @@ const Cart = () => {
   }, [state.cartOpen, dispatch]);
   {
     state.cart.map((item) => {
-    console.log(item);
-    return <CartItem key={item._id} item={item} />;
-  })}
+      console.log(item);
+      return <CartItem key={item._id} item={item} />;
+    });
+  }
   const handleCartIconClick = () => {
     console.log('Cart icon clicked');
     setIsCartIconClicked(true);
@@ -157,7 +158,7 @@ const Cart = () => {
       }
     });
     console.log(sum);
-  return sum.toFixed(2);
+    return sum.toFixed(2);
   }
 
   function submitCheckout() {

@@ -77,16 +77,43 @@ export const QUERY_ALL_PHOTOS = gql`
       createdBy {
         username
       }
+      createdAt
       likes
-      #   comments {
-      #     _id
-      #     text
-      #     createdAt
-      #     createdBy {
-      #       _id
-      #       username
-      #     }
-      # }
+      comments {
+        _id
+        text
+        createdAt
+        createdBy {
+          _id
+          username
+        }
+      }
+    }
+  }
+`;
+
+export const QUERY_SINGLE_PHOTO = gql`
+  query getSinglePhoto($id: ID!) {
+    photo(_id: $id) {
+      _id
+      comments {
+        _id
+        createdAt
+        createdBy {
+          username
+          profilePicture
+        }
+        text
+      }
+      createdAt
+      createdBy {
+        username
+        profilePicture
+      }
+      description
+      likes
+      title
+      url
     }
   }
 `;
