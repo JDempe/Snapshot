@@ -2,14 +2,14 @@
   position: fixed;
   top: 13%;
   right: 2%;
-  min-width: 20%;
-  max-width: 30%;
+  min-width: 25%;
+  max-width: 35%;
   max-height: 60%;
   background-color: var(--light);
   overflow: auto;
   padding: 0.5rem;
-  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
-  border-bottom-left-radius: 0.5rem;
+  box-shadow: 0 0 1rem rgb(91, 119, 161, 0.5);
+  border-radius: 0.5rem;
 }
 
 .cart h2 {
