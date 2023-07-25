@@ -14,20 +14,19 @@ export const LOGIN = gql`
 export const ADD_ORDER = gql`
   mutation addOrder($products: [ProductInput]!) {
     addOrder(products: $products) {
+      _id
       purchaseDate
+      total
       products {
+        _id
+        quantity
+        price
         photo {
           _id
+          url
           title
-          description
-          price
-          createdBy {
-            _id
-            username
-          }
         }
         size
-        quantity
       }
     }
   }
@@ -68,3 +67,4 @@ export const UPLOAD_PHOTO = gql`
     }
   }
 `;
+

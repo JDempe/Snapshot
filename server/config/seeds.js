@@ -100,7 +100,7 @@ db.once('open', async () => {
       description: 'Night view of a bustling city from the top.',
       createdBy: users[Math.floor(Math.random() * users.length)]._id,
       likes: 0,
-      sizes: [sizes[1]._id, sizes[1]._id]
+      sizes: [sizes[1]._id, sizes[2]._id]
 
     },
     {
@@ -161,6 +161,7 @@ db.once('open', async () => {
   // Orders creation
   const orders = await Order.create([
     {
+      orderNumber: Math.floor(100000 + Math.random() * 900000),
       purchaseDate: new Date(),
       products: [
         {

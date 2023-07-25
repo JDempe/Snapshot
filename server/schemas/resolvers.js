@@ -79,15 +79,13 @@ const resolvers = {
     },
     addOrder: async (parent, { products }, context) => {
       if (context.user) {
-        const order = new Order({ products });
-
+        const orderNumber = Math.floor(Math.random() * (10000000 - 100000) + 100000);
+        const order = new Order({ products, orderNumber });
         await User.findByIdAndUpdate(context.user._id, {
           $push: { orders: order },
         });
-
         return order;
       }
-
       throw new AuthenticationError('Not logged in');
     },
 
