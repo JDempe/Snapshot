@@ -119,7 +119,7 @@ function Detail() {
       console.log('size: ', size);
       console.log('price: ', price);
       console.log('quantity: ', quantity);
-      // add to cart if quantity is greater than 0
+      // if quantity is greater than 0, add to cart
       if (quantity > 0) {
         dispatch({
           type: ADD_TO_CART,
@@ -138,34 +138,34 @@ function Detail() {
         });
       }
     }
-
-    // const itemInCart = cart.find((cartItem) => cartItem._id === id);
-    // if (itemInCart) {
-    //   dispatch({
-    //     type: UPDATE_CART_QUANTITY,
-    //     _id: id,
-    //     purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-    //   });
-    //   idbPromise('cart', 'put', {
-    //     ...itemInCart,
-    //     purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-    //   });
-    // } else {
-    //   dispatch({
-    //     type: ADD_TO_CART,
-    //     photo: {
-    //       ...data,
-    //       purchaseQuantity: 1,
-    //       price: Number(data.price),
-    //     },
-    //   });
-    //   idbPromise('cart', 'put', {
-    //     ...data,
-    //     purchaseQuantity: 1,
-    //     price: Number(data.price),
-    //   });
-    // }
   };
+
+  // const itemInCart = cart.find((cartItem) => cartItem._id === id);
+  // if (itemInCart) {
+  //   dispatch({
+  //     type: UPDATE_CART_QUANTITY,
+  //     _id: id,
+  //     purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+  //   });
+  //   idbPromise('cart', 'put', {
+  //     ...itemInCart,
+  //     purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
+  //   });
+  // } else {
+  //   dispatch({
+  //     type: ADD_TO_CART,
+  //     photo: {
+  //       ...data,
+  //       purchaseQuantity: 1,
+  //       price: Number(data.price),
+  //     },
+  //   });
+  //   idbPromise('cart', 'put', {
+  //     ...data,
+  //     purchaseQuantity: 1,
+  //     price: Number(data.price),
+  //   });
+  // }
 
   // function commentBox() {
   //   const [comment, setComment] = useState('');
