@@ -19,6 +19,7 @@ import WestIcon from '@mui/icons-material/West';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Auth from '../utils/auth';
+import Spinner from '../components/Spinner';
 
 import './Detail.scss';
 
@@ -369,7 +370,8 @@ function Detail() {
           )}
         </div>
       ) : null}
-      {loading ? <img src={spinner} alt="loading" /> : null}
+      {loading ? <Spinner /> : null}
+      {/* {loading ? <img src={spinner} alt="loading" /> : null} */}
     </>
   );
 }
