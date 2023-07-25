@@ -70,6 +70,7 @@ export const ADD_COMMENT = gql`
   }
 `;
 
+
 export const UPLOAD_PHOTO = gql`
   mutation addPhoto($url: String!, $title: String!, $description: String!) {
     addPhoto(url: $url, title: $title, description: $description) {
@@ -81,4 +82,13 @@ export const UPLOAD_PHOTO = gql`
       }
     }
   }
+`;
+
+export const checkout = gql`
+mutation initiateCheckout($products: [ProductInput]!) {
+  checkout(products: $products) {
+    id
+    status
+  }
+}
 `;

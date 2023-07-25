@@ -68,6 +68,8 @@ const typeDefs = gql`
     quantity: Int!
     price: Float!
     size: String!
+    name: String!
+
   }
 
   type Session {
@@ -75,7 +77,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    getCheckout(products: [ProductInput]!): Checkout
+    checkout(products: [ProductInput]!): Checkout
     users: [User]
     user(_id: ID!): User
     photos: [Photo]
@@ -84,6 +86,7 @@ const typeDefs = gql`
     order(_id: ID!): Order
     comments: [Comment]
     comment(_id: ID!): Comment
+  
   }
 
   type Mutation {
@@ -115,7 +118,9 @@ const typeDefs = gql`
     deletePhoto(photoId: ID!): Photo
     updatePhoto(photoId: ID!, title: String, description: String): Photo
     updateComment(commentId: ID!, content: String!): Comment
+    checkout(products: [ProductInput]!): Checkout
   }
+  
 `;
 
 module.exports = typeDefs;

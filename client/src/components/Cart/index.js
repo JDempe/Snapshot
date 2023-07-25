@@ -14,6 +14,8 @@ import { faClose, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton, Button } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
+import { checkout } from '../../utils/mutations';
+import { useMutation } from '@apollo/client';
 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
@@ -22,6 +24,8 @@ const Cart = () => {
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
   const [isClosing, setIsClosing] = useState(false); // track cart closing
   const [isCartIconClicked, setIsCartIconClicked] = useState(false);
+  const [checkoutMutation] = useMutation(checkout);
+  
 
   const toggleCart = useCallback(() => {
     if (state.cartOpen) {
@@ -158,13 +162,39 @@ const Cart = () => {
     return sum.toFixed(2);
   }
 
-  function submitCheckout() {
-    const productIds = state.cart.map((item) => [item._id, item.size]);
+  // function submitCheckout() {
+  //   const productIds = state.cart.map((item) => [item._id, item.size]);
 
-    getCheckout({
-      variables: { products: productIds },
-    });
-  }
+  //   getCheckout({
+  //     variables: { products: productIds },
+  //   });
+  // }
+
+// function getCheckout expects an array of ProductInput objects instead of an array of IDs
+   
+function submitCheckout() {
+  const products = state.cart.map(item => {
+    console.log('item', item);
+    return {
+        _id: item._id,
+        name: item.title,
+        quantity: Number(item.quantity),
+        price: Number(item.price),
+        size: item.size,
+      };
+  });
+  console.log('Sending the following data to Stripe:', products);
+
+  checkoutMutation({
+    variables: { products },
+  }).then(response => {
+    console.log('Checkout successful', response);
+  }).catch(error => {
+    console.error('Error during checkout', error);
+  });
+}
+
+
 
   if (state.cartOpen) {
     return (
