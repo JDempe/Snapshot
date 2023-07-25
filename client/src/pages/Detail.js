@@ -366,16 +366,28 @@ function Detail() {
               </div>
               {dropdownVisible && (
                 <div className="dropdownContainer">
-                  <div>
-                    <div className="dropdownItem">Container 1</div>
+                  <div className="dropdownItemContainer">
+                    <div className="dropdownItem">4 x 6</div>
+                    <hr
+                      style={{ margin: '2px', width: '85%', height: '1px' }}
+                    />
+                    <div className="quantityText">Quantity</div>
                     <Quantity />
                   </div>
-                  <div>
-                    <div className="dropdownItem">Container 2</div>
+                  <div className="dropdownItemContainer">
+                    <div className="dropdownItem">5 x 7</div>
+                    <hr
+                      style={{ margin: '2px', width: '85%', height: '1px' }}
+                    />
+                    <div className="quantityText">Quantity</div>
                     <Quantity />
                   </div>
-                  <div>
-                    <div className="dropdownItem">Container 3</div>
+                  <div className="dropdownItemContainer">
+                    <div className="dropdownItem">8 x 10</div>
+                    <hr
+                      style={{ margin: '2px', width: '85%', height: '1px' }}
+                    />
+                    <div className="quantityText">Quantity</div>
                     <Quantity />
                   </div>
                 </div>

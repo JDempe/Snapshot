@@ -173,21 +173,47 @@ body {
 }
 
 .purchaseInactive {
-  border: 1px solid #dba666 !important;
-  background-color: #dba666 !important;
+  border: 1px solid #caaf8e !important;
+  background-color: #caaf8e !important;
   color: #ffffff !important;
-}
-
-.dropdownItem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 .dropdownContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.19));
+}
+
+.dropdownItemContainer {
+  width: 275px;
+  height: 250px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dropdownItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 150px;
+}
+
+.dropdownItem > * {
+  margin-bottom: 10px; /* Added this to create spacing between the elements */
+}
+
+.quantityText {
+  line-height: 16px;
+  font-family: 'Fira Sans', sans-serif;
+  font-weight: 600;
+  color: #2e3547bc;
+  font-size: 1rem;
 }
 
 .commentSection {
