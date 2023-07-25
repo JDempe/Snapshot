@@ -67,8 +67,8 @@ const CartItem = ({ item }) => {
         {/* display size and price */}
         <div
           style={{
-            fontFamily: 'arial',
-            fontWeight: 800,
+            fontFamily: 'Montserrat',
+            fontWeight: 600,
             paddingBottom: '.5em',
           }}>
           {item.size}, ${item.price}
@@ -89,7 +89,12 @@ const CartItem = ({ item }) => {
                 shrink: true,
               }}
               inputProps={{
-                style: { height: '.5em', padding: '8px', margin: '0px' }, // Adjust the height and padding
+                style: {
+                  height: '.5em',
+                  padding: '8px',
+                  margin: '0px',
+                  fontFamily: 'Montserrat',
+                }, // Adjust the height and padding
               }}
             />
             {/* <span>Qty:</span> */}
