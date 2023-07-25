@@ -341,7 +341,11 @@ function Detail() {
           <div className="contentContainer">
             <div className="imageInfo">
               <img
-                src={currentPhoto.createdBy.profilePicture}
+                src={
+                  currentPhoto && currentPhoto.createdBy
+                    ? currentPhoto.createdBy.profilePicture
+                    : './images/avatar/Blank-Avatar.png'
+                }
                 className="avatar"
                 alt="avatar"
               />
@@ -365,7 +369,7 @@ function Detail() {
                         : 'Loading...'}
                     </span>
                   </span>
-                  {/* <p>{data && data.createdBy ? data.createdBy.username : 'Loading...'}</p> */}
+                  {/* <p>{currentPhoto && currentPhoto.createdBy ? currentPhoto.createdBy.username : 'Loading...'}</p> */}
                 </Link>
               </p>
               <div className="imageDescription">
