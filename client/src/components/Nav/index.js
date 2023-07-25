@@ -6,12 +6,11 @@ import { Link, useLocation, Outlet, NavLink } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import './style.scss';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import Switch from '@mui/material/Switch';
 
 function Nav() {
   const location = useLocation();
 
-  const label = { inputProps: { 'aria-label': 'theme-switch' } };
+  const id = Auth.getProfile().data._id;
 
   function showLoginOptions() {
     if (Auth.loggedIn()) {
@@ -40,7 +39,7 @@ function Nav() {
     // if logged in, show the Personal tab
     if (Auth.loggedIn()) {
       return (
-        <Link to="/personal">
+        <Link to={`/personal/${id}`}>
           <div className="linkText">Personal</div>
         </Link>
       );

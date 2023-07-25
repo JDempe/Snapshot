@@ -76,7 +76,7 @@ function App() {
               <Route path="/success" element={<Success />} />
               <Route path="/orderHistory/:id" element={<OrderHistory />} />
               <Route path="/photos/:id" element={<Detail />} />
-              <Route path="/personal" element={<Personal />} />
+              <Route path="/personal/:id" element={<Personal />} />
               <Route path="/ContactUs" element={<ContactUs />} />
               <Route path="*" element={<NoMatch />} />
             </Routes>

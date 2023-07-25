@@ -11,22 +11,16 @@ import { idbPromise } from '../utils/helpers';
 import { useStoreContext } from '../utils/GlobalState';
 import { UPDATE_USER_PHOTOS } from '../utils/actions';
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import './Personal.scss';
 
 const Personal = () => {
-  const userId = Auth.getProfile().data._id; // Get the user id from the Auth.getProfile() function
-
-  console.log('userId from personal page');
-  console.log(userId);
+  const { id } = useParams(); // Get the user id from the url
 
   const [state, dispatch] = useStoreContext();
   const { loading, data } = useQuery(QUERY_USER, {
-    variables: { _id: userId },
+    variables: { _id: id },
   });
-
-  console.log('data savedPhotos from personal page');
-  // console.log(data)
-  // console.log(data.user.savedPhotos)
 
   useEffect(() => {
     if (data) {
@@ -47,8 +41,8 @@ const Personal = () => {
     }
   }, [data, loading, dispatch]);
 
-  console.log('state userPhotos from personal page');
-  console.log(state.userPhotos);
+  console.log(data);
+  console.log(state);
 
   // await the loading then display data
 

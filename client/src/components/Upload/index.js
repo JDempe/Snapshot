@@ -12,11 +12,14 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { useNavigate } from 'react-router-dom';
 import { useLockBodyScroll } from '@uidotdev/usehooks';
+import { useStoreContext } from '../../utils/GlobalState';
 import './style.scss';
+import { UPDATE_USER } from '../../utils/actions';
 
 function Upload() {
   useLockBodyScroll();
 
+  const [state, dispatch] = useStoreContext();
   const navigate = useNavigate();
 
   const [formState, setFormState] = useState({
@@ -73,13 +76,21 @@ function Upload() {
 
       const file = await res.json();
 
-      await addPhoto({
+      const { data } = await addPhoto({
         variables: {
           title: formState.photoName,
           description: formState.description,
           url: file.secure_url,
           createdBy: localStorage.getItem('userId'),
         },
+      });
+
+      console.log(data);
+      // dispatch the action to add the photo to the global state for the user via  the id
+
+      dispatch({
+        type: UPDATE_USER,
+        user: data.addPhoto,
       });
 
       setIsLoading(false);
