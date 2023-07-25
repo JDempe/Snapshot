@@ -207,5 +207,58 @@ db.once('open', async () => {
 
   console.log('Comments seeded');
 
+  // Add photos to users' likedPhotos and savedPhotos if they created it
+  for (let i = 0; i < photos.length; i++) {
+    const photo = photos[i];
+
+    // Add photo to user's savedPhotos if they created it
+    await User.findOneAndUpdate(
+      { _id: photo.createdBy },
+      { $addToSet: { savedPhotos: photo._id } }
+    );
+
+    // add random photos from the photos to each users likedPhotos array
+    // for each user
+    // add random photo to user's likedPhotos if they didn't create it
+
+    for (let j = 0; j < users.length; j++) {
+      const user = users[j];
+
+      // if the user created the photo, skip
+      if (user._id.toString() === photo.createdBy.toString()) {
+        continue;
+      }
+
+      // 50% chance of adding photo to likedPhotos
+      if (Math.random() > 0.5) {
+        await User.findOneAndUpdate(
+          { _id: user._id },
+          { $addToSet: { likedPhotos: photo._id } }
+        );
+      }
+    }
+  }
+
+  // go through each user and find the liked photos, then go to those photos and increment their likes by 1
+  for (let i = 0; i < users.length; i++) {
+    const userData = users[i];
+
+    // look up the user to get the likedPhotos array
+    const user = await User.findOne({ _id: userData._id });
+
+    // find the photos that the user liked
+    const likedPhotos = await Photo.find({ _id: { $in: user.likedPhotos } });
+
+    // go through each photo and increment the likes by 1
+    for (let j = 0; j < likedPhotos.length; j++) {
+      const photo = likedPhotos[j];
+
+      // increment the likes by 1
+      await Photo.findOneAndUpdate({ _id: photo._id }, { $inc: { likes: 1 } });
+    }
+  }
+
+  console.log('Likes seeded');
+
   process.exit();
 });

@@ -2,23 +2,14 @@ import React from 'react';
 import Auth from '../../utils/auth';
 import Cart from '../Cart';
 import AccountMenu from '../AccountMenu';
-import {
-  Link,
-  useLocation,
-  Outlet,
-  useNavigate,
-  NavLink,
-} from 'react-router-dom';
+import { Link, useLocation, Outlet, NavLink } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import './style.scss';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
 import './style.scss';
-const userId = localStorage.getItem('user_id');
 
 function Nav() {
   const location = useLocation();
-  const navigate = useNavigate();
 
   function showLoginOptions() {
     if (Auth.loggedIn()) {

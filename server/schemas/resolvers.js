@@ -17,6 +17,7 @@ const resolvers = {
     photo: async (parent, { _id }) => {
       return Photo.findById(_id).populate('sizes');
     },
+
     orders: async (parent, args, context) => {
       if (context.user) {
         return await Order.find({ 'user._id': context.user._id });
@@ -68,8 +69,42 @@ const resolvers = {
         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${url}/`,
       });
-  }
-},
+      return { id: session.id, status: 'Created' }; // returning object with id and status
+    },
+  },
+  User: {
+    orders: async (parent) => {
+      return Order.find({ user: parent._id });
+    },
+    savedPhotos: async (parent) => {
+      return Photo.find({ _id: { $in: parent.savedPhotos } });
+    },
+    likedPhotos: async (parent) => {
+      return Photo.find({ _id: { $in: parent.likedPhotos } });
+    },
+  },
+  Photo: {
+    createdBy: async (parent) => {
+      return User.findOne({ _id: parent.createdBy });
+    },
+    comments: async (parent) => {
+      return Comment.find({ photo: parent._id });
+    },
+  },
+  Order: {
+    products: async (parent) => {
+      return Photo.find({ _id: { $in: parent.products } });
+    },
+  },
+  Comment: {
+    createdBy: async (parent) => {
+      return User.findOne({ _id: parent.createdBy });
+    },
+    photo: async (parent) => {
+      return Photo.findOne({ _id: parent.photo });
+    },
+  },
+
   Mutation: {
     addUser: async (parent, args) => {
       const user = await User.create(args);

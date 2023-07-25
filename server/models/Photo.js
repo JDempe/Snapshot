@@ -30,6 +30,16 @@ const photoSchema = new Schema({
   ],
 });
 
+// When the photo is made, find the user that created it and add it to their savedPhotos array
+photoSchema.post('save', async function (doc, next) {
+  const User = require('./User');
+  await User.findOneAndUpdate(
+    { _id: doc.createdBy },
+    { $addToSet: { savedPhotos: doc._id } }
+  );
+  next();
+});
+
 const Photo = mongoose.model('Photo', photoSchema);
 
 module.exports = Photo;
