@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import { GitHub } from '@mui/icons-material';
 import { Box, Button } from '@mui/material';
-import './index.scss';
+import './style.scss';
 import { LinkRounded } from '@mui/icons-material/';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faKiwiBird, faOtter } from '@fortawesome/free-solid-svg-icons';

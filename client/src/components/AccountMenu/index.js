@@ -25,6 +25,8 @@ export default function AccountMenu() {
 
   const [state, dispatch] = useStoreContext();
 
+  const label = { inputProps: { 'aria-label': 'web-theme' } };
+
   // use the QUERY_USER GetUser query to get the user data for the logged in user
   const { data } = useQuery(QUERY_USER, {
     variables: { _id: userId },
@@ -139,6 +141,7 @@ export default function AccountMenu() {
           </ListItemIcon>
           Logout
         </MenuItem>
+        <MenuItem></MenuItem>
       </Menu>
     </React.Fragment>
   );
