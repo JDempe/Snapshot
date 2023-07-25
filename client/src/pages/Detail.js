@@ -434,7 +434,10 @@ function Detail() {
               <hr />
               <div>{showCommentInput()}</div>
               <h5 style={{ marginBottom: '1.2rem' }}>
-                {currentPhoto.comments.length} comments
+                {currentPhoto && currentPhoto.comments
+                  ? currentPhoto.comments.length
+                  : 'Loading...'}{' '}
+                comments
               </h5>
               <div className="commentList">
                 {commentList(currentPhoto.comments)}
