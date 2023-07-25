@@ -78,13 +78,9 @@ function App() {
               <Route path="/photos/:id" element={<Detail />} />
               <Route path="/personal/:id" element={<Personal />} />
               <Route path="/ContactUs" element={<ContactUs />} />
+              <Route path="/upload" element={<Upload />} />
               <Route path="*" element={<NoMatch />} />
             </Routes>
-            {previousLocation && (
-              <Routes>
-                <Route path="/upload" element={<Upload />} />
-              </Routes>
-            )}
           </Box>
           <Footer />
         </StoreProvider>
