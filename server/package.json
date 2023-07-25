@@ -22,5 +22,10 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
+  },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
   }
 }

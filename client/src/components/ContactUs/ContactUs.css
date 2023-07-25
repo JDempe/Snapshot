@@ -1,0 +1,48 @@
+
+  .container {
+    width: 85%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .flex-row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+ .my-1 {
+    margin-right: var(--spacing-one);
+    margin-left: var(--spacing-one);
+  }
+  
+  .my-2 {
+    margin-right: var(--spacing-two);
+    margin-left: var(--spacing-two);
+  }
+  
+  .my-3 {
+    margin-top: var(--spacing-one);
+    margin-bottom: var(--spacing-one);
+  }
+  
+  button {
+    font-size: 1rem;
+    text-decoration: none;
+    padding: 0.25rem 1rem;
+    border-radius: .5rem;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin: 0 1px;
+    background-color: var(--secondary);
+  }
+  
+  button:hover {
+    opacity: .8;
+  }
+  
+  button[disabled] {
+    cursor: default;
+    opacity: .8;
+  }
