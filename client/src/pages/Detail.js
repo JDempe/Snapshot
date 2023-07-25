@@ -394,7 +394,7 @@ function Detail() {
                     </div>
                   </div>
                   <div className="addCartContainer">
-                    <Button className="addCart" onClick={toggleDropdown}>
+                    <Button className="addCart" onClick={addToCart}>
                       Add all to Cart
                       <ShoppingCartIcon />
                     </Button>
