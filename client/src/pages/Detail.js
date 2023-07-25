@@ -390,6 +390,7 @@ function Detail() {
               />
               <div className="imageTitleWrap">
                 <h2 className="imageName">{currentPhoto.title}</h2>
+                <hr className="socialDivider" />
                 <div className="socialContainer">
                   <div className="socialText">{currentPhoto.likes}</div>
                   <FavoriteBorderIcon

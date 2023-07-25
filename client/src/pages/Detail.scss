@@ -114,6 +114,12 @@ body {
   font-weight: bold;
 }
 
+.socialDivider {
+  flex-grow: 0.95;
+  margin-bottom: 15px;
+  color: #6c67670a;
+}
+
 .imageTitleWrap {
   display: flex;
   justify-content: space-between;
@@ -143,8 +149,7 @@ body {
 .imageDate {
   font-family: Arial, sans-serif;
   font-size: 0.8rem;
-  font-weight: bold;
-  color: #5c6271;
+  color: #757c8d;
 }
 
 .bottomRow {
@@ -339,8 +344,7 @@ body {
   font-family: Arial, sans-serif;
   font-size: 0.8rem;
   padding-left: 3.5rem;
-  font-weight: bold;
-  color: #5c6271;
+  color: #757c8d;
 }
 
 .otherPhotos {
