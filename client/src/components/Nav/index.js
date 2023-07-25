@@ -6,6 +6,7 @@ import { Link, useLocation, Outlet, NavLink } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import './style.scss';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import Logo from '../../assets/logo.png';
 
 function Nav() {
   const id = Auth.getProfile().data._id;
@@ -75,7 +76,9 @@ function Nav() {
     <header className="flex-row">
       <div className="titleLinks">
         <Link to="/">
-          <h1 className="websiteTitle">websiteTitle</h1>
+          <img src={Logo} alt="Logo" className="logo" />
+          {/* 
+          <h1 className="websiteTitle">websiteTitle</h1> */}
         </Link>
         <div className="verticalDivider"></div>
         <NavLink to="/discover">
