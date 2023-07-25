@@ -114,6 +114,12 @@ body {
   font-weight: bold;
 }
 
+.socialDivider {
+  flex-grow: 0.95;
+  margin-bottom: 15px;
+  color: #6c67670a;
+}
+
 .imageTitleWrap {
   display: flex;
   justify-content: space-between;
@@ -138,6 +144,12 @@ body {
   font-family: Calibri, sans-serif;
   font-size: 1.2rem;
   line-height: 1.6rem;
+}
+
+.imageDate {
+  font-family: Arial, sans-serif;
+  font-size: 0.8rem;
+  color: #757c8d;
 }
 
 .bottomRow {
@@ -209,6 +221,28 @@ body {
   filter: drop-shadow(0 0 3px rgba(0, 0, 0, 0.19));
 }
 
+.photoIcon {
+  font-size: 6rem !important;
+  margin: 12px 0px 10px 0px;
+  color: #d1d6dc;
+}
+
+.size {
+  font-family: arial, sans-serif;
+  font-size: 1.2rem;
+  line-height: 16px;
+}
+
+.price {
+  margin-bottom: 5px !important;
+  padding-top: 5px;
+  line-height: 16px;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #549cf1;
+}
+
 .dropdownItemContainer {
   width: 275px;
   height: 250px;
@@ -223,11 +257,11 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-bottom: 150px;
+  margin: 0px;
 }
 
 .dropdownItem > * {
-  margin-bottom: 10px; /* Added this to create spacing between the elements */
+  margin-bottom: 9px; /* Added this to create spacing between the elements */
 }
 
 .quantityText {
@@ -308,10 +342,9 @@ body {
 
 .commentDate {
   font-family: Arial, sans-serif;
-  font-size: 0.7rem;
+  font-size: 0.8rem;
   padding-left: 3.5rem;
-  font-weight: bold;
-  color: #5c6271;
+  color: #757c8d;
 }
 
 .otherPhotos {
@@ -360,4 +393,10 @@ body {
 .otherPhoto:hover {
   transform: scale(1.015);
   transition: all 0.2s ease-in-out;
+}
+
+@media screen and (max-width: 1500px) {
+  .dropdownItemContainer {
+    margin-bottom: 1.4rem;
+  }
 }

@@ -341,6 +341,7 @@ function Detail() {
               />
               <div className="imageTitleWrap">
                 <h2 className="imageName">{currentPhoto.title}</h2>
+                <hr className="socialDivider" />
                 <div className="socialContainer">
                   <div className="socialText">{currentPhoto.likes}</div>
                   <FavoriteBorderIcon
@@ -363,10 +364,12 @@ function Detail() {
                 </Link>
               </p>
               <div className="imageDescription">
-                <p>{currentPhoto.description}</p>
+                <p style={{ marginBottom: '5px' }}>
+                  {currentPhoto.description}
+                </p>
               </div>
 
-              <div>
+              <div className="imageDate">
                 Uploaded:{' '}
                 <span>
                   {dayjs
