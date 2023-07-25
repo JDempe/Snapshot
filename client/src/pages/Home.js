@@ -30,6 +30,11 @@ function Home() {
           </div>
         </div>
       </div>
+      <div className="titleContainer">
+        <hr className="titleHr" />
+        <span className="homeTitle">How it works</span>
+        <hr className="titleHr" />
+      </div>
       <div className="homeContainer">
         <div className="pitchContainer">
           <PublicIcon className="pitchIcon" />
