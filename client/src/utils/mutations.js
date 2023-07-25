@@ -62,6 +62,8 @@ export const ADD_COMMENT = gql`
       text
       createdAt
       createdBy {
+        _id
+        profilePicture
         username
       }
     }

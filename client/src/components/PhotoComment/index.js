@@ -4,8 +4,6 @@ import Rating from '@mui/material/Rating';
 import dayjs from 'dayjs';
 
 function PhotoComment(comment) {
-  console.log('CATCH ME OUTSIDE');
-  console.log(comment.comment._id);
   // foreach in comments, create a comment component
   // return the array of comment components
 

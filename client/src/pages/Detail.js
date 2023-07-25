@@ -158,20 +158,26 @@ function Detail() {
   };
 
   // function to handle the button click on click
-  const handleCommentSubmit = (e) => {
+  const handleCommentSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = addComment({
+      const { data } = await addComment({
         variables: {
           photoId: id,
           commentText: comment,
         },
       });
       setComment('');
-
-      // GET currentPhoto from state again to get the updated comments array
-      const { currentPhoto } = state;
-      console.log('currentPhoto: ', currentPhoto);
+      console.log('DATA DATA DATA');
+      console.log(data);
+      // PUT Comment in idb and update state to re-render the commentslist
+      dispatch({
+        type: UPDATE_CURRENT_PHOTO,
+        photo: {
+          ...currentPhoto,
+          comments: [...currentPhoto.comments, data.addComment],
+        },
+      });
     } catch (e) {
       console.error(e);
     }
