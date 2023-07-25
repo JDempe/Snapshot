@@ -78,6 +78,7 @@ function Upload() {
           title: formState.photoName,
           description: formState.description,
           url: file.secure_url,
+          createdBy: localStorage.getItem('userId'),
         },
       });
 
