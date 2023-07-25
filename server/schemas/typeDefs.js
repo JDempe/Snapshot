@@ -67,6 +67,7 @@ const typeDefs = gql`
     _id: ID!
     quantity: Int!
     price: Float!
+    size: String!
   }
 
   type Session {
@@ -74,7 +75,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    checkout(products: [ID]!): Checkout
+    getCheckout(products: [ProductInput]!): Checkout
     users: [User]
     user(_id: ID!): User
     photos: [Photo]

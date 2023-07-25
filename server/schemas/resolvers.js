@@ -36,32 +36,70 @@ const resolvers = {
     comment: async (parent, { _id }) => {
       return Comment.findById(_id);
     },
-    checkout: async (parent, args, context) => {
+  //   checkout: async (parent, args, context) => {
+  //     const url = new URL(context.headers.referer).origin;
+  //     const order = new Order({ products: args.products });
+  //     const line_items = [];
+
+  //     const { products } = await order.populate('products');
+
+  //     for (let i = 0; i < products.length; i++) {
+  //       const product = await stripe.products.create({
+  //         name: products[i].name,
+  //         description: products[i].description,
+  //         images: [`${url}/images/${products[i].image}`],
+  //       });
+
+  //       const price = await stripe.prices.create({
+  //         product: product.id,
+  //         unit_amount: products[i].price * 100,
+  //         currency: 'usd',
+  //       });
+
+  //       line_items.push({
+  //         price: price.id,
+  //         quantity: 1,
+  //       });
+  //     }
+
+  //     const session = await stripe.checkout.sessions.create({
+  //       payment_method_types: ['card'],
+  //       line_items,
+  //       mode: 'payment',
+  //       success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
+  //       cancel_url: `${url}/`,
+  //     });
+  //     return { id: session.id, status: 'Created' }; // returning object with id and status
+  //   },
+  // },
+
+  checkout: async (parent, args, context) => {
+    try {
+      if (!context.headers.referer) {
+        throw new Error('Referer header is missing');
+      }
+  
       const url = new URL(context.headers.referer).origin;
       const order = new Order({ products: args.products });
       const line_items = [];
-
+  
       const { products } = await order.populate('products');
-
+  
       for (let i = 0; i < products.length; i++) {
-        const product = await stripe.products.create({
-          name: products[i].name,
-          description: products[i].description,
-          images: [`${url}/images/${products[i].image}`],
-        });
-
-        const price = await stripe.prices.create({
-          product: product.id,
-          unit_amount: products[i].price * 100,
-          currency: 'usd',
-        });
-
+        // Check if product already exists in Stripe
+        // If yes, use that product
+        // If not, create new product
+  
+        // Check if price already exists in Stripe
+        // If yes, use that price
+        // If not, create new price
+  
         line_items.push({
           price: price.id,
-          quantity: 1,
+          quantity: products[i].quantity || 1, // use the actual quantity of the product, if available
         });
       }
-
+  
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items,
@@ -69,8 +107,15 @@ const resolvers = {
         success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
         cancel_url: `${url}/`,
       });
-      return { id: session.id, status: 'Created' }; // returning object with id and status
-    },
+  
+      // Save the order to the database
+      // await order.save();
+  
+      return { id: session.id, status: 'Created' };
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
   },
   User: {
     orders: async (parent) => {
@@ -104,6 +149,7 @@ const resolvers = {
       return Photo.findOne({ _id: parent.photo });
     },
   },
+},
 
   Mutation: {
     addUser: async (parent, args) => {
@@ -231,7 +277,8 @@ const resolvers = {
 
       throw new AuthenticationError('Not logged in');
     },
-  },
+  }
 };
+
 
 module.exports = resolvers;
