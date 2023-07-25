@@ -1,20 +1,5 @@
 import { gql } from '@apollo/client';
 
-// export const QUERY_PHOTOS = gql`
-//   query getProducts($category: ID) {
-//     products(category: $category) {
-//       _id
-//       name
-//       description
-//       price
-//       quantity
-//       image
-//       category {
-//         _id
-//       }
-//     }
-//   }
-// `;
 export const QUERY_PHOTOS = gql`
   query getPhotos {
     photos {
@@ -114,6 +99,11 @@ export const QUERY_SINGLE_PHOTO = gql`
       likes
       title
       url
+      sizes {
+        _id
+        size
+        currentPrice
+      }
     }
   }
 `;
@@ -126,53 +116,6 @@ export const QUERY_CATEGORIES = gql`
     }
   }
 `;
-
-// export const QUERY_USER = gql`
-//   query GetUser($id: ID!) {
-//     user(_id: $id) {
-//       _id
-//       username
-//       email
-//       firstName
-//       lastName
-//       # orders {
-//       #   _id
-//       #   purchaseDate
-//       #   products {
-//       #     _id
-//       #     name
-//       #     description
-//       #     price
-//       #     quantity
-//       #     image
-//       #   }
-//       # }
-//     }
-//   }
-// `;
-// export const QUERY_USER = gql`
-//   query getUser($id: ID!) {
-//     user(_id: $id) {
-//       _id
-//       username
-//       email
-//       firstName
-//       lastName
-//       orders {
-//         _id
-//         purchaseDate
-//         products {
-//           photo {
-//             _id
-//             title
-//           }
-//           size
-//           quantity
-//         }
-//       }
-//     }
-//   }
-// `;
 
 export const QUERY_USER = gql`
   query User($_id: ID!) {
