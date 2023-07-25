@@ -9,9 +9,7 @@ import FileUploadIcon from '@mui/icons-material/FileUpload';
 import Logo from '../../assets/logo.png';
 
 function Nav() {
-  const location = useLocation();
-
-  const label = { inputProps: { 'aria-label': 'theme-switch' } };
+  const id = Auth.getProfile().data._id;
 
   function showLoginOptions() {
     if (Auth.loggedIn()) {
@@ -40,9 +38,9 @@ function Nav() {
     // if logged in, show the Personal tab
     if (Auth.loggedIn()) {
       return (
-        <Link to="/personal">
+        <NavLink to={`/personal/${id}`}>
           <div className="linkText">Personal</div>
-        </Link>
+        </NavLink>
       );
     }
   }
@@ -52,17 +50,12 @@ function Nav() {
     if (Auth.loggedIn()) {
       return (
         <NavLink
-          id="uploadLink"
           // make the link go to /upload if it isnt, and navigate -1 if it isnt
-          to="/upload"
-          end
-          state={{ previousLocation: location }}>
-          {({ isActive, isPending }) => (
-            <div className={isActive ? 'active linkText' : 'linkText'}>
-              {/* upload icon */}
-              <FileUploadIcon style={{ fontSize: 32 }} />
-            </div>
-          )}
+          to="/upload">
+          <div className="linkText">
+            {/* upload icon */}
+            <FileUploadIcon style={{ fontSize: 32 }} />
+          </div>
         </NavLink>
       );
     }
@@ -88,15 +81,14 @@ function Nav() {
           <h1 className="websiteTitle">websiteTitle</h1> */}
         </Link>
         <div className="verticalDivider"></div>
-        <Link to="/discover">
+        <NavLink to="/discover">
           <div className="linkText">Discover</div>
-        </Link>
+        </NavLink>
         {showPersonalTab()}
       </div>
 
       <div className="titleLinks">
         {showUploadTab()}
-        <Outlet />
 
         {showShoppingCart()}
         {/* <Switch {...label} onChange={handleTheme}/> */}

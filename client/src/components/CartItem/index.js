@@ -2,7 +2,10 @@ import React, { useEffect } from 'react';
 import { useStoreContext } from '../../utils/GlobalState';
 import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from '../../utils/actions';
 import { idbPromise } from '../../utils/helpers';
-
+import { IconButton, Button, TextField, Box } from '@mui/material';
+import { RemoveCircleOutline } from '@mui/icons-material';
+import './index.scss';
+// stop
 const CartItem = ({ item }) => {
   const [state, dispatch] = useStoreContext();
   // fprce the cart item to rerender when the quantity changes
@@ -55,31 +58,61 @@ const CartItem = ({ item }) => {
   };
 
   return (
-    <div className="flex-row">
-      <div>
+    <div className="flex-row perItem">
+      <div className="itemImgBox">
         {/* photo display */}
-        <img src={item.url} alt="" />
+        <img src={item.url} alt="" className="itemImg" />
       </div>
-      <div>
+      <div className="itemInfo">
         {/* display size and price */}
-        <div>
+        <div
+          style={{
+            fontFamily: 'arial',
+            fontWeight: 800,
+            paddingBottom: '.5em',
+          }}>
           {item.size}, ${item.price}
         </div>
+
         <div>
-          <span>Qty:</span>
-          {/* display quantity */}
-          <input
+          <Box>
+            <TextField
+              className="qtyField"
+              variant="outlined"
+              id="outlined-number"
+              label="QTY"
+              type="number"
+              name="quantity"
+              value={item.quantity}
+              onChange={onChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              inputProps={{
+                style: { height: '.5em', padding: '8px', margin: '0px' }, // Adjust the height and padding
+              }}
+            />
+            {/* <span>Qty:</span> */}
+            {/* display quantity */}
+            {/* <input
             type="number"
             placeholder="1"
             value={item.quantity}
             onChange={onChange}
-          />
-          <span
+          /> */}
+            <Button
+              style={{ height: '1.5em', padding: '0' }}
+              onClick={() => removeFromCart(item)}>
+              <RemoveCircleOutline onClick={() => removeFromCart(item)} />
+            </Button>
+
+            {/* <span
             role="img"
             aria-label="trash"
             onClick={() => removeFromCart(item)}>
             🗑️
-          </span>
+          </span> */}
+          </Box>
         </div>
       </div>
     </div>

@@ -11,22 +11,16 @@ import { idbPromise } from '../utils/helpers';
 import { useStoreContext } from '../utils/GlobalState';
 import { UPDATE_USER_PHOTOS } from '../utils/actions';
 import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import './Personal.scss';
 
 const Personal = () => {
-  const userId = Auth.getProfile().data._id; // Get the user id from the Auth.getProfile() function
-
-  console.log('userId from personal page');
-  console.log(userId);
+  const { id } = useParams(); // Get the user id from the url
 
   const [state, dispatch] = useStoreContext();
   const { loading, data } = useQuery(QUERY_USER, {
-    variables: { _id: userId },
+    variables: { _id: id },
   });
-
-  console.log('data savedPhotos from personal page');
-  // console.log(data)
-  // console.log(data.user.savedPhotos)
 
   useEffect(() => {
     if (data) {
@@ -47,48 +41,45 @@ const Personal = () => {
     }
   }, [data, loading, dispatch]);
 
-  console.log('state userPhotos from personal page');
-  console.log(state.userPhotos);
-
-  // await the loading then display data
-
   const [value, setValue] = React.useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  return (
-    <>
-      <div className="contentAlign">
-        <div className="personal">
-          <Avatar sx={{ width: 96, height: 96 }}>
-            <img src={state.user.profilePicture} alt="profilePicture"></img>
-          </Avatar>
-          <h3>{state.user.username}</h3>
-          <p>
-            {state.user.firstName} {state.user.lastName}
-          </p>
+  if (!loading) {
+    return (
+      <>
+        <div className="contentAlign">
+          <div className="personal">
+            <Avatar sx={{ width: 96, height: 96 }}>
+              <img src={state.user.profilePicture} alt="profilePicture"></img>
+            </Avatar>
+            <h3>{state.user.username}</h3>
+            <p>
+              {state.user.firstName} {state.user.lastName}
+            </p>
+          </div>
+          <hr style={{ width: '75vw', margin: '0px 0px 5px 0px' }} />
+          <div
+            className="container"
+            sx={{ width: 1 }}
+            style={{ position: 'relative' }}>
+            <Box
+              sx={{ width: '100%', bgcolor: 'background.paper' }}
+              className="tabs">
+              <Tabs value={value} onChange={handleChange} centered>
+                <Tab label="Uploads" className="tabText" />
+                <Tab label="Likes" className="tabText" />
+              </Tabs>
+            </Box>
+            {value === 0 && <PhotoList photos={state.user.savedPhotos} />}
+            {value === 1 && <PhotoList photos={state.user.likedPhotos} />}
+          </div>
         </div>
-        <hr style={{ width: '75vw', margin: '0px 0px 5px 0px' }} />
-        <div
-          className="container"
-          sx={{ width: 1 }}
-          style={{ position: 'relative' }}>
-          <Box
-            sx={{ width: '100%', bgcolor: 'background.paper' }}
-            className="tabs">
-            <Tabs value={value} onChange={handleChange} centered>
-              <Tab label="Uploads" className="tabText" />
-              <Tab label="Likes" className="tabText" />
-            </Tabs>
-          </Box>
-          {value === 0 && <PhotoList photos={state.user.savedPhotos} />}
-          {value === 1 && <PhotoList photos={state.user.likedPhotos} />}
-        </div>
-      </div>
-    </>
-  );
+      </>
+    );
+  }
 };
 
 export default Personal;

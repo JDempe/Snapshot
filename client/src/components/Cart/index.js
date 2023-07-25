@@ -16,7 +16,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
-
+// stop
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
@@ -83,7 +83,7 @@ const Cart = () => {
         if (!isMouseInsideCart(event)) {
           toggleCart();
         }
-      }, 10000);
+      }, 100000000);
     }
 
     function handleMouseClickOutside(event) {
@@ -113,7 +113,7 @@ const Cart = () => {
         if (!isMouseInsideCart()) {
           toggleCart();
         }
-      }, 10000);
+      }, 100000000);
     } else {
       return;
     }
@@ -209,7 +209,16 @@ const Cart = () => {
                 <strong>Total: ${calculateTotal()}</strong>
 
                 <div>
-                  <button onClick={submitCheckout}>Checkout</button>
+                  <button
+                    className="checkOutBtn"
+                    style={{
+                      color: 'white',
+                      backgroundColor: '#fca43c',
+                      borderRadius: '20px',
+                    }}
+                    onClick={submitCheckout}>
+                    Checkout
+                  </button>
                   {!Auth.loggedIn() && (
                     <p>
                       <Link
