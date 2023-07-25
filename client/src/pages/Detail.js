@@ -120,52 +120,54 @@ function Detail() {
       console.log('price: ', price);
       console.log('quantity: ', quantity);
       // if quantity is greater than 0, add to cart
-      if (quantity > 0) {
+      // if (quantity > 0) {
+      //   dispatch({
+      //     type: ADD_TO_CART,
+      //     photo: {
+      //       ...currentPhoto,
+      //       size: size,
+      //       price: price,
+      //       quantity: quantity,
+      //     },
+      //   });
+      //   idbPromise('cart', 'put', {
+      //     ...currentPhoto,
+      //     size: size,
+      //     price: price,
+      //     quantity: quantity,
+      //   });
+      // }
+      const itemInCart = cart.find(
+        (cartItem) => [cartItem._id, cartItem.size] === [id, size]
+      );
+      if (itemInCart) {
+        dispatch({
+          type: UPDATE_CART_QUANTITY,
+          _id: id,
+          size: size,
+          quantity: parseInt(itemInCart.quantity) + 1,
+        });
+        idbPromise('cart', 'put', {
+          ...itemInCart,
+          quantity: parseInt(itemInCart.quantity) + 1,
+        });
+      } else {
         dispatch({
           type: ADD_TO_CART,
           photo: {
-            ...currentPhoto,
-            size: size,
-            price: price,
-            quantity: quantity,
+            ...data,
+            quantity: 1,
+            price: Number(price),
           },
         });
         idbPromise('cart', 'put', {
-          ...currentPhoto,
-          size: size,
-          price: price,
-          quantity: quantity,
+          ...data,
+          quantity: 1,
+          price: Number(price),
         });
       }
     }
   };
-
-  // const itemInCart = cart.find((cartItem) => cartItem._id === id);
-  // if (itemInCart) {
-  //   dispatch({
-  //     type: UPDATE_CART_QUANTITY,
-  //     _id: id,
-  //     purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-  //   });
-  //   idbPromise('cart', 'put', {
-  //     ...itemInCart,
-  //     purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-  //   });
-  // } else {
-  //   dispatch({
-  //     type: ADD_TO_CART,
-  //     photo: {
-  //       ...data,
-  //       purchaseQuantity: 1,
-  //       price: Number(data.price),
-  //     },
-  //   });
-  //   idbPromise('cart', 'put', {
-  //     ...data,
-  //     purchaseQuantity: 1,
-  //     price: Number(data.price),
-  //   });
-  // }
 
   // function commentBox() {
   //   const [comment, setComment] = useState('');
@@ -272,16 +274,17 @@ function Detail() {
   };
 
   // random photo navigation
-  // const photoIds = data ? data.photos.map((photo) => photo._id) : [];
+  const photoIds = photos ? photos.map((photo) => photo._id) : [];
+  console.log('photoIds: ', photoIds);
 
-  // const navigateToRandomPhoto = () => {
-  //   if (photoIds.length === 0) {
-  //     return;
-  //   }
-  //   const randomPhotoId = photoIds[Math.floor(Math.random() * photoIds.length)];
+  const navigateToRandomPhoto = () => {
+    if (photoIds.length === 0) {
+      return;
+    }
+    const randomPhotoId = photoIds[Math.floor(Math.random() * photoIds.length)];
 
-  //   navigate(`/photos/${randomPhotoId}`);
-  // };
+    navigate(`/photos/${randomPhotoId}`);
+  };
 
   const [isFullscreen, setIsFullscreen] = useState(false);
 
@@ -344,7 +347,7 @@ function Detail() {
                   <ArrowBackIosNewIcon
                     fontSize="inherit"
                     color="inherit"
-                    // onClick={() => navigateToRandomPhoto()}
+                    onClick={() => navigateToRandomPhoto()}
                   />
                 </div>
               </div>
@@ -368,7 +371,7 @@ function Detail() {
                   <ArrowForwardIosIcon
                     fontSize="inherit"
                     color="inherit"
-                    // onClick={() => navigateToRandomPhoto()}
+                    onClick={() => navigateToRandomPhoto()}
                   />
                 </div>
               </div>

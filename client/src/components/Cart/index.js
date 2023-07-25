@@ -12,8 +12,8 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton, Button } from '@mui/material';
-import { AddShoppingCartSharp } from '@mui/icons-material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Badge from '@mui/material/Badge';
 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
@@ -36,12 +36,11 @@ const Cart = () => {
       dispatch({ type: TOGGLE_CART });
     }
   }, [state.cartOpen, dispatch]);
-  {
-    state.cart.map((item) => {
-      console.log(item);
-      return <CartItem key={item._id} item={item} />;
-    });
-  }
+
+  state.cart.map((item) => {
+    return <CartItem key={[item._id, item.size]} item={item} />;
+  });
+
   const handleCartIconClick = () => {
     console.log('Cart icon clicked');
     setIsCartIconClicked(true);
@@ -136,9 +135,9 @@ const Cart = () => {
     console.log('Cart items:', state.cart);
     state.cart.forEach((item) => {
       console.log(item);
-      if (item && item.price && item.purchaseQuantity) {
+      if (item && item.price && item.quantity) {
         let price = Number(item.price);
-        let quantity = Number(item.purchaseQuantity);
+        let quantity = Number(item.quantity);
         console.log(
           'price',
           typeof price,
@@ -162,34 +161,20 @@ const Cart = () => {
   }
 
   function submitCheckout() {
-    const productIds = state.cart.map((item) => item._id);
-
-    // state.cart.forEach((item) => {
-    //   for (let i = 0; i < item.purchaseQuantity; i++) {
-    //     productIds.push(item._id);
-    //   }
-    // });
+    const productIds = state.cart.map((item) => [item._id, item.size]);
 
     getCheckout({
       variables: { products: productIds },
     });
   }
 
-  // if (!state.cartOpen) {
-  //   return (
-  //     <IconButton
-  //       className="cart-closed linkText"
-  //       onClick={handleCartIconClick}>
-  //       <ShoppingCartIcon style={{ fontSize: 26 }} />
-  //     </IconButton>
-  //   );
-  // }
-
   if (state.cartOpen) {
     return (
       <div>
         <IconButton className="linkText" onClick={handleCartIconClick}>
-          <ShoppingCartIcon style={{ fontSize: 26 }} />
+          <Badge badgeContent={state.cart.length} color="error">
+            <ShoppingCartIcon style={{ fontSize: 26 }} />
+          </Badge>
         </IconButton>
         <div className={`cart ${isClosing ? 'cart-closing' : ''}`}>
           <div className="close" onClick={(e) => e.stopPropagation()}>
@@ -213,10 +198,8 @@ const Cart = () => {
                 if (!item) {
                   console.error(`Item at index ${index} is undefined`);
                   return null;
-                } else if (item._id) {
-                  console.log('item', item);
-                  console.log(state.cart);
-                  return <CartItem key={item._id} item={item} />;
+                } else if ([item._id, item.size]) {
+                  return <CartItem key={[item._id, item.size]} item={item} />;
                 } else {
                   console.error(
                     `Item at index ${index} is missing required properties`
@@ -271,7 +254,9 @@ const Cart = () => {
 
   return (
     <IconButton className="cart-closed linkText" onClick={handleCartIconClick}>
-      <ShoppingCartIcon style={{ fontSize: 26 }} />
+      <Badge badgeContent={state.cart.length} color="error">
+        <ShoppingCartIcon style={{ fontSize: 26 }} />
+      </Badge>
     </IconButton>
   );
 };
