@@ -6,6 +6,9 @@ import Grid from '@mui/material/Grid';
 import { GitHub } from '@mui/icons-material';
 import { Box, Button } from '@mui/material';
 import './index.scss';
+import { LinkRounded } from '@mui/icons-material/';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faKiwiBird, faOtter } from '@fortawesome/free-solid-svg-icons';
 
 function Footer() {
   const footerTitleText = {
@@ -32,11 +35,16 @@ function Footer() {
           <Grid container spacing={6}>
             <Grid item xs={12} sm={6} md={3}>
               <Typography
-                style={footerTitleText}
+                style={{
+                  ...footerTitleText,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
                 variant="h6"
                 color="text.primary"
                 gutterBottom>
-                ABOUT US
+                <FontAwesomeIcon icon={faOtter} />
+                &nbsp;ABOUT US
               </Typography>
               <Typography className="footerDefText">
                 We are XYZ company, dedicated to providing the best service to
@@ -51,28 +59,36 @@ function Footer() {
                   className="footerText contact-us">
                   contact us
                 </a> */}
-                <Button
-                  component={Link}
-                  to="/contact"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="outlined"
-                  className="footerText contact-us"
-                  style={{
-                    color: '#5b77a1',
-                    border: 'solid 1px #5b77a1',
-                    fontSize: '80%',
-                  }}>
-                  Contact Us
-                </Button>
+                <Link to="/ContactUs" className="footerText contact-us">
+                  <Button
+                    // to="/contact"
+                    // target="_blank"
+                    // rel="noopener noreferrer"
+                    variant="outlined"
+                    // className="footerText contact-us"
+                    style={{
+                      fontFamily: 'Montserrat',
+                      fontWeight: 600,
+                      color: '#5b77a1',
+                      border: 'solid 1px #5b77a1',
+                      fontSize: '80%',
+                    }}>
+                    Contact Us
+                  </Button>
+                </Link>
               </div>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <Typography
-                style={footerTitleText}
+                style={{
+                  ...footerTitleText,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
                 variant="h6"
                 color="text.primary"
                 gutterBottom>
+                <LinkRounded style={{ transform: 'rotate(135deg)' }} />
                 TECHNOLOGY
               </Typography>
               <div className="footerTextPadding">
@@ -123,10 +139,15 @@ function Footer() {
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <Typography
-                style={footerTitleText}
+                style={{
+                  ...footerTitleText,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
                 variant="h6"
                 color="text.primary"
                 gutterBottom>
+                <LinkRounded style={{ transform: 'rotate(135deg)' }} />
                 (CONT.)
               </Typography>
               <div className="footerTextPadding">
@@ -186,7 +207,11 @@ function Footer() {
             </Grid> */}
             <Grid item xs={12} sm={6} md={3}>
               <Typography
-                style={footerTitleText}
+                style={{
+                  ...footerTitleText,
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
                 variant="h6"
                 color="text.primary"
                 gutterBottom>

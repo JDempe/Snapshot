@@ -1,5 +1,5 @@
 const { AuthenticationError } = require('apollo-server-express');
-const { User, Photo, Comment, Order } = require('../models');
+const { User, Photo, Comment, Order, Size } = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
@@ -8,37 +8,26 @@ const resolvers = {
     users: async () => {
       return User.find();
     },
-    // user: async (parent, args, context) => {
-    //   if (context.user) {
-    //     return User.findOne({ _id: context.user._id });
-    //   }
-    //   throw new Error('You need to be logged in!');
-    // },
-
     user: async (parent, { _id }, context) => {
       return User.findOne({ _id: _id });
     },
-
     photos: async () => {
-      // do Photo.find() and then do another search for each createdBy _id to get username
       return Photo.find().populate('createdBy');
     },
     photo: async (parent, { _id }) => {
-      return Photo.findById(_id);
+      return Photo.findById(_id).populate('sizes');
     },
 
     orders: async (parent, args, context) => {
       if (context.user) {
         return await Order.find({ 'user._id': context.user._id });
       }
-
       throw new AuthenticationError('Not logged in');
     },
     order: async (parent, { _id }, context) => {
       if (context.user) {
         return await Order.findOne({ _id: _id, 'user._id': context.user._id });
       }
-
       throw new AuthenticationError('Not logged in');
     },
     comments: async () => {
@@ -47,7 +36,6 @@ const resolvers = {
     comment: async (parent, { _id }) => {
       return Comment.findById(_id);
     },
-
     checkout: async (parent, args, context) => {
       const url = new URL(context.headers.referer).origin;
       const order = new Order({ products: args.products });
@@ -74,33 +62,13 @@ const resolvers = {
         });
       }
 
-      // const session = await stripe.checkout.sessions.create({
-      //   payment_method_types: ['card'],
-      //   line_items,
-      //   mode: 'payment',
-      //   success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
-      //   cancel_url: `${url}/`,
-      // });
-
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
-        line_items: [
-          {
-            price_data: {
-              currency: 'usd',
-              product_data: {
-                name: 'Photo',
-              },
-              unit_amount: 0,
-            },
-            quantity: 1,
-          },
-        ],
+        line_items,
         mode: 'payment',
-        // success_url: 'https:///success',
-        // cancel_url: 'https://example.com/cancel',
+        success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${url}/`,
       });
-
       return { id: session.id, status: 'Created' }; // returning object with id and status
     },
   },
@@ -144,40 +112,43 @@ const resolvers = {
 
       return { token, user };
     },
-    // addOrder: async (parent, { products }, context) => {
-    //   if (context.user) {
-    //     const order = new Order({ products });
-
-    //     await User.findByIdAndUpdate(context.user._id, {
-    //       $push: { orders: order },
-    //     });
-
-    //     return order;
-    //   }
-
-    //   throw new AuthenticationError('Not logged in');
-    // },
-
     addOrder: async (parent, { products }, context) => {
       if (context.user) {
-        const order = new Order({ products });
-
-        // calculating the total price of the order
-        let totalPrice = 0;
-        for (let product of products) {
-          totalPrice += product.quantity * product.price;
-        }
-        order.total = totalPrice;
-
+        const orderNumber = Math.floor(
+          Math.random() * (10000000 - 100000) + 100000
+        );
+        const order = new Order({ products, orderNumber });
         await User.findByIdAndUpdate(context.user._id, {
           $push: { orders: order },
         });
-
         return order;
       }
-
       throw new AuthenticationError('Not logged in');
     },
+
+    addPhoto: async (parent, args, context) => {
+      if (context.user) {
+        const { url, title, description, sizes } = args;
+
+        const photo = new Photo({
+          url,
+          title,
+          description,
+          createdBy: context.user._id,
+        });
+
+        if (sizes) {
+          const sizeDocuments = sizes.map((size) => new Size(size));
+          photo.sizes = sizeDocuments;
+        }
+
+        await photo.save();
+
+        return photo;
+      }
+      throw new AuthenticationError('Not logged in');
+    },
+
     updateUser: async (parent, args, context) => {
       if (context.user) {
         return await User.findByIdAndUpdate(context.user._id, args, {
@@ -222,8 +193,14 @@ const resolvers = {
 
       throw new AuthenticationError('Not logged in');
     },
-    updatePhoto: async (parent, { _id, ...args }, context) => {
+    updatePhoto: async (parent, { _id, sizes, ...args }, context) => {
       if (context.user) {
+        // If sizes are provided, convert them to size documents
+        if (sizes) {
+          const sizeDocuments = sizes.map((size) => new Size(size));
+          args.sizes = sizeDocuments;
+        }
+
         const photo = await Photo.findByIdAndUpdate(
           _id,
           { ...args },
