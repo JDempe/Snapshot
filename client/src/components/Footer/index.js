@@ -23,9 +23,9 @@ function Footer() {
           theme.palette.mode === 'light'
             ? theme.palette.grey[200]
             : theme.palette.grey[800],
-        p: 6,
+        p: '2% 5%',
         // position: 'sticky',
-        bottom: '0vh',
+        // bottom: '0vh',
       }}>
       <Container maxWidth="lg">
         <Typography variant="body1">
