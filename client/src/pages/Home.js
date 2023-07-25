@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@mui/material';
 import { Box, Card, CardContent, CardMedia, Typography } from '@mui/material';
@@ -13,19 +13,52 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import './Home.scss';
 
 function Home() {
+  const [isBlurbContainerVisible, setBlurbContainerVisible] = useState(false);
+
+  useEffect(() => {
+    setBlurbContainerVisible(true);
+  }, []);
+
   return (
     <div>
       <div className="bannerContainer">
         <div className="banner">
-          <div className="blurbContainer">
+          <div
+            className={`blurbContainer ${
+              isBlurbContainerVisible ? 'slide-in' : ''
+            }`}>
             <div className="blurb">
               <div className="blurbTitle">Welcome to Snapshot</div>
               <div className="blurbText">
-                Start sharing your pictures with the world around you.
+                Start sharing your pictures with the world around you. Join a{' '}
+                <br></br>
+                growing community of photographers and enthusiasts.
               </div>
               <Link to="/signup">
                 <Button className="signupButtonHome">Sign Up</Button>
               </Link>
+              {/* <div className="rainbowSlideContainer">
+                <div
+                  className="rainbowSlideDiv"
+                  style={{ backgroundColor: '#FF5858', width: '20%' }}
+                />
+                <div
+                  className="rainbowSlideDiv"
+                  style={{ backgroundColor: '#FCA43C', width: '20%' }}
+                />
+                <div
+                  className="rainbowSlideDiv"
+                  style={{ backgroundColor: '#FBCD29', width: '20%' }}
+                />
+                <div
+                  className="rainbowSlideDiv"
+                  style={{ backgroundColor: '#82CD54', width: '20%' }}
+                />
+                <div
+                  className="rainbowSlideDiv"
+                  style={{ backgroundColor: '#549CF1', width: '20%' }}
+                />
+              </div> */}
             </div>
           </div>
         </div>
@@ -40,20 +73,34 @@ function Home() {
           <PublicIcon className="pitchIcon" />
           <ShareIcon className="pitchIconSecond" />
           <div className="pitchTitle">Share with the world</div>
-          <div className="pitchText">This is the text</div>
+          <div className="pitchText">
+            Join a diverse community of creators from across the world. With so
+            many different creators, you will get to experience many different
+            styles, meet new people, and see the world from a different
+            perspective
+          </div>
         </div>
         <div className="pitchContainer">
           <AddReactionIcon className="pitchIcon" />
           <FavoriteBorderIcon className="pitchIconSecond" />
           <div className="pitchTitle">Find your favorites</div>
-          <div className="pitchText">This is the text</div>
+          <div className="pitchText">
+            While you're out exploring what Snapshot has to offer, you'll
+            encounter many creators with capitvating works. Give their works a
+            like and they'll be saved to your likes tab on your personal page.
+          </div>
         </div>
         <div className="pitchContainer">
           <ShoppingCartIcon className="pitchIcon" />
           <PriceCheckIcon className="pitchIconSecond" />
 
           <div className="pitchTitle">Like it? Buy it</div>
-          <div className="pitchText">This is the text</div>
+          <div className="pitchText">
+            When you come across the kind of photo you just have to have, the
+            kind you want to frame, just click the purchase prints button and
+            add the desired sizes and quantity to your cart. Checkout is easy
+            and simple.
+          </div>
         </div>
         <div className="pitchContainer">
           <SellIcon className="pitchIcon" />
