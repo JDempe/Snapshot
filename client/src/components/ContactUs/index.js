@@ -14,6 +14,7 @@ import {
   collapseClasses,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { Helmet } from 'react-helmet';
 import './index.scss';
 
 function ContactForm() {
@@ -118,6 +119,9 @@ function ContactForm() {
 
   return (
     <Container component="main" maxWidth="s">
+      <Helmet>
+        <title>Contact Us | Snapshot</title>
+      </Helmet>
       <CssBaseline />
       <Box
         sx={{

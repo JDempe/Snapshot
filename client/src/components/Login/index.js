@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import { Alert, Collapse, IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { Helmet } from 'react-helmet';
 import './style.scss';
 
 function Login(props) {
@@ -85,6 +86,9 @@ function Login(props) {
 
   return (
     <Container component="main" maxWidth="s">
+      <Helmet>
+        <title>Log in | Snapshot</title>
+      </Helmet>
       <CssBaseline />
       <Box
         sx={{

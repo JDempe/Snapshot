@@ -12,6 +12,7 @@ import { useStoreContext } from '../utils/GlobalState';
 import { UPDATE_USER_PHOTOS } from '../utils/actions';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 import './Personal.scss';
 
 const Personal = () => {
@@ -51,6 +52,9 @@ const Personal = () => {
     return (
       <>
         <div className="contentAlign">
+          <Helmet>
+            <title>Personal | Snapshot</title>
+          </Helmet>
           <div className="personal">
             <Avatar sx={{ width: 120, height: 120 }}>
               <img src={state.user.profilePicture} alt="profilePicture"></img>

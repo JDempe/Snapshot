@@ -25,6 +25,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Quantity from '../components/Quantity/Quantity.js';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Helmet } from 'react-helmet';
 import Auth from '../utils/auth';
 import Spinner from '../components/Spinner';
 import dayjs from 'dayjs';
@@ -191,6 +192,9 @@ function Detail() {
     if (Auth.loggedIn()) {
       return (
         <>
+          <Helmet>
+            <title>Photo | Snapshots</title>
+          </Helmet>
           <div>
             <form>
               <textarea

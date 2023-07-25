@@ -10,6 +10,7 @@ import AddReactionIcon from '@mui/icons-material/AddReaction';
 import PublicIcon from '@mui/icons-material/Public';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Helmet } from 'react-helmet';
 import './Home.scss';
 
 function Home() {
@@ -21,6 +22,9 @@ function Home() {
 
   return (
     <div>
+      <Helmet>
+        <title>Snapshot: How it Works</title>
+      </Helmet>
       <div className="bannerContainer">
         <div className="banner">
           <div

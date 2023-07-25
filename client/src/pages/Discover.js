@@ -6,6 +6,7 @@ import { idbPromise } from '../utils/helpers';
 import { useStoreContext } from '../utils/GlobalState';
 import { UPDATE_PHOTOS } from '../utils/actions';
 import { useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 
 const Discover = () => {
   const [state, dispatch] = useStoreContext();
@@ -32,6 +33,9 @@ const Discover = () => {
 
   return (
     <div className="container" sx={{ width: 1 }}>
+      <Helmet>
+        <title>Discover | Snapshot</title>
+      </Helmet>
       <PhotoList photos={state.photos} />
     </div>
   );

@@ -15,6 +15,7 @@ import {
 import CloseIcon from '@mui/icons-material/Close';
 import { useStoreContext } from '../../utils/GlobalState';
 import { UPDATE_USER } from '../../utils/actions';
+import { Helmet } from 'react-helmet';
 import './style.scss';
 
 function Upload() {
@@ -140,6 +141,9 @@ function Upload() {
 
   return (
     <Container>
+      <Helmet>
+        <title>Upload a Photo | Snapshot</title>
+      </Helmet>
       <CssBaseline />
       <Box
         sx={{

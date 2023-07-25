@@ -2,6 +2,7 @@ import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
 import { QUERY_USER } from '../utils/queries';
+import { Helmet } from 'react-helmet';
 
 function OrderHistory() {
   const { id } = useParams();
@@ -23,6 +24,9 @@ function OrderHistory() {
   }
   return (
     <>
+      <Helmet>
+        <title>Order History | Snapshots</title>
+      </Helmet>
       <div className="container my-1">
         <Link to="/">← Back to Products</Link>
 
