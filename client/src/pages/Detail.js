@@ -19,7 +19,6 @@ import WestIcon from '@mui/icons-material/West';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import Auth from '../utils/auth';
-
 import './Detail.scss';
 
 function Detail() {

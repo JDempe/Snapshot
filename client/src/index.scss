@@ -7,6 +7,35 @@
   --error: rgb(228, 46, 1);
   --spacing-one: calc(1rem * 0.5);
   --spacing-two: calc(1rem);
+
+  .dark-mode {
+    --primary-color: #000000;
+    --background-color: #333333;
+    --text-color: #ffffff;
+  }
+}
+
+// default styles
+
+// navbar
+$nav-bg: #fff;
+$nav-link: #6c6767;
+$nav-web-title: #3355ce;
+$nav-login: #000000;
+$nav-signup: #549cf1;
+$nav-signup-text: #ffffff;
+
+// page text colors (display name, section titles, upload/likes, dark text, etc.)
+$title-text: #272f32;
+
+// backdrop on photo pages
+$photo-backdrop: #2e3547;
+
+// darkmode style
+.dark-mode {
+  $title-text: #232f3e;
+  --background-color: #333333;
+  --text-color: #ffffff;
 }
 
 * {
