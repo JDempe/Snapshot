@@ -6,9 +6,12 @@ import { Link, useLocation, Outlet, NavLink } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import './style.scss';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
+import Switch from '@mui/material/Switch';
 
 function Nav() {
   const location = useLocation();
+
+  const label = { inputProps: { 'aria-label': 'theme-switch' } };
 
   function showLoginOptions() {
     if (Auth.loggedIn()) {
@@ -72,6 +75,10 @@ function Nav() {
     }
   }
 
+  // const handleTheme = () => {
+  //   document.body.classList.toggle('dark-mode');
+  // };
+
   return (
     <header className="flex-row">
       <div className="titleLinks">
@@ -90,6 +97,7 @@ function Nav() {
         <Outlet />
 
         {showShoppingCart()}
+        {/* <Switch {...label} onChange={handleTheme}/> */}
         {showLoginOptions()}
       </div>
 
