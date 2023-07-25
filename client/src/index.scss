@@ -7,6 +7,101 @@
   --error: rgb(228, 46, 1);
   --spacing-one: calc(1rem * 0.5);
   --spacing-two: calc(1rem);
+
+  .dark-mode {
+    --primary-color: #000000;
+    --background-color: #333333;
+    --text-color: #ffffff;
+  }
+}
+
+// default styles for light mode
+
+// navbar
+$nav-bg: #fff;
+$nav-link: #6c6767;
+$nav-web-title: #3355ce;
+$nav-login: #000000;
+$nav-divider: #6c676741;
+// also the image author name
+$nav-signup: #549cf1;
+$btn-contrast-text: #ffffff;
+
+// horizontal divier
+$hr-div: #6c676741;
+
+// page background for every page
+$page-bg: #e7eaed;
+
+// most text colors (display name, comment text, section titles, upload/likes, dark text, etc.)
+$text: #272f32;
+
+// photo pages
+$photo-backdrop: #2e3547;
+$photo-icons: #ffffffd0;
+$photo-icons-hover: #ffffff;
+$input-comment-bg: #ffffffe7;
+$input-comment-text: #393f50;
+$input-comment-border: #00000044;
+// might yeet
+$comment-date: #5c6271;
+// purchase stuff
+$purchase-btn: #fca43c;
+$quantity-text: #2e3547bc;
+
+// footer stuff
+$footer-bg: #eeeeee;
+$footer-titles: #5b77a1;
+$foot-text: #6a6a72;
+$footer-links: #526b91;
+
+// borrowed quantity scss, only for that
+$color--primary: #f3f3f3;
+$modifier--text-color: #888;
+
+// cart modal
+$cart-bg: #ffffff;
+
+// darkmode style
+.dark-mode {
+  // navbar
+  $nav-bg: invert(#fff);
+  $nav-link: invert(#6c6767);
+  $nav-web-title: invert(#3355ce);
+  $nav-login: invert(#000000);
+  $nav-divider: invert(#6c676741);
+  // also the image author name
+  $nav-signup: invert(#549cf1);
+  $btn-contrast-text: invert(#ffffff);
+
+  // page background for every page
+  $page-bg: invert(#e7eaed);
+
+  // most text colors (display name, comment text, section titles, upload/likes, dark text, etc.)
+  $text: invert(#272f32);
+
+  // photo pages
+  $photo-backdrop: invert(#2e3547);
+  $photo-icons: invert(#ffffffd0);
+  $photo-icons-hover: invert(#ffffff);
+  $input-comment-bg: invert(#ffffffe7);
+  $input-comment-text: invert(#393f50);
+  $input-comment-border: invert(#00000044);
+  // might yeet
+  $comment-date: invert(#5c6271);
+  // purchase stuff
+  $purchase-btn: invert(#fca43c);
+  $quantity-text: invert(#2e3547bc);
+
+  // footer stuff
+  $footer-bg: invert(#eeeeee);
+  $footer-titles: invert(#5b77a1);
+  $foot-text: invert(#6a6a72);
+  $footer-links: invert(#526b91);
+
+  // borrowed quantity scss, only for that
+  $color--primary: invert(#f3f3f3);
+  $modifier--text-color: invert(#888);
 }
 
 * {
@@ -220,7 +315,7 @@ input:focus {
 hr {
   border: none;
   height: 1px;
-  background-color: #6c676741;
+  background-color: $hr-div;
   margin: 20px 0;
 }
 

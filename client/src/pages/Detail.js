@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client';
 import { useStoreContext } from '../utils/GlobalState';
 import {
   UPDATE_CART_QUANTITY,
@@ -8,6 +8,7 @@ import {
   UPDATE_CURRENT_PHOTO,
 } from '../utils/actions';
 import { QUERY_SINGLE_PHOTO } from '../utils/queries';
+import { ADD_COMMENT } from '../utils/mutations';
 import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 import Rating from '@mui/material/Rating';
@@ -34,13 +35,21 @@ function Detail() {
   const [state, dispatch] = useStoreContext();
   const { id } = useParams();
 
-  // const [currentPhoto, setcurrentPhoto] = useState({});
+  const [comment, setComment] = useState('');
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
+  const [iconState, setIconState] = useState('down');
+
+  const [addComment, { error }] = useMutation(ADD_COMMENT);
 
   const { loading, data } = useQuery(QUERY_SINGLE_PHOTO, {
     variables: { id: id },
   });
 
   const { photos, cart } = state;
+
+  const photoIds = photos ? photos.map((photo) => photo._id) : [];
+  console.log('photoIds: ', photoIds);
 
   // save the single photo in data to state
   useEffect(() => {
@@ -60,6 +69,8 @@ function Detail() {
   }, [data, loading, dispatch, id]);
 
   const { currentPhoto } = state;
+
+  console.log('currentPhoto: ', currentPhoto);
 
   // displaying other photos at bottom of page
   const otherPhotosLimit = 4;
@@ -94,14 +105,20 @@ function Detail() {
   // function to take all the comments and make them into a list using the PhotoComment component
   const commentList = (comments) => {
     if (comments) {
-      return comments.map((comment) => <PhotoComment comment={comment} />);
+      return comments.map((comment) => (
+        <PhotoComment comment={comment} key={comment._id} />
+      ));
     }
   };
 
   const sizeList = (sizes) => {
     if (sizes) {
       return sizes.map((size) => (
-        <ProductDropdownCard size={size.size} price={size.currentPrice} />
+        <ProductDropdownCard
+          size={size.size}
+          price={size.currentPrice}
+          key={size._id}
+        />
       ));
     }
   };
@@ -142,71 +159,35 @@ function Detail() {
     }
   };
 
-  // const itemInCart = cart.find((cartItem) => cartItem._id === id);
-  // if (itemInCart) {
-  //   dispatch({
-  //     type: UPDATE_CART_QUANTITY,
-  //     _id: id,
-  //     purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-  //   });
-  //   idbPromise('cart', 'put', {
-  //     ...itemInCart,
-  //     purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1,
-  //   });
-  // } else {
-  //   dispatch({
-  //     type: ADD_TO_CART,
-  //     photo: {
-  //       ...data,
-  //       purchaseQuantity: 1,
-  //       price: Number(data.price),
-  //     },
-  //   });
-  //   idbPromise('cart', 'put', {
-  //     ...data,
-  //     purchaseQuantity: 1,
-  //     price: Number(data.price),
-  //   });
-  // }
+  // function to handle the button click on click
+  const handleCommentSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await addComment({
+        variables: {
+          photoId: id,
+          commentText: comment,
+        },
+      });
+      setComment('');
+      console.log('DATA DATA DATA');
+      console.log(data);
+      // PUT Comment in idb and update state to re-render the commentslist
+      dispatch({
+        type: UPDATE_CURRENT_PHOTO,
+        photo: {
+          ...currentPhoto,
+          comments: [...currentPhoto.comments, data.addComment],
+        },
+      });
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
-  // function commentBox() {
-  //   const [comment, setComment] = useState('');
-
-  //   const handleInputChange = (event) => {
-  //     setComment(event.target.value);
-  //   };
-
-  //   const handleSubmit = (event) => {
-  //     event.preventDefault();
-  //     console.log('Submitted comment:', comment);
-  //     setComment('');
-  //   };
-
-  // const showCommentInput = () => {
-  //   if (Auth.loggedIn()) {
-  //     return (
-  //       <>
-  //         <form onSubmit={handleSubmit}>
-  //           <textarea
-  //             rows="4"
-  //             cols="50"
-  //             placeholder="Enter your comment..."
-  //             value={comment}
-  //             onChange={handleInputChange}
-  //           />
-  //           <button type="submit">Submit</button>
-  //         </form>
-  //       </>
-  //     );
-  //   } else {
-  //     return (
-  //       <>
-  //         <div className="commentInput">Log in to comment</div>
-  //       </>
-  //     );
-  //   }
-
-  // };
+  const handleCommentChange = (event) => {
+    setComment(event.target.value);
+  };
 
   const showCommentInput = () => {
     if (Auth.loggedIn()) {
@@ -217,8 +198,15 @@ function Detail() {
               <textarea
                 className="commentInput"
                 placeholder="Enter your comment..."
+                onChange={handleCommentChange}
+                value={comment}
               />
-              <button type="submit">Submit</button>
+              <button
+                onClick={handleCommentSubmit}
+                className="commentButton"
+                disabled={comment.length < 5}>
+                Comment
+              </button>
             </form>
           </div>
         </>
@@ -274,18 +262,15 @@ function Detail() {
   };
 
   // random photo navigation
-  // const photoIds = data ? data.photos.map((photo) => photo._id) : [];
 
-  // const navigateToRandomPhoto = () => {
-  //   if (photoIds.length === 0) {
-  //     return;
-  //   }
-  //   const randomPhotoId = photoIds[Math.floor(Math.random() * photoIds.length)];
+  const navigateToRandomPhoto = () => {
+    if (photoIds.length === 0) {
+      return;
+    }
+    const randomPhotoId = photoIds[Math.floor(Math.random() * photoIds.length)];
 
-  //   navigate(`/photos/${randomPhotoId}`);
-  // };
-
-  const [isFullscreen, setIsFullscreen] = useState(false);
+    navigate(`/photos/${randomPhotoId}`);
+  };
 
   useEffect(() => {
     const closeFullscreen = () => {
@@ -315,9 +300,6 @@ function Detail() {
     };
   }, [isFullscreen]);
 
-  const [dropdownVisible, setDropdownVisible] = useState(false);
-  const [iconState, setIconState] = useState('down');
-
   const toggleDropdown = () => {
     setDropdownVisible((prevVisible) => !prevVisible);
     setIconState((prevIconState) => (prevIconState === 'down' ? 'up' : 'down'));
@@ -346,7 +328,7 @@ function Detail() {
                   <ArrowBackIosNewIcon
                     fontSize="inherit"
                     color="inherit"
-                    // onClick={() => navigateToRandomPhoto()}
+                    onClick={() => navigateToRandomPhoto()}
                   />
                 </div>
               </div>
@@ -370,7 +352,7 @@ function Detail() {
                   <ArrowForwardIosIcon
                     fontSize="inherit"
                     color="inherit"
-                    // onClick={() => navigateToRandomPhoto()}
+                    onClick={() => navigateToRandomPhoto()}
                   />
                 </div>
               </div>
@@ -389,6 +371,7 @@ function Detail() {
               />
               <div className="imageTitleWrap">
                 <h2 className="imageName">{currentPhoto.title}</h2>
+                <hr className="socialDivider" />
                 <div className="socialContainer">
                   <div className="socialText">{currentPhoto.likes}</div>
                   <FavoriteBorderIcon
@@ -399,7 +382,7 @@ function Detail() {
               </div>
               <p className="imageAuthor">
                 by{' '}
-                <Link style={{ color: '#549cf1', fontWeight: 'bold' }}>
+                <Link style={{ fontWeight: 'bold' }} className="authorName">
                   <span>
                     <span>
                       {currentPhoto && currentPhoto.createdBy
@@ -411,10 +394,12 @@ function Detail() {
                 </Link>
               </p>
               <div className="imageDescription">
-                <p>{currentPhoto.description}</p>
+                <p style={{ marginBottom: '5px' }}>
+                  {currentPhoto.description}
+                </p>
               </div>
 
-              <div>
+              <div className="imageDate">
                 Uploaded:{' '}
                 <span>
                   {dayjs

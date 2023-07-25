@@ -6,18 +6,12 @@ import { useState } from 'react';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Avatar from '@mui/material/Avatar';
 import './style.scss';
-
 const LoginOrSignupSwitch = (props) => {
   const [mode, setMode] = useState(props.mode);
 
   const handleModeChange = (event) => {
-    setMode(event.target.checked ? 'login' : 'signup');
-
-    if (mode === 'login') {
-      window.location.href = '/signup';
-    } else {
-      window.location.href = '/login';
-    }
+    const newMode = event.target.checked ? 'login' : 'signup';
+    setMode(newMode);
   };
 
   const AntSwitch = styled(Switch)(({ theme }) => ({
@@ -84,7 +78,7 @@ const LoginOrSignupSwitch = (props) => {
             <>
               <Typography variant="body2"></Typography>
               {/* links to /login if the mode is login and /signup if the mode is signup */}
-              <Link>
+              <Link to={mode === 'login' ? '/login' : '/signup'}>
                 <AntSwitch
                   checked={mode === 'login'}
                   onClick={handleModeChange}

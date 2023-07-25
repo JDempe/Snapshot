@@ -1,34 +1,56 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useStoreContext } from '../../utils/GlobalState';
 import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from '../../utils/actions';
 import { idbPromise } from '../../utils/helpers';
 
 const CartItem = ({ item }) => {
   const [state, dispatch] = useStoreContext();
+  // fprce the cart item to rerender when the quantity changes
+
+  useEffect(() => {
+    if (item.quantity === 0) {
+      dispatch({
+        type: REMOVE_FROM_CART,
+        _id: item._id,
+        size: item.size,
+      });
+      idbPromise('cart', 'delete', { ...item });
+    } else {
+      idbPromise('cart', 'put', { ...item });
+    }
+  }, [item, dispatch]);
 
   const removeFromCart = (item) => {
     dispatch({
       type: REMOVE_FROM_CART,
       _id: item._id,
+      size: item.size,
     });
     idbPromise('cart', 'delete', { ...item });
   };
 
   const onChange = (e) => {
+    console.log('onChange what is state.cart', state.cart);
     const value = e.target.value;
+    console.log('onChange what is value', value);
     if (value === '0') {
       dispatch({
         type: REMOVE_FROM_CART,
         _id: item._id,
+        size: item.size,
       });
       idbPromise('cart', 'delete', { ...item });
     } else {
       dispatch({
         type: UPDATE_CART_QUANTITY,
         _id: item._id,
-        purchaseQuantity: parseInt(value),
+        size: item.size,
+        quantity: value,
       });
-      idbPromise('cart', 'put', { ...item, purchaseQuantity: parseInt(value) });
+      idbPromise('cart', 'put', { ...item, quantity: value });
+      console.log('onChange what is state.cart at the end', state.cart);
+
+      // update the value of the item in the cart
     }
   };
 
@@ -49,7 +71,7 @@ const CartItem = ({ item }) => {
           <input
             type="number"
             placeholder="1"
-            value={item.purchaseQuantity}
+            value={item.quantity}
             onChange={onChange}
           />
           <span

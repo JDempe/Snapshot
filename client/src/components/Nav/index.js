@@ -11,6 +11,8 @@ import Logo from '../../assets/logo.png';
 function Nav() {
   const location = useLocation();
 
+  const label = { inputProps: { 'aria-label': 'theme-switch' } };
+
   function showLoginOptions() {
     if (Auth.loggedIn()) {
       return <AccountMenu />;
@@ -73,6 +75,10 @@ function Nav() {
     }
   }
 
+  // const handleTheme = () => {
+  //   document.body.classList.toggle('dark-mode');
+  // };
+
   return (
     <header className="flex-row">
       <div className="titleLinks">
@@ -93,6 +99,7 @@ function Nav() {
         <Outlet />
 
         {showShoppingCart()}
+        {/* <Switch {...label} onChange={handleTheme}/> */}
         {showLoginOptions()}
       </div>
 
