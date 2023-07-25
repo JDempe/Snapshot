@@ -67,6 +67,8 @@ function Footer() {
                     variant="outlined"
                     // className="footerText contact-us"
                     style={{
+                      fontFamily: 'Montserrat',
+                      fontWeight: 600,
                       color: '#5b77a1',
                       border: 'solid 1px #5b77a1',
                       fontSize: '80%',
