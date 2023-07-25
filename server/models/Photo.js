@@ -32,6 +32,12 @@ const photoSchema = new Schema({
       ref: 'Comment',
     },
   ],
+  sizes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Size',
+    },
+  ],
 });
 
 // When the photo is made, find the user that created it and add it to their savedPhotos array
