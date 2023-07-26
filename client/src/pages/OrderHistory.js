@@ -39,6 +39,7 @@ function OrderHistory() {
                       parseInt(order.purchaseDate)
                     ).toLocaleDateString()}
                   </h3>
+                  <h4>Total: ${order.total}.00</h4>
                   <h4>Order Number: {order.orderNumber || 'No Order ID'}</h4>
                   <div className="flex-row">
                     {order.products.map(

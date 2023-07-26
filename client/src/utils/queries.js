@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const QUERY_PHOTOS = gql`
   query getPhotos {
-    photos {
+    photos(limit: 20) {
       _id
       url
       title
