@@ -130,6 +130,7 @@ const Cart = () => {
         if (isNaN(price) || isNaN(quantity)) {
           console.error('price or purchaseQuantity is not a valid number', item);
         } else {
+          // Multiply the price by quantity before adding to the sum
           sum += price * quantity;
         }
       }
