@@ -11,14 +11,14 @@ import './style.css';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose, faCartPlus } from '@fortawesome/free-solid-svg-icons';
-import { IconButton, Button } from '@mui/material';
+import { IconButton, Tooltip } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
 import { initiateCheckout } from '../../utils/mutations';
 
 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
-
+// stop
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
   const [isClosing, setIsClosing] = useState(false); 
@@ -77,7 +77,7 @@ const Cart = () => {
         if (!isMouseInsideCart(event)) {
           toggleCart();
         }
-      }, 10000);
+      }, 100000000);
     }
     
     function handleMouseClickOutside(event) {
@@ -105,7 +105,7 @@ const Cart = () => {
         if (!isMouseInsideCart()) {
           toggleCart();
         }
-      }, 10000);
+      }, 100000000);
     } else {
       return;
     }
@@ -169,21 +169,25 @@ const Cart = () => {
   if (state.cartOpen) {
     return (
       <div>
-        <IconButton className="linkText" onClick={handleCartIconClick}>
-          <Badge badgeContent={state.cart.length} color="error">
-            <ShoppingCartIcon style={{ fontSize: 26 }} />
-          </Badge>
-        </IconButton>
+        <Tooltip title="Shopping Cart">
+          <IconButton className="linkText" onClick={handleCartIconClick}>
+            <Badge badgeContent={state.cart.length} color="error">
+              <ShoppingCartIcon style={{ fontSize: 26 }} />
+            </Badge>
+          </IconButton>
+        </Tooltip>
         <div className={`cart ${isClosing ? 'cart-closing' : ''}`}>
-          <div className="close" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="close"
+            onClick={(e) => e.stopPropagation()}
+            style={{ top: '1%', left: '90%' }}>
             <FontAwesomeIcon
               icon={faClose}
               color="#EFD81D"
               style={{
-                height: '7%',
-                width: '7%',
-                position: 'relative',
-                right: '-92%',
+                height: '1em',
+                width: '1em',
+                color: '#5b77a1',
               }}
               onClick={toggleCart}
             />
@@ -206,10 +210,21 @@ const Cart = () => {
                 }
               })}
               <div className="flex-row space-between">
-                <strong>Total: ${calculateTotal()}</strong>
+                <strong className="totalPrice">
+                  Total: ${calculateTotal()}
+                </strong>
 
                 <div>
-                  <button onClick={submitCheckout}>Checkout</button>
+                  <button
+                    className="checkOutBtn"
+                    style={{
+                      color: 'white',
+                      backgroundColor: '#fca43c',
+                      borderRadius: '20px',
+                    }}
+                    onClick={submitCheckout}>
+                    Checkout
+                  </button>
                   {!Auth.loggedIn() && (
                     <p>
                       <Link
@@ -251,11 +266,15 @@ const Cart = () => {
   }
 
   return (
-    <IconButton className="cart-closed linkText" onClick={handleCartIconClick}>
-      <Badge badgeContent={state.cart.length} color="error">
-        <ShoppingCartIcon style={{ fontSize: 26 }} />
-      </Badge>
-    </IconButton>
+    <Tooltip title="Shopping Cart">
+      <IconButton
+        className="cart-closed linkText"
+        onClick={handleCartIconClick}>
+        <Badge badgeContent={state.cart.length} color="error">
+          <ShoppingCartIcon style={{ fontSize: 26 }} />
+        </Badge>
+      </IconButton>
+    </Tooltip>
   );
 };
 

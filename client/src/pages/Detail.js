@@ -26,6 +26,7 @@ import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import Quantity from '../components/Quantity/Quantity.js';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Auth from '../utils/auth';
+import Spinner from '../components/Spinner';
 import dayjs from 'dayjs';
 import './Detail.scss';
 
@@ -168,8 +169,7 @@ function Detail() {
         },
       });
       setComment('');
-      console.log('DATA DATA DATA');
-      console.log(data);
+
       // PUT Comment in idb and update state to re-render the commentslist
       dispatch({
         type: UPDATE_CURRENT_PHOTO,
@@ -312,12 +312,12 @@ function Detail() {
   return (
     <>
       {currentPhoto && cart ? (
-        <div className="my-1">
+        <div>
           <div className="backdrop">
             <div className="backdropContainer">
               <div className="iconColumn">
                 <Link
-                  to="/"
+                  to="/discover"
                   className={`arrowLink ${isFullscreen ? 'hideElement' : ''}`}>
                   <WestIcon fontSize="inherit" color="inherit" />
                 </Link>
@@ -469,7 +469,8 @@ function Detail() {
           )}
         </div>
       ) : null}
-      {loading ? <img src={spinner} alt="loading" /> : null}
+      {loading ? <Spinner /> : null}
+      {/* {loading ? <img src={spinner} alt="loading" /> : null} */}
     </>
   );
 }

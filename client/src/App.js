@@ -12,7 +12,7 @@ import {
   createHttpLink,
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
-// import Home from './pages/Home';
+import Home from './pages/Home';
 import Discover from './pages/Discover';
 import Detail from './pages/Detail';
 import NoMatch from './pages/NoMatch';
@@ -66,7 +66,7 @@ function App() {
               overflowY: 'auto',
             }}>
             <Routes location={previousLocation || location}>
-              {/* <Route path="/" element={<Home />} /> */}
+              <Route path="/" element={<Home />} />
               <Route path="/login" element={<Authentication mode="login" />} />
               <Route
                 path="/signup"
@@ -76,15 +76,11 @@ function App() {
               <Route path="/success" element={<Success />} />
               <Route path="/orderHistory/:id" element={<OrderHistory />} />
               <Route path="/photos/:id" element={<Detail />} />
-              <Route path="/personal" element={<Personal />} />
+              <Route path="/personal/:id" element={<Personal />} />
               <Route path="/ContactUs" element={<ContactUs />} />
+              <Route path="/upload" element={<Upload />} />
               <Route path="*" element={<NoMatch />} />
             </Routes>
-            {previousLocation && (
-              <Routes>
-                <Route path="/upload" element={<Upload />} />
-              </Routes>
-            )}
           </Box>
           <Footer />
         </StoreProvider>

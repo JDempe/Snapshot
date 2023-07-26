@@ -2,7 +2,12 @@ import decode from 'jwt-decode';
 
 class AuthService {
   getProfile() {
-    return decode(this.getToken());
+    try {
+      const token = this.getToken();
+      return decode(token);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   loggedIn() {
@@ -31,7 +36,7 @@ class AuthService {
     // Saves user token to localStorage
     localStorage.setItem('id_token', idToken);
 
-    window.location.assign('/');
+    window.location.assign('/discover');
   }
 
   logout() {

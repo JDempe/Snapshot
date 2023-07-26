@@ -2,7 +2,7 @@ import { gql } from '@apollo/client';
 
 export const QUERY_PHOTOS = gql`
   query getPhotos {
-    photos {
+    photos(limit: 20) {
       _id
       url
       title
@@ -160,6 +160,36 @@ export const QUERY_USER = gql`
           username
         }
         likes
+      }
+    }
+  }
+`;
+
+export const QUERY_USER_ORDERS = gql`
+  query User($_id: ID!) {
+    user(_id: $_id) {
+      _id
+      username
+      firstName
+      lastName
+      email
+      profilePicture
+      orders {
+        _id
+        purchaseDate
+        orderNumber
+        products {
+          photo {
+            _id
+            url
+            title
+          }
+          size
+          quantity
+          price
+          _id
+        }
+        total
       }
     }
   }

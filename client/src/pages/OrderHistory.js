@@ -1,14 +1,12 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useQuery } from '@apollo/client';
-import { QUERY_USER } from '../utils/queries';
+import { QUERY_USER_ORDERS } from '../utils/queries';
 
 function OrderHistory() {
   const { id } = useParams();
 
-  console.log('id:', id); // Log the id
-
-  const { loading, error, data } = useQuery(QUERY_USER, {
+  const { loading, error, data } = useQuery(QUERY_USER_ORDERS, {
     variables: { _id: id },
   });
 
@@ -17,6 +15,8 @@ function OrderHistory() {
   console.log('data:', data);
 
   let user;
+
+  console.log('data.user:', data);
 
   if (data) {
     user = data.user;
@@ -39,22 +39,37 @@ function OrderHistory() {
                       parseInt(order.purchaseDate)
                     ).toLocaleDateString()}
                   </h3>
-                  <h4>Order Number: {order._id || 'No Order ID'}</h4>
-                  <div className="flex-row">
+                  <h4>Total: ${order.total}.00</h4>
+                  <h4>Order Number: {order.orderNumber || 'No Order ID'}</h4>
+                  <div
+                    className="flex-row"
+                    style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      justifyContent: 'flex-start',
+                      height: '25vh',
+                    }}>
                     {order.products.map(
-                      (
-                        { photo: { _id, title, price, size, quantity } },
-                        index
-                      ) => (
+                      ({ _id, price, quantity, size, photo }) => (
                         <div key={index} className="card px-1 py-1">
-                          <Link to={`/products/${_id}`}>
-                            <p>{title}</p>
+                          <Link to={`/photos/${photo._id}`}>
+                            <img
+                              style={{
+                                width: 'auto',
+                                minHeight: '35%',
+                                maxHeight: '35%',
+                              }}
+                              alt={photo.title}
+                              src={photo.url}
+                            />
+                            <p>{photo.title}</p>
                           </Link>
                           <div>
                             <span>${price}</span>
                           </div>
                           <div>
                             <span>Size: {size}</span>
+                            &nbsp; &nbsp;
                             <span>Quantity: {quantity}</span>
                           </div>
                         </div>

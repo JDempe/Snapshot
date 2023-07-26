@@ -1,23 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useMutation } from '@apollo/client';
 import { UPLOAD_PHOTO } from '../../utils/mutations';
 import {
+  Container,
+  CssBaseline,
+  TextField,
+  Box,
+  Button,
   Alert,
   Collapse,
   IconButton,
   FormControl,
-  Button,
-  TextField,
 } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useNavigate } from 'react-router-dom';
-import { useLockBodyScroll } from '@uidotdev/usehooks';
+import { useStoreContext } from '../../utils/GlobalState';
+import { UPDATE_USER } from '../../utils/actions';
 import './style.scss';
 
 function Upload() {
-  useLockBodyScroll();
-
-  const navigate = useNavigate();
+  const [state, dispatch] = useStoreContext();
 
   const [formState, setFormState] = useState({
     photoName: '',
@@ -46,13 +47,6 @@ function Upload() {
     setImagePreview(URL.createObjectURL(event.target.files[0]));
   };
 
-  // if path is /upload, scroll to top of page
-  useEffect(() => {
-    if (document.location.pathname === '/upload') {
-      window.scrollTo(0, 0);
-    }
-  }, []);
-
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     setIsLoading(true);
@@ -73,13 +67,19 @@ function Upload() {
 
       const file = await res.json();
 
-      await addPhoto({
+      const { data } = await addPhoto({
         variables: {
           title: formState.photoName,
           description: formState.description,
           url: file.secure_url,
           createdBy: localStorage.getItem('userId'),
         },
+      });
+
+      // dispatch the action to add the photo to the global state for the user via  the id
+      dispatch({
+        type: UPDATE_USER,
+        user: data.addPhoto,
       });
 
       setIsLoading(false);
@@ -139,85 +139,78 @@ function Upload() {
   };
 
   return (
-    <div id="uploadModal" className="modalDiv">
-      <div className="modal">
-        <div className="modalBody">
-          <IconButton
-            aria-label="close"
-            color="inherit"
-            size="medium"
-            className="closeButton"
-            onClick={() => {
-              navigate(-1);
-            }}>
-            <CloseIcon fontSize="inherit" />
-          </IconButton>
+    <Container>
+      <CssBaseline />
+      <Box
+        sx={{
+          marginTop: 3,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}>
+        <form id="uploadForm" onSubmit={handleFormSubmit}>
+          <h2 style={{ fontFamily: 'Montserrat', color: '#5b77a1' }}>UPLOAD</h2>
+          <FormControl height="100%" fullWidth>
+            {/* Upload photo Button */}
+            <input
+              placeholder="Upload Photo"
+              name="upload"
+              type="file"
+              id="upload"
+              accept="image/*"
+              required
+              onChange={handleFileUpload}
+            />
 
-          <form id="uploadForm" onSubmit={handleFormSubmit}>
-            <h2>Upload</h2>
-            <FormControl height="100%" fullWidth>
-              {/* Upload photo Button */}
-              <input
-                placeholder="Upload Photo"
-                name="upload"
-                type="file"
-                id="upload"
-                accept="image/*"
-                required
-                onChange={handleFileUpload}
-              />
+            <div id="previewImageBox">
+              {imagePreview && (
+                <img id="previewImage" src={imagePreview} alt="" />
+              )}
+            </div>
 
-              <div id="previewImageBox">
-                {imagePreview && (
-                  <img id="previewImage" src={imagePreview} alt="" />
-                )}
-              </div>
+            {/* Photo Name Box */}
+            <TextField
+              placeholder="Name your photo..."
+              id="uploadTitle"
+              name="photoName"
+              label="Title"
+              required
+              margin="dense"
+              multiline
+              inputProps={{ maxLength: 20 }}
+              error={titleError}
+              value={formState.photoName}
+              onChange={handleChangeTitle}
+            />
 
-              {/* Photo Name Box */}
-              <TextField
-                placeholder="Name your photo..."
-                id="uploadTitle"
-                name="photoName"
-                label="Title"
-                required
-                margin="dense"
-                multiline
-                inputProps={{ maxLength: 20 }}
-                error={titleError}
-                value={formState.photoName}
-                onChange={handleChangeTitle}
-              />
+            {/* Photo description Textbox */}
 
-              {/* Photo description Textbox */}
+            <TextField
+              placeholder="Describe the photo..."
+              label="Description"
+              name="description"
+              multiline
+              rows={2}
+              required
+              margin={'dense'}
+              inputProps={{ maxLength: 120 }}
+              error={descriptionError}
+              id="uploadDescription"
+              value={formState.description}
+              onChange={handleChangeDescription}
+            />
 
-              <TextField
-                placeholder="Describe the photo..."
-                label="Description"
-                name="description"
-                multiline
-                rows={2}
-                required
-                margin={'dense'}
-                inputProps={{ maxLength: 120 }}
-                error={descriptionError}
-                id="uploadDescription"
-                value={formState.description}
-                onChange={handleChangeDescription}
-              />
-
-              {/* submit button that is disabled if isLoading is true */}
-              <Button
-                variant="contained"
-                id="uploadButton"
-                disabled={
-                  isLoading || !titleReady || !descriptionReady || !photoImage
-                }
-                type="submit">
-                {isLoading ? 'Loading...' : 'Upload Photo'}
-              </Button>
-            </FormControl>
-          </form>
-
+            {/* submit button that is disabled if isLoading is true */}
+            <Button
+              variant="contained"
+              id="uploadButton"
+              disabled={
+                isLoading || !titleReady || !descriptionReady || !photoImage
+              }
+              type="submit">
+              {isLoading ? 'Loading...' : 'Upload Photo'}
+            </Button>
+          </FormControl>
           <Collapse in={success}>
             <Alert
               action={
@@ -254,9 +247,9 @@ function Upload() {
               Something went wrong! Please try again.
             </Alert>
           </Collapse>
-        </div>
-      </div>
-    </div>
+        </form>
+      </Box>
+    </Container>
   );
 }
 
