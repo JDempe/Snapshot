@@ -74,7 +74,7 @@ const resolvers = {
   },
   User: {
     orders: async (parent) => {
-      return Order.find({ user: parent._id });
+      return Order.find({ _id: { $in: parent.orders } });
     },
     savedPhotos: async (parent) => {
       return Photo.find({ _id: { $in: parent.savedPhotos } });
@@ -93,9 +93,16 @@ const resolvers = {
   },
   Order: {
     products: async (parent) => {
-      return Photo.find({ _id: { $in: parent.products } });
+      return parent.products;
     },
   },
+
+  Product: {
+    photo: async (parent) => {
+      return Photo.findOne({ _id: parent.photo });
+    },
+  },
+
   Comment: {
     createdBy: async (parent) => {
       return User.findOne({ _id: parent.createdBy });
