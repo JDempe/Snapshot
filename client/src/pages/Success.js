@@ -1,16 +1,27 @@
 import React, { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
 import Jumbotron from '../components/Jumbotron';
 import { ADD_ORDER } from '../utils/mutations';
 import { idbPromise } from '../utils/helpers';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 function Success() {
   const [addOrder] = useMutation(ADD_ORDER);
+  const location = useLocation();
 
   useEffect(() => {
     async function saveOrder() {
-      const cart = await idbPromise('cart', 'get');
-      const products = cart.map((item) => item._id);
+      const stripe = await stripePromise;
+      const sessionId = new URLSearchParams(location.search).get('session_id');
+      const session = await stripe.checkout.sessions.retrieve(sessionId);
+      
+      const products = session.line_items.data.map((item) => ({
+        _id: item.price.product,
+        quantity: item.quantity
+      }));
 
       if (products.length) {
         const { data } = await addOrder({ variables: { products } });
@@ -27,7 +38,7 @@ function Success() {
     }
 
     saveOrder();
-  }, [addOrder]);
+  }, [addOrder, location]);
 
   return (
     <div>

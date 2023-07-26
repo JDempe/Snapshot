@@ -83,8 +83,7 @@ export const UPLOAD_PHOTO = gql`
     }
   }
 `;
-
-export const checkout = gql`
+export const initiateCheckout = gql`
 mutation initiateCheckout($products: [ProductInput]!) {
   checkout(products: $products) {
     id
