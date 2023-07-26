@@ -41,7 +41,14 @@ function OrderHistory() {
                   </h3>
                   <h4>Total: ${order.total}.00</h4>
                   <h4>Order Number: {order.orderNumber || 'No Order ID'}</h4>
-                  <div className="flex-row">
+                  <div
+                    className="flex-row"
+                    style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      justifyContent: 'flex-start',
+                      height: '25vh',
+                    }}>
                     {order.products.map(
                       ({ _id, price, quantity, size, photo }) => (
                         <div key={index} className="card px-1 py-1">
@@ -49,8 +56,8 @@ function OrderHistory() {
                             <img
                               style={{
                                 width: 'auto',
-                                minHeight: '100px',
-                                maxHeight: '100px',
+                                minHeight: '35%',
+                                maxHeight: '35%',
                               }}
                               alt={photo.title}
                               src={photo.url}
@@ -62,6 +69,7 @@ function OrderHistory() {
                           </div>
                           <div>
                             <span>Size: {size}</span>
+                            &nbsp; &nbsp;
                             <span>Quantity: {quantity}</span>
                           </div>
                         </div>

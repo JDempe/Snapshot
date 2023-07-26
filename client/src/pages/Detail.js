@@ -317,7 +317,7 @@ function Detail() {
             <div className="backdropContainer">
               <div className="iconColumn">
                 <Link
-                  to="/"
+                  to="/discover"
                   className={`arrowLink ${isFullscreen ? 'hideElement' : ''}`}>
                   <WestIcon fontSize="inherit" color="inherit" />
                 </Link>
