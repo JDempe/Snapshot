@@ -34,11 +34,11 @@ const typeDefs = gql`
     _id: ID
     orderNumber: Int
     purchaseDate: String
-    products: [OrderProduct]
+    products: [Product]
     total: Float
   }
 
-  type OrderProduct {
+  type Product {
     _id: ID
     photo: Photo
     size: String
@@ -82,7 +82,7 @@ const typeDefs = gql`
     photo(_id: ID!): Photo
     orders: [Order]
     order(_id: ID!): Order
-    products: [OrderProduct]
+    products: [Product]
     comments: [Comment]
     comment(_id: ID!): Comment
   }

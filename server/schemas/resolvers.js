@@ -93,12 +93,11 @@ const resolvers = {
   },
   Order: {
     products: async (parent) => {
-      return parent.products.map((product) => {
-        return Photo.findOne({ _id: product.photo });
-      });
+      return parent.products;
     },
   },
-  OrderProduct: {
+
+  Product: {
     photo: async (parent) => {
       return Photo.findOne({ _id: parent.photo });
     },

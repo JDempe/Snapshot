@@ -177,6 +177,7 @@ export const QUERY_USER_ORDERS = gql`
       orders {
         _id
         purchaseDate
+        orderNumber
         products {
           photo {
             _id
@@ -186,28 +187,9 @@ export const QUERY_USER_ORDERS = gql`
           size
           quantity
           price
+          _id
         }
         total
-      }
-      savedPhotos {
-        _id
-        url
-        title
-        description
-        createdBy {
-          username
-        }
-        likes
-      }
-      likedPhotos {
-        _id
-        url
-        title
-        description
-        createdBy {
-          username
-        }
-        likes
       }
     }
   }
