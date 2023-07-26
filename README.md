@@ -26,7 +26,7 @@ Snapshot is the ultimate platform for creators, enabling you to effortlessly sha
 
 ## Deployed Site
 
-## The deployed site can be found [here](https://snapshot-marketplace-686f3ea90bb8.herokuapp.com/)!
+The deployed site can be found [here](https://snapshot-marketplace-a63592d12ba6.herokuapp.com/)!
 
 ## Walkthrough Video
 
