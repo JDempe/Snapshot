@@ -7,7 +7,7 @@
 
 ## General Information
 
-## Snapshot is the ultimate platform for creators, enabling you to effortlessly share and showcase your photographs. Explore captivating new creations, purchase your favorite prints, and turn your passion into profit. Join Snapshot today and unleash your creativity to the world!
+Snapshot is the ultimate platform for creators, enabling you to effortlessly share and showcase your photographs. Explore captivating new creations, purchase your favorite prints, and turn your passion into profit. Join Snapshot today and unleash your creativity to the world!
 
 ## Table of Contents
 
