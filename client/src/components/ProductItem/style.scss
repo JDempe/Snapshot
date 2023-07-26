@@ -48,12 +48,15 @@
   width: 100%;
   background: linear-gradient(to top, #000000b3, transparent 70%);
   transition: all 0.2s ease-in-out;
+  font-family: 'Fira Sans', sans-serif;
   color: white;
   text-align: right;
+  font-size: 1rem;
   padding: 60px 12px 20px 12px;
   margin-bottom: 0;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
+  pointer-events: none;
 }
 
 // on .discover-photo hover, show the .discover-photo-overlay
