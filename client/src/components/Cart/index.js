@@ -18,7 +18,6 @@ import { initiateCheckout } from '../../utils/mutations';
 
 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
-// stop
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
   const [isClosing, setIsClosing] = useState(false); 
