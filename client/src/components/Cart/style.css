@@ -3,7 +3,7 @@
   top: 13%;
   right: 2%;
   min-width: 25%;
-  max-width: 35%;
+  max-width: 25%;
   max-height: 60%;
   background-color: var(--light);
   overflow: auto;
@@ -50,8 +50,8 @@
 }
 
 .cart img {
-  width: 70px;
-  margin-right: 1rem;
+  max-width: 100%;
+  /* margin-right: 1rem; */
 }
 
 .cart input {
