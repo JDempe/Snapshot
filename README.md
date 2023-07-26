@@ -3,11 +3,11 @@
 
 <p align="center"><img src="./client/src/assets/logo.png" alt="Snapshot"/></p>
 
-# Project 3
+# Snapshot
 
 ## General Information
 
----
+## Snapshot is the ultimate platform for creators, enabling you to effortlessly share and showcase your photographs. Explore captivating new creations, purchase your favorite prints, and turn your passion into profit. Join Snapshot today and unleash your creativity to the world!
 
 ## Table of Contents
 
@@ -26,7 +26,7 @@
 
 ## Deployed Site
 
----
+## The deployed site can be found [here](https://snapshot-marketplace-686f3ea90bb8.herokuapp.com/)!
 
 ## Walkthrough Video
 
@@ -38,22 +38,49 @@
 
 ## Technologies Used
 
+- [Heroku](https://www.heroku.com/) - Cloud platform for deploying and managing applications.
+- [MongoDB](https://www.mongodb.com/) - NoSQL database for storing application data.
+- [Mongoose v6.0.12](https://www.npmjs.com/package/mongoose) - Object modeling tool for MongoDB.
+- [GraphQL v15.5.1](https://www.npmjs.com/package/graphql) - Query language for APIs.
+- [Apollo Server v3.5.0](https://www.npmjs.com/package/apollo-server-express) - GraphQL server for Express.
+- [Apollo Client v3.5.1](https://www.npmjs.com/package/apollo-client) - GraphQL client for React.
+- [React v17.0.2](https://reactjs.org/) - JavaScript library for building user interfaces.
+- [React Router v5.2.1](https://www.npmjs.com/package/react-router) - Routing and navigation for React apps.
 - [node.js v18.12.1](https://nodejs.org/en) - A scalable server-side JavaScript runtime;
 - [express v4.18.2](https://www.npmjs.com/package/express) - Web application framework for building server-side applications.
 - [express-session v.17.3](https://www.npmjs.com/package/express-session) - Middleware for managing session data in Express.
 - [nodemon v2.0.22](https://www.npmjs.com/package/nodemon) - Development tool for automatically restarting the server during code changes.
 - [dotenv v16.0.3](https://www.npmjs.com/package/dotenv) - Loading environment variables from a .env file.
-- [Heroku](https://www.heroku.com/) - Cloud platform for deploying and managing applications.
 
 ---
 
 ## Installation
 
+There is no installation required. However, if you would like to run the application locally, follow the steps below:
+
 ### Prerequisites
 
-### Local Installation
+- [Node.js](https://nodejs.org/en/)
+- [MongoDB](https://www.mongodb.com/try/download/community)
+- [Cloudinary Cloud Account](https://cloudinary.com/)
 
-If you would prefer to see a local version of the site, follow the steps below:
+### Clone
+
+Clone the [repository](https://github.com/JDempe/Snapshot) to your local machine.
+
+### Setup
+
+2. Navigate to the root directory of the cloned repository in your terminal.
+3. Run `npm install` to install the dependencies.
+4. Create a `.env` file in the root directory of the cloned repository. An example of the contents of the `.env` file is shown below:
+   ```
+   PORT = 3000
+   REACT_APP_CLOUDINARY_NAME=your_cloudinary_name
+   REACT_APP_UPLOAD_PRESET=your_upload_preset
+   ```
+5. Seed the database by running `npm run seed` from the root directory.
+6. Start the full stack application by running `npm run develop` from the root directory.
+7. Navigate to `http://localhost:3000` in your browser to view the site.
 
 ---
 
@@ -110,4 +137,4 @@ This project is open source and available under the [MIT](./LICENSE)
 
 ## How to Contribute
 
-Looking to contribute? Find out how at https://github.com/JDempe/WanderList!
+Looking to contribute? Find out how at https://github.com/JDempe/Snapshot!
