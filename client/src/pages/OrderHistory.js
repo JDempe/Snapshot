@@ -44,7 +44,7 @@ function OrderHistory() {
                     {order.products.map(
                       ({ _id, price, quantity, size, photo }) => (
                         <div key={index} className="card px-1 py-1">
-                          <Link to={`/photos/${_id}`}>
+                          <Link to={`/photos/${photo._id}`}>
                             <img
                               style={{
                                 width: 'auto',
