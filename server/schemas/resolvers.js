@@ -3,6 +3,7 @@ const { User, Photo, Comment, Order, Size } = require('../models');
 const { signToken } = require('../utils/auth');
 const stripe = require('stripe')('sk_test_4eC39HqLyjWDarjtT1zdp7dc');
 
+
 const resolvers = {
   Query: {
     users: async () => {
@@ -36,41 +37,7 @@ const resolvers = {
     comment: async (parent, { _id }) => {
       return Comment.findById(_id);
     },
-    checkout: async (parent, args, context) => {
-      const url = new URL(context.headers.referer).origin;
-      const order = new Order({ products: args.products });
-      const line_items = [];
-
-      const { products } = await order.populate('products');
-
-      for (let i = 0; i < products.length; i++) {
-        const product = await stripe.products.create({
-          name: products[i].name,
-          description: products[i].description,
-          images: [`${url}/images/${products[i].image}`],
-        });
-
-        const price = await stripe.prices.create({
-          product: product.id,
-          unit_amount: products[i].price * 100,
-          currency: 'usd',
-        });
-
-        line_items.push({
-          price: price.id,
-          quantity: 1,
-        });
-      }
-
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        line_items,
-        mode: 'payment',
-        success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${url}/`,
-      });
-      return { id: session.id, status: 'Created' }; // returning object with id and status
-    },
+    
   },
   User: {
     orders: async (parent) => {
@@ -237,6 +204,55 @@ const resolvers = {
       }
 
       throw new AuthenticationError('Not logged in');
+    },
+    checkout: async (parent, args, context) => {
+      const url = new URL(context.headers.referer).origin;
+      const order = new Order({ products: args.products });
+      const line_items = [];
+    
+      console.log('Order:', order); // Log order
+    
+      const { products } = await order.populate('products');
+      console.log('Products',products)
+      for (let i = 0; i < products.length; i++) {
+
+        console.log('Processing product:', products[i]); // Log each product
+    
+        const product = await stripe.products.create({
+          name:"photo",
+          description: products[i].description,
+          images: [`${url}/images/${products[i].image}`]
+        });
+    
+        console.log('Stripe product created:', product); // Log Stripe product
+    
+        const price = await stripe.prices.create({
+          product: product.id,
+          unit_amount: products[i].price * 100,
+          currency: 'usd',
+        });
+    
+        console.log('Stripe price created:', price); // Log Stripe price
+    
+        line_items.push({
+          price: price.id,
+          quantity: 1
+        });
+      }
+    
+      console.log('Line items:', line_items); // Log line items
+    
+      const session = await stripe.checkout.sessions.create({
+        payment_method_types: ['card'],
+        line_items,
+        mode: 'payment',
+        success_url: `${url}/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${url}/`,
+      });
+    
+      console.log('Stripe session:', session); // Log Stripe session
+    
+      return { id: session.id, status: 'Created' }; // // returning object with id and status
     },
   },
 };
