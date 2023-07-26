@@ -12,18 +12,21 @@ input[type='number']:active {
 
 .perItem {
   padding-bottom: 5%;
-  height: 5em;
+  height: 9em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
 .itemImgBox {
-  height: 90%;
-  width: 28%;
+  height: 8.5em;
+  width: 30%;
   overflow: hidden;
   background-color: #cdd5e2;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: space-around;
 }
 
 .removeItem :hover {
