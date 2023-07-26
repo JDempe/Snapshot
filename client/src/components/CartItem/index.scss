@@ -28,8 +28,74 @@ input[type='number']:active {
   align-items: center;
   justify-content: space-around;
 }
+.itemInfoBox {
+  height: 8.5em;
+  width: 65%;
+}
+
+.itemTitle {
+  font-family: Montserrat;
+  font-weight: 600;
+  padding-bottom: 0.5em;
+  height: 50%;
+  padding-top: 9%;
+}
+
+.itemInfo {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  height: 50%;
+  padding-top: 3%;
+}
+
+.sizeAndPrice {
+  font-family: Montserrat;
+  font-weight: 600;
+  padding-bottom: 0.5em;
+  width: 40%;
+}
+
+.qtyAndRm {
+  flex: 1;
+  margin-left: 1em;
+}
 
 .removeItem :hover {
   transition: transform 0.3s ease;
   transform: rotate(15deg);
+}
+
+@media (max-width: 1800px) {
+  .itemInfoBox {
+    height: 8.5em;
+    width: 65%;
+  }
+
+  .itemTitle {
+    font-family: Montserrat;
+    font-weight: 600;
+    padding-bottom: 0.5em;
+    height: 30%;
+    padding-top: 9%;
+  }
+
+  .itemInfo {
+    display: inline;
+    height: 70%;
+    padding-top: 3%;
+  }
+
+  .sizeAndPrice {
+    font-family: Montserrat;
+    font-weight: 600;
+    padding-top: 0.5em;
+    width: 100%;
+    height: 35%;
+  }
+
+  .qtyAndRm {
+    height: 35%;
+    margin: 0;
+  }
 }
