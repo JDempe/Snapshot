@@ -100,11 +100,11 @@ The following resources and individuals made invaluable contributions to the pro
 
 - [Fira Sans](https://fonts.google.com/specimen/Fira+Sans?query=fira+sans) by Carrois Apostrophe was used for many of headings on the site.
 
-- [Montserrat](https://fonts.google.com/specimen/Montserrat?query=montserrat) by
+- [Montserrat](https://fonts.google.com/specimen/Montserrat?query=montserrat) by Julieta Ulanovsky was used for text on certain parts of the site.
 
 #### Images
 
-- [Favicon.cc](https://www.favicon.cc/) allows a user to create a favicon for their site using an in browser pixel art grid.  The favicon was created using this website. 
+- [Favicon.cc](https://www.favicon.cc/) allows a user to create a favicon for their site using an in browser pixel art grid. The favicon was created using this website.
 
 - [Shields.io](https://shields.io/) provides the badges for the README.
 
@@ -114,17 +114,19 @@ The following resources and individuals made invaluable contributions to the pro
 
 - [React MUI 5 Footer](https://frontendshape.com/post/create-a-footer-in-react-mui-5) by frontedshape was used as a template to create our footer using Material UI.
 
-- [CSS Load Spinner](https://cssload.net/en/spinners/5) by Wifeo was used as a loading spinner for the site when content is still loading. 
+- [CSS Load Spinner](https://cssload.net/en/spinners/5) by Wifeo was used as a loading spinner for the site when content is still loading.
 
 #### Data
 
 - [ChatGPT](https://chat.openai.com/) is a chatbot that uses GPT-3 to generate responses. It was used to help tackle certain errors and to generate ideas for the name of the website.
-  
+
 ### Educational
 
 #### Blog Posts
 
 Here are some insightful and informative blogs that were valuable resources:
+
+[4 Ways to Override Material UI Styles](https://blog.bitsrc.io/4-ways-to-override-material-ui-styles-43aee2348ded) provided multiple methods of overriding Material UI style, enabling us to customize the prebuilt components to better fit our site design.
 
 ---
 
