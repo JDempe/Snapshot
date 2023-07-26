@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { QUERY_CHECKOUT, QUERY_ORDERS } from '../../utils/queries';
 import { idbPromise } from '../../utils/helpers';
 import CartItem from '../CartItem';
@@ -14,14 +14,23 @@ import { faClose, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { IconButton, Tooltip } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
+import { initiateCheckout } from '../../utils/mutations';
+
 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 // stop
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
-  const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
-  const [isClosing, setIsClosing] = useState(false); // track cart closing
+  const [isClosing, setIsClosing] = useState(false); 
   const [isCartIconClicked, setIsCartIconClicked] = useState(false);
+  const [checkoutMutation, { data }] = useMutation(initiateCheckout);
+  useEffect(() => {
+    if (data && data.initiateCheckout && data.initiateCheckout.id) {
+      stripePromise.then((res) => {
+        res.redirectToCheckout({ sessionId: data.initiateCheckout.id });
+      });
+    }
+  }, [data]);
 
   const toggleCart = useCallback(() => {
     if (state.cartOpen) {
@@ -37,10 +46,6 @@ const Cart = () => {
     }
   }, [state.cartOpen, dispatch]);
 
-  state.cart.map((item) => {
-    return <CartItem key={[item._id, item.size]} item={item} />;
-  });
-
   const handleCartIconClick = () => {
     console.log('Cart icon clicked');
     setIsCartIconClicked(true);
@@ -54,20 +59,10 @@ const Cart = () => {
   }, [isCartIconClicked, toggleCart]);
 
   useEffect(() => {
-    if (data) {
-      stripePromise.then((res) => {
-        res.redirectToCheckout({ sessionId: data.checkout.id }); // data.checkout.session vs data.checkout.id
-      });
-    }
-  }, [data]);
-
-  useEffect(() => {
     async function getCart() {
       const cart = await idbPromise('cart', 'get');
-
       dispatch({ type: ADD_MULTIPLE_TO_CART, photos: [...cart] });
     }
-
     if (!state.cart.length) {
       getCart();
     }
@@ -77,7 +72,6 @@ const Cart = () => {
     let cartCloseTimer = null;
 
     function handleMouseMovement(event) {
-      // Reset the timer whenever there is mouse movement inside the cart
       clearTimeout(cartCloseTimer);
       cartCloseTimer = setTimeout(() => {
         if (!isMouseInsideCart(event)) {
@@ -85,7 +79,7 @@ const Cart = () => {
         }
       }, 100000000);
     }
-
+    
     function handleMouseClickOutside(event) {
       const cartElement = document.querySelector('.cart');
       const closeIconElement = event.target.closest('.close');
@@ -95,7 +89,6 @@ const Cart = () => {
           toggleCart();
         } else {
           if (!cartElement?.contains(event.target)) {
-            // If the click is outside the cart and not on the close icon, close it
             toggleCart();
           }
         }
@@ -108,7 +101,6 @@ const Cart = () => {
     }
 
     if (state.cartOpen) {
-      // Start the timer when the cart is open
       cartCloseTimer = setTimeout(() => {
         if (!isMouseInsideCart()) {
           toggleCart();
@@ -121,7 +113,6 @@ const Cart = () => {
     window.addEventListener('mousemove', handleMouseMovement);
     window.addEventListener('click', handleMouseClickOutside);
 
-    // Cleanup event listeners and timer when the component unmounts
     return () => {
       clearTimeout(cartCloseTimer);
       cartCloseTimer = null;
@@ -136,36 +127,46 @@ const Cart = () => {
       if (item && item.price && item.quantity) {
         let price = Number(item.price);
         let quantity = Number(item.quantity);
-        // console.log(
-        //   'price',
-        //   typeof price,
-        //   price,
-        //   'quantity',
-        //   typeof quantity,
-        //   quantity
-        // );
         if (isNaN(price) || isNaN(quantity)) {
-          console.error(
-            'price or purchaseQuantity is not a valid number',
-            item
-          );
+          console.error('price or purchaseQuantity is not a valid number', item);
         } else {
+          // Multiply the price by quantity before adding to the sum
           sum += price * quantity;
         }
       }
     });
-    // console.log(sum);
     return sum.toFixed(2);
   }
-
   function submitCheckout() {
-    const productIds = state.cart.map((item) => [item._id, item.size]);
-
-    getCheckout({
-      variables: { products: productIds },
+    const products = state.cart.map(item => {
+      return {
+        _id: item._id,
+        name: item.title,
+        quantity: Number(item.quantity),
+        price: Number(item.price),
+        size: item.size,
+      };
+    });
+  
+    checkoutMutation({
+      variables: { products },
+    }).then(response => {
+      console.log('Checkout response:', response);
+  
+      // After successful checkout, redirect the user to make the payment using Stripe
+      if (response && response.data && response.data.checkout && response.data.checkout.id) {
+        const sessionId = response.data.checkout.id;
+  
+        stripePromise.then((res) => {
+          res.redirectToCheckout({ sessionId });
+        });
+      } else {
+        console.error('Error: SessionId not available in the response.');
+      }
+    }).catch(error => {
+      console.error('Error during checkout', error);
     });
   }
-
   if (state.cartOpen) {
     return (
       <div>
