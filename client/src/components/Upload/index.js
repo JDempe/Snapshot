@@ -211,7 +211,7 @@ function Upload() {
               {isLoading ? 'Loading...' : 'Upload Photo'}
             </Button>
           </FormControl>
-          <Collapse in={success}>
+          {/* <Collapse in={success}>
             <Alert
               action={
                 <IconButton
@@ -227,7 +227,7 @@ function Upload() {
               sx={{ mb: 2 }}>
               Successfully uploaded!
             </Alert>
-          </Collapse>
+          </Collapse> */}
 
           <Collapse in={failed}>
             <Alert
