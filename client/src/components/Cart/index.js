@@ -177,15 +177,17 @@ const Cart = () => {
           </IconButton>
         </Tooltip>
         <div className={`cart ${isClosing ? 'cart-closing' : ''}`}>
-          <div className="close" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="close"
+            onClick={(e) => e.stopPropagation()}
+            style={{ top: '1%', left: '90%' }}>
             <FontAwesomeIcon
               icon={faClose}
               color="#EFD81D"
               style={{
-                height: '7%',
-                width: '7%',
-                position: 'relative',
-                right: '-92%',
+                height: '1em',
+                width: '1em',
+                color: '#5b77a1',
               }}
               onClick={toggleCart}
             />

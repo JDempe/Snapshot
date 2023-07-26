@@ -3,7 +3,7 @@ import { useStoreContext } from '../../utils/GlobalState';
 import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from '../../utils/actions';
 import { idbPromise } from '../../utils/helpers';
 import { IconButton, Button, TextField, Box } from '@mui/material';
-import { RemoveCircleOutline } from '@mui/icons-material';
+import { DeleteOutline } from '@mui/icons-material';
 import './index.scss';
 // stop
 const CartItem = ({ item }) => {
@@ -75,7 +75,7 @@ const CartItem = ({ item }) => {
         </div>
 
         <div>
-          <Box>
+          <Box style={{ display: 'flex', alignItem: 'flex-start' }}>
             <TextField
               className="qtyField"
               variant="outlined"
@@ -106,9 +106,13 @@ const CartItem = ({ item }) => {
             onChange={onChange}
           /> */}
             <Button
+              className="removeItem"
               style={{ height: '1.5em', padding: '0' }}
               onClick={() => removeFromCart(item)}>
-              <RemoveCircleOutline onClick={() => removeFromCart(item)} />
+              <DeleteOutline
+                onClick={() => removeFromCart(item)}
+                style={{ color: '#5b77a1' }}
+              />
             </Button>
 
             {/* <span

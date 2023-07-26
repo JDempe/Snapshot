@@ -17,11 +17,16 @@ input[type='number']:active {
 
 .itemImgBox {
   height: 90%;
-  width: 32%;
+  width: 28%;
   overflow: hidden;
   background-color: #cdd5e2;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-start;
+}
+
+.removeItem :hover {
+  transition: transform 0.3s ease;
+  transform: rotate(15deg);
 }
