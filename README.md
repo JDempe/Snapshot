@@ -197,7 +197,7 @@ Here are some insightful and informative blogs that were valuable resources:
 
 ## License
 
-This project is open source and available under the [MIT](./LICENSE)
+This project is open source and available under the [MIT License](./LICENSE)!
 
 ---
 
