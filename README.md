@@ -172,7 +172,7 @@ The following resources and individuals made invaluable contributions to the pro
 Here are some insightful and informative blogs that were valuable resources:
 
 - [4 Ways to Override Material UI Styles](https://blog.bitsrc.io/4-ways-to-override-material-ui-styles-43aee2348ded) provided multiple methods of overriding Material UI style, enabling us to customize the prebuilt components to better fit our site design.
-- [How to Upload Files to Cloudinary with Nodejs and MongoDB](https://ilyasschadli-dev.medium.com/how-to-upload-files-to-cloudinary-with-nodejs-mongodb-9683ec205fe3)
+- [How to Upload Files to Cloudinary with Nodejs and MongoDB](https://ilyasschadli-dev.medium.com/how-to-upload-files-to-cloudinary-with-nodejs-mongodb-9683ec205fe3) was instrumental in getting the Cloudinary integration working.
 
 - StackOverflow
   - [Scroll to Top with React Router](https://stackoverflow.com/questions/36904185/react-router-scroll-to-top-on-every-transition)
