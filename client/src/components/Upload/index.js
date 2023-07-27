@@ -37,6 +37,8 @@ function Upload() {
 
   const [addPhoto, { error }] = useMutation(UPLOAD_PHOTO);
 
+  const user = state.user;
+
   const handleFileUpload = (event) => {
     setPhotoImage(event.target.files[0]);
 
@@ -76,10 +78,16 @@ function Upload() {
         },
       });
 
+      const updatedUser = {
+        ...user,
+        savedPhotos: [...user.savedPhotos],
+      };
+
+      console.log(updatedUser);
       // dispatch the action to add the photo to the global state for the user via  the id
       dispatch({
         type: UPDATE_USER,
-        user: data.addPhoto,
+        user: updatedUser,
       });
 
       setIsLoading(false);
